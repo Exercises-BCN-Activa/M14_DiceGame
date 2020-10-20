@@ -1,0 +1,50 @@
+[{
+  "_id": {
+    "$oid": "5f8f267a50b3ff1299a64936"
+  },
+  "name": "anonymous",
+  "register": {
+    "$date": "2020-10-20T18:03:38.740Z"
+  },
+  "status": 40,
+  "_class": "com.dice_game.crud.dto.Player"
+},{
+  "_id": {
+    "$oid": "5f8f27ed50b3ff1299a6493d"
+  },
+  "name": "Jose",
+  "register": {
+    "$date": "2020-10-20T18:09:49.947Z"
+  },
+  "status": 16.67,
+  "_class": "com.dice_game.crud.dto.Player"
+},{
+  "_id": {
+    "$oid": "5f8f27f350b3ff1299a6493e"
+  },
+  "name": "Fauno",
+  "register": {
+    "$date": "2020-10-20T18:09:55.493Z"
+  },
+  "status": 57.14,
+  "_class": "com.dice_game.crud.dto.Player"
+},{
+  "_id": {
+    "$oid": "5f8f27f850b3ff1299a6493f"
+  },
+  "name": "Daniel",
+  "register": {
+    "$date": "2020-10-20T18:10:00.669Z"
+  },
+  "_class": "com.dice_game.crud.dto.Player"
+},{
+  "_id": {
+    "$oid": "5f8f27ff50b3ff1299a64940"
+  },
+  "name": "Piero",
+  "register": {
+    "$date": "2020-10-20T18:10:07.151Z"
+  },
+  "status": 0,
+  "_class": "com.dice_game.crud.dto.Player"
+}]

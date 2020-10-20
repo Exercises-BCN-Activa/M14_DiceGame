@@ -1,0 +1,265 @@
+[{
+  "_id": {
+    "$oid": "5f8f28d650b3ff1299a64941"
+  },
+  "register": {
+    "$date": "2020-10-20T18:13:42.800Z"
+  },
+  "value1": 3,
+  "value2": 4,
+  "status": true,
+  "player": "5f8f267a50b3ff1299a64936",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28d850b3ff1299a64942"
+  },
+  "register": {
+    "$date": "2020-10-20T18:13:44.494Z"
+  },
+  "value1": 3,
+  "value2": 2,
+  "status": false,
+  "player": "5f8f267a50b3ff1299a64936",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28d950b3ff1299a64943"
+  },
+  "register": {
+    "$date": "2020-10-20T18:13:45.934Z"
+  },
+  "value1": 4,
+  "value2": 1,
+  "status": false,
+  "player": "5f8f267a50b3ff1299a64936",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28da50b3ff1299a64944"
+  },
+  "register": {
+    "$date": "2020-10-20T18:13:46.787Z"
+  },
+  "value1": 5,
+  "value2": 3,
+  "status": false,
+  "player": "5f8f267a50b3ff1299a64936",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28db50b3ff1299a64945"
+  },
+  "register": {
+    "$date": "2020-10-20T18:13:47.505Z"
+  },
+  "value1": 4,
+  "value2": 3,
+  "status": true,
+  "player": "5f8f267a50b3ff1299a64936",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28ea50b3ff1299a64946"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:02.512Z"
+  },
+  "value1": 6,
+  "value2": 4,
+  "status": false,
+  "player": "5f8f27ed50b3ff1299a6493d",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28eb50b3ff1299a64947"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:03.217Z"
+  },
+  "value1": 3,
+  "value2": 4,
+  "status": true,
+  "player": "5f8f27ed50b3ff1299a6493d",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28eb50b3ff1299a64948"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:03.935Z"
+  },
+  "value1": 4,
+  "value2": 1,
+  "status": false,
+  "player": "5f8f27ed50b3ff1299a6493d",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28ec50b3ff1299a64949"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:04.553Z"
+  },
+  "value1": 4,
+  "value2": 1,
+  "status": false,
+  "player": "5f8f27ed50b3ff1299a6493d",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28ed50b3ff1299a6494a"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:05.179Z"
+  },
+  "value1": 3,
+  "value2": 1,
+  "status": false,
+  "player": "5f8f27ed50b3ff1299a6493d",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28ee50b3ff1299a6494b"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:06.146Z"
+  },
+  "value1": 1,
+  "value2": 3,
+  "status": false,
+  "player": "5f8f27ed50b3ff1299a6493d",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28fb50b3ff1299a6494c"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:19.345Z"
+  },
+  "value1": 6,
+  "value2": 1,
+  "status": true,
+  "player": "5f8f27f350b3ff1299a6493e",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28fc50b3ff1299a6494d"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:20.012Z"
+  },
+  "value1": 4,
+  "value2": 2,
+  "status": false,
+  "player": "5f8f27f350b3ff1299a6493e",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28fc50b3ff1299a6494e"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:20.681Z"
+  },
+  "value1": 5,
+  "value2": 2,
+  "status": true,
+  "player": "5f8f27f350b3ff1299a6493e",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28fd50b3ff1299a6494f"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:21.270Z"
+  },
+  "value1": 1,
+  "value2": 4,
+  "status": false,
+  "player": "5f8f27f350b3ff1299a6493e",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28fd50b3ff1299a64950"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:21.936Z"
+  },
+  "value1": 4,
+  "value2": 5,
+  "status": false,
+  "player": "5f8f27f350b3ff1299a6493e",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28fe50b3ff1299a64951"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:22.578Z"
+  },
+  "value1": 4,
+  "value2": 3,
+  "status": true,
+  "player": "5f8f27f350b3ff1299a6493e",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f28ff50b3ff1299a64952"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:23.268Z"
+  },
+  "value1": 4,
+  "value2": 3,
+  "status": true,
+  "player": "5f8f27f350b3ff1299a6493e",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f291150b3ff1299a64953"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:41.873Z"
+  },
+  "value1": 6,
+  "value2": 6,
+  "status": false,
+  "player": "5f8f27ff50b3ff1299a64940",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f291250b3ff1299a64954"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:42.595Z"
+  },
+  "value1": 3,
+  "value2": 5,
+  "status": false,
+  "player": "5f8f27ff50b3ff1299a64940",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f291350b3ff1299a64955"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:43.318Z"
+  },
+  "value1": 4,
+  "value2": 4,
+  "status": false,
+  "player": "5f8f27ff50b3ff1299a64940",
+  "_class": "com.dice_game.crud.dto.Dice"
+},{
+  "_id": {
+    "$oid": "5f8f291450b3ff1299a64956"
+  },
+  "register": {
+    "$date": "2020-10-20T18:14:44.514Z"
+  },
+  "value1": 4,
+  "value2": 6,
+  "status": false,
+  "player": "5f8f27ff50b3ff1299a64940",
+  "_class": "com.dice_game.crud.dto.Dice"
+}]
