@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dice_game.crud.dto.*;
+import com.dice_game.crud.dto.Player;
+import com.dice_game.crud.dto.Dice;
 import com.dice_game.crud.service.DiceService;
 import com.dice_game.crud.service.PlayerService;
 
@@ -48,7 +49,7 @@ public class GameControl {
 			}
 		}
 
-		return (verifyName) ? PLAYER.saveOne(player) : new Player("IMPOSSIBLE: NAME ALREADY EXISTS");
+		return (verifyName) ? PLAYER.saveOne(player) : null;
 	}
 
 	@GetMapping("/players")
@@ -58,15 +59,17 @@ public class GameControl {
 	}
 
 	@GetMapping("/players/{id}")
-	public Player readOne(@PathVariable(name = "id") Integer id) {
-
+	public Player readOne(@PathVariable(name = "id") String id) {
+		
 		return PLAYER.readOne(id);
 	}
 
 	@PutMapping("/players/{id}")
-	public Player updateOne(@PathVariable(name = "id") Integer id, @RequestBody(required = false) Player pUpdate) {
+	public Player updateOne(@PathVariable(name = "id") String id, @RequestBody Player pUpdate) {
 
 		Player player = null;
+		
+		boolean ok = false;
 
 		try {
 			player = PLAYER.readOne(id);
@@ -75,27 +78,30 @@ public class GameControl {
 			System.out.println("Player Not Founded!!!");
 		}
 
-		if (player != null) {
-			if (pUpdate != null && pUpdate.getName() != null && !pUpdate.getName().isEmpty()
+		if (player != null && pUpdate != null) {
+			if (pUpdate.getName() != null && !pUpdate.getName().isEmpty()
 					&& !pUpdate.getName().equals(player.getName())) {
 
 				player.setName(pUpdate.getName());
+				
+				ok = true;
 			}
-			player.setStatus();
 
 		}
 
-		return (player != null) ? PLAYER.updateOne(player) : null;
+		return (ok) ? PLAYER.updateOne(player) : null;
 	}
 
 	@DeleteMapping("/players/{id}")
-	public void deleteOne(@PathVariable(name = "id") Integer id) {
+	public void deleteOne(@PathVariable(name = "id") String id) {
+
+		DICE.readByPlayer(id).stream().forEach(x -> DICE.delete(x));
 
 		PLAYER.deleteOne(id);
 	}
 
 	@PostMapping("/players/{id}/play")
-	public Dice createOne(@PathVariable(name = "id") Integer id) {
+	public Dice createOne(@PathVariable(name = "id") String id) {
 
 		Player player = null;
 		Dice dice = null;
@@ -109,7 +115,7 @@ public class GameControl {
 
 		if (player != null) {
 			dice = DICE.saveOne(new Dice(player));
-			player.setStatus();
+			player.setStatus(DICE.readByPlayer(player.get_id()));
 			PLAYER.updateOne(player);
 		}
 
@@ -117,7 +123,7 @@ public class GameControl {
 	}
 
 	@GetMapping("/players/{id}/play")
-	public List<Dice> readAllPlays(@PathVariable(name = "id") Integer id) {
+	public List<Dice> readAllPlays(@PathVariable(name = "id") String id) {
 
 		Player player = null;
 
@@ -127,12 +133,12 @@ public class GameControl {
 		} catch (Exception e) {
 			System.out.println("Player Not Founded!!!");
 		}
-
-		return player.getRounds();
+		
+		return (player!=null) ? DICE.readByPlayer(player.get_id()) : null;
 	}
 
 	@DeleteMapping("/players/{id}/play")
-	public void deleteAllPlays(@PathVariable(name = "id") Integer id) {
+	public void deleteAllPlays(@PathVariable(name = "id") String id) {
 
 		Player player = null;
 
@@ -143,38 +149,28 @@ public class GameControl {
 			System.out.println("Player Not Founded!!!");
 		}
 
-		player.getRounds().stream().forEach(x -> DICE.deleteOne(x.getNumId()));
+		DICE.readByPlayer(player.get_id()).stream().forEach(x -> DICE.delete(x));
+		player.setStatus(DICE.readByPlayer(player.get_id()));
+		PLAYER.updateOne(player);
 
 	}
 
 	@GetMapping("/players/ranking")
 	public String rankingValue() {
 
-		Double rank = 0.0;
+		List<Dice> plays = DICE.readAll();
 		
-		int count = 0;
+		Double wins = (double) plays.stream().filter(x->x.getStatus()==true).count();
 
-		for (Player p : PLAYER.readAll()) {
-
-			if (p.getStatus() != null && !p.getRounds().isEmpty()) {
-
-				rank += p.getStatus();
-				count+=1;
-			}
-			
-		}
-
-		return new DecimalFormat("#.##").format(rank / count) + "%";
+		return new DecimalFormat("#.##").format(wins / plays.size()*100) + "%";
 	}
 	
 	@GetMapping("/players/ranking/all")
 	public List<Player> rankingAll() {
 		
 		List<Player> theList = PLAYER.readAll().stream()
-									.filter(x -> x.getRounds().size()>0)
+									.filter(x -> x.getStatus() != null)
 									.collect(Collectors.toList());
-		
-		theList.stream().forEach(x -> x.setStatus());
 		
 		theList.sort(Comparator.comparing(Player::getStatus).reversed());
 		

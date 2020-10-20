@@ -1,41 +1,26 @@
 package com.dice_game.crud.dto;
 
 import java.text.DecimalFormat;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity
-@Table(name = "player")
+@Document(collection = "player")
 public class Player {
-	
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Integer numId;
+	private String _id;
 
 	private String name = "unknown";
 
-	@Column(name = "reg", updatable = false)
-	private final Calendar register = Calendar.getInstance();
+	private Date register = new Date(System.currentTimeMillis());
 
-	@Column(name = "status")
 	private Double status;
-
-	@OneToMany(orphanRemoval = true, targetEntity = Dice.class, mappedBy = "player", cascade=CascadeType.REMOVE)
-	private List<Dice> rounds;
 
 	public Player() {
 	}
@@ -44,30 +29,34 @@ public class Player {
 		setName(name);
 	}
 
-	public Integer getNumId() {
-		return numId;
-	}
-
 	public String getName() {
 		return name;
 	}
 
-	public Calendar getRegister() {
+	public Date getRegister() {
 		return register;
 	}
-
-	@JsonIgnore
-	public List<Dice> getRounds() {
-		return rounds;
-	}
 	
+	@JsonIgnore
 	public Double getStatus() {
 		return status;
 	}
+	
+	public String getScore() {
+		return (status==null) ? "never played" : status + "% victories";
+	}
 
-	public void setNumId(Integer numId) {
-		if (this.numId == null) {
-			this.numId = numId;
+	public String get_id() {
+		return _id;
+	}
+
+	public void set_id(String _id) {
+		this._id = _id;
+	}
+
+	public void setRegister() {
+		if (register == null) {
+			register = new Date(System.currentTimeMillis());
 		}
 	}
 
@@ -75,23 +64,26 @@ public class Player {
 		this.name = (name == null || name.isEmpty()) ? "anonymous" : name;
 	}
 
-	public void setRounds(List<Dice> rounds) {
-		this.rounds = rounds;
-	}
-
-	public void setStatus() {
+	public void setStatus(List<Dice> rounds) {
 		DecimalFormat f = new DecimalFormat("#.##");
 		status = (rounds.isEmpty()) ? 0
-				: Double.parseDouble(f.format(
-						(double) rounds.stream()
-						.filter(x -> x.getStatus() == true)
-						.count() / rounds.size() * 100)
-						.replaceAll(",", "."));
+				: Double.parseDouble(f.format((double) rounds.stream()
+														.filter(x -> x.getStatus() == true)
+														.count() / rounds.size() * 100)
+										.replaceAll(",", "."));
+	}
+
+	@Override
+	public String toString() {
+		return "Player [_id=" + _id 
+				+ ", name=" + name 
+				+ ", register=" + register 
+				+ ", status=" + status;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(name, numId, register, rounds, status);
+		return Objects.hash(_id, name, register, status);
 	}
 
 	@Override
@@ -106,26 +98,10 @@ public class Player {
 			return false;
 		}
 		Player other = (Player) obj;
-		return Objects.equals(name, other.name) && Objects.equals(numId, other.numId)
-				&& Objects.equals(register, other.register) && Objects.equals(rounds, other.rounds)
-				&& Objects.equals(status, other.status);
+		return Objects.equals(_id, other._id) && Objects.equals(name, other.name)
+				&& Objects.equals(register, other.register) && Objects.equals(status, other.status);
 	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Player [numId=");
-		builder.append(numId);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", register=");
-		builder.append(register);
-		builder.append(", status=");
-		builder.append(status);
-		builder.append(", rounds=");
-		builder.append(rounds);
-		builder.append("]");
-		return builder.toString();
-	}
-
+	
+	
+	
 }
