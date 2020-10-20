@@ -1,5 +1,42 @@
 package com.dice_game.crud.service;
 
-public class PlayerService {
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.dice_game.crud.dao.IPlayer;
+import com.dice_game.crud.dto.Player;
+
+@Service
+public class PlayerService implements simpleCrud<Player> {
+	
+	@Autowired
+	private IPlayer dao;
+
+	@Override
+	public Player saveOne(Player item) {
+		return dao.save(item);
+	}
+
+	@Override
+	public List<Player> readAll() {
+		return dao.findAll();
+	}
+
+	@Override
+	public Player readOne(Integer id) {
+		return dao.findById(id).get();
+	}
+
+	@Override
+	public Player updateOne(Player item) {
+		return dao.save(item);
+	}
+
+	@Override
+	public void deleteOne(Integer id) {
+		dao.deleteById(id);
+	}
 
 }
