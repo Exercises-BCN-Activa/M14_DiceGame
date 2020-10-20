@@ -1,0 +1,12 @@
+## Player
+- nId
+- name (single or anonymous)
+- data
+- status (%)
+
+## Dice
+- id
+- nId_player (FK)
+- value1
+- value2
+- status (won or lost)
