@@ -19,10 +19,10 @@ public interface simpleCrud<T> {
 
 	public List<T> readAll(); // Read All
 
-	public T readOne(Integer id); // Read One Item
+	public T readOne(String id); // Read One Item
 
 	public T updateOne(T item); // Update One Item
 
-	public void deleteOne(Integer id); // Delete One Item
+	public void deleteOne(String id); // Delete One Item
 
 }

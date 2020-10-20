@@ -1,48 +1,32 @@
 package com.dice_game.crud.dto;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-@Entity
-@Table(name = "dice")
+@Document(collection = "dice")
 public class Dice {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Integer numId;
+	private String _id;
 
-	@Column(name = "reg")
-	private final Calendar register = Calendar.getInstance();
+	private Date register = new Date(System.currentTimeMillis());
 
-	private final Integer value1 = (int) Math.ceil(Math.random() * 6);
+	private Integer value1 = (int) Math.ceil(Math.random() * 6);
 
-	private final Integer value2 = (int) Math.ceil(Math.random() * 6);
+	private Integer value2 = (int) Math.ceil(Math.random() * 6);
 
-	private final boolean status = (value1 + value2 == 7) ? true : false;
+	private boolean status = (value1 + value2 == 7) ? true : false;
 
-	@ManyToOne
-	private Player player;
+	private String player;
 
 	public Dice() {
 	}
 
 	public Dice(Player player) {
-		this.player = player;
-	}
-
-	public Integer getNumId() {
-		return numId;
+		this.player = player.get_id();
 	}
 
 	public Integer getValue1() {
@@ -57,30 +41,63 @@ public class Dice {
 		return status;
 	}
 
-	public Calendar getRegister() {
+	public Date getRegister() {
 		return register;
 	}
 
-	@JsonIgnore
-	public Player getPlayer() {
+	public String getPlayer() {
 		return player;
 	}
 
-	public void setNumId(Integer numId) {
-		if (this.numId == null) {
-			this.numId = numId;
-		}
+	public String get_id() {
+		return _id;
+	}
+
+	public void set_id(String _id) {
+		this._id = _id;
 	}
 
 	public void setPlayer(Player player) {
 		if (this.player == null) {
-			this.player = player;
+			this.player = player.get_id();
 		}
+	}
+
+	public void setRegister() {
+		if (register == null) {
+			register = new Date(System.currentTimeMillis());
+		}
+	}
+
+	public void setValue1() {
+		if (value1 == null) {
+			value1 = (int) Math.ceil(Math.random() * 6);
+		}
+	}
+
+	public void setValue2() {
+		if (value2 == null) {
+			value2 = (int) Math.ceil(Math.random() * 6);
+		}
+	}
+
+	public void setStatus() {
+		status = (value1 + value2 == 7) ? true : false;
+	}
+
+	@Override
+	public String toString() {
+		return "Dice [_id=" + _id 
+				+ ", register=" + register 
+				+ ", value1=" + value1 
+				+ ", value2=" + value2 
+				+ ", status=" + status 
+				+ ", player=" + player + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(numId, player, register, status, value1, value2);
+		return Objects.hash(_id, player, register, status, value1, value2);
 	}
 
 	@Override
@@ -95,27 +112,11 @@ public class Dice {
 			return false;
 		}
 		Dice other = (Dice) obj;
-		return Objects.equals(numId, other.numId) && Objects.equals(player, other.player)
+		return Objects.equals(_id, other._id) && Objects.equals(player, other.player)
 				&& Objects.equals(register, other.register) && status == other.status
 				&& Objects.equals(value1, other.value1) && Objects.equals(value2, other.value2);
 	}
-
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Dice [numId=");
-		builder.append(numId);
-		builder.append(", value1=");
-		builder.append(value1);
-		builder.append(", value2=");
-		builder.append(value2);
-		builder.append(", status=");
-		builder.append(status);
-		builder.append(", register=");
-		builder.append(register);
-		builder.append(", player=");
-		builder.append(player);
-		builder.append("]");
-		return builder.toString();
-	}
+	
+	
 
 }

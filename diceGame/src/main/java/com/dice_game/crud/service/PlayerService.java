@@ -25,7 +25,7 @@ public class PlayerService implements simpleCrud<Player> {
 	}
 
 	@Override
-	public Player readOne(Integer id) {
+	public Player readOne(String id) {
 		return dao.findById(id).get();
 	}
 
@@ -35,7 +35,7 @@ public class PlayerService implements simpleCrud<Player> {
 	}
 
 	@Override
-	public void deleteOne(Integer id) {
+	public void deleteOne(String id) {
 		dao.deleteById(id);
 	}
 

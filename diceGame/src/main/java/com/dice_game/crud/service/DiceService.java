@@ -25,7 +25,7 @@ public class DiceService implements simpleCrud<Dice>{
 	}
 
 	@Override
-	public Dice readOne(Integer id) {
+	public Dice readOne(String id) {
 		return dao.findById(id).get();
 	}
 
@@ -35,8 +35,16 @@ public class DiceService implements simpleCrud<Dice>{
 	}
 
 	@Override
-	public void deleteOne(Integer id) {
+	public void deleteOne(String id) {
 		dao.deleteById(id);
+	}
+
+	public void delete(Dice dice) {
+		dao.delete(dice);
+	}
+	
+	public List<Dice> readByPlayer(String player_id) {
+		return dao.findByPlayer(player_id);
 	}
 
 }
