@@ -65,12 +65,14 @@ public class Player {
 	}
 
 	public void setStatus(List<Dice> rounds) {
-		DecimalFormat f = new DecimalFormat("#.##");
-		status = (rounds.isEmpty()) ? 0
-				: Double.parseDouble(f.format((double) rounds.stream()
-														.filter(x -> x.getStatus() == true)
-														.count() / rounds.size() * 100)
-										.replaceAll(",", "."));
+		status = (rounds.isEmpty()) ? 0							// if have no dices in the list return zero
+						: Double.parseDouble(					// parse to Double because decimal format return string
+							new DecimalFormat("#.##").format(	// create new decimal format to adjust de decimal status
+							(double) rounds.stream()			// casting to double (count method return long) and stream the list of dices
+							.filter(x -> x.getStatus() == true)	// filter out only won games
+							.count() 							// then return the amount of the won dices 
+							/ rounds.size() * 100)				// then divide by number total of dices
+							.replaceAll(",", "."));				// then replace the commas to dots
 	}
 
 	@Override
