@@ -6,8 +6,46 @@
 	},
 	"item": [
 		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"fauno\",\n\t\"password\": \"puc\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8181/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Read ALL Players",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmYXVubyIsImV4cCI6MTYwNDMzNjk5N30.b3WJ15jiYAFqdcWFkVerbKfYXKDhbnXwlaIL5GuthuijB61YKpGEyukeGCQUKkQ5LiIFuvyJKx7J2RJhow3GDg",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -22,15 +60,30 @@
 		{
 			"name": "Read ONE Player",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "puc",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "fauno",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{IP}}{{PORT}}{{API}}/5f8f268450b3ff1299a64937",
+					"raw": "{{IP}}{{PORT}}{{API}}/5f8f27ff50b3ff1299a64940",
 					"host": [
 						"{{IP}}{{PORT}}{{API}}"
 					],
 					"path": [
-						"5f8f268450b3ff1299a64937"
+						"5f8f27ff50b3ff1299a64940"
 					]
 				}
 			},
@@ -39,11 +92,26 @@
 		{
 			"name": "Save ONE Player",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "usr",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"name\":\"Fauno\"}",
+					"raw": "{\"name\":\"teste3\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -66,7 +134,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"name\":\"Jonathan\"}",
+					"raw": "{\"name\":\"Xavi\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -74,12 +142,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{IP}}{{PORT}}{{API}}/5f8f268450b3ff1299a64937",
+					"raw": "{{IP}}{{PORT}}{{API}}/5f8f27ff50b3ff1299a64940",
 					"host": [
 						"{{IP}}{{PORT}}{{API}}"
 					],
 					"path": [
-						"5f8f268450b3ff1299a64937"
+						"5f8f27ff50b3ff1299a64940"
 					]
 				}
 			},
@@ -91,12 +159,12 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{IP}}{{PORT}}{{API}}/5f8f268450b3ff1299a64937",
+					"raw": "{{IP}}{{PORT}}{{API}}/5f9d93f0c7cffc19ef48fd40",
 					"host": [
 						"{{IP}}{{PORT}}{{API}}"
 					],
 					"path": [
-						"5f8f268450b3ff1299a64937"
+						"5f9d93f0c7cffc19ef48fd40"
 					]
 				}
 			},
@@ -123,6 +191,21 @@
 		{
 			"name": "Read All PLAYS by ID",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "puc",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "fauno",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -252,17 +335,17 @@
 	],
 	"variable": [
 		{
-			"id": "f9be6db8-3fd2-4ebe-8b7f-c5a8a104be1c",
+			"id": "cf7efb61-ce76-42a8-8daa-90b4b77badb8",
 			"key": "IP",
 			"value": "localhost:"
 		},
 		{
-			"id": "35ee5ec1-44c1-42bb-8c6f-13ea408a0dea",
+			"id": "62de6387-35f5-40a9-91ea-f6b7a65f97a1",
 			"key": "PORT",
 			"value": "8181"
 		},
 		{
-			"id": "34b17ddc-b1e8-48d1-a376-218b17d79f4a",
+			"id": "5057413c-84ad-499b-962d-405446f68f5a",
 			"key": "API",
 			"value": "/api/players"
 		}
