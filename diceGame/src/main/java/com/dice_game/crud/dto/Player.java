@@ -11,8 +11,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * Main DTO class, allows users to register and offers login and access control mechanisms
+ * 
+ * @author FaunoGuazina
+ *
+ */
 @Document(collection = "player")
-@JsonIgnoreProperties(value={ "password", "roles" }, allowSetters=true)
+@JsonIgnoreProperties(value={ "password", "roles" }, allowSetters=true)  //don't show fields in get requests
 public class Player {
 
 	@Id
@@ -22,24 +28,16 @@ public class Player {
 	
 	private String password;
 	
-	private String roles = "USER";
+	private String roles = "USER"; //establish basic role for every user
 
 	private String name;
 
-	private Date register = new Date(System.currentTimeMillis());
+	private Date register = new Date(System.currentTimeMillis()); //establish date of creation for every user
 
+	@JsonIgnore //this value always changes, there is no point in storing
 	private Double status;
 
-	public Player() {}
-
-	public Player(String name) {
-		setName(name);
-	}
-
-	public Player(String username, String password) {
-		this.username = username;
-		this.password = password;
-	}
+	public Player() {}  //standard and empty constructor
 
 	public String getName() {
 		return name;
@@ -49,11 +47,11 @@ public class Player {
 		return register;
 	}
 	
-	@JsonIgnore
 	public Double getStatus() {
 		return status;
 	}
 	
+	//virtual getter to show formated "status" 
 	public String getScore() {
 		return (status==null) ? "never played" : status + "% victories";
 	}
@@ -96,10 +94,12 @@ public class Player {
 		}
 	}
 
+	//if empty or null configures the name as anonymous
 	public void setName(String name) {
 		this.name = (name == null || name.isEmpty()) ? "anonymous" : name;
 	}
 
+	//set the status value from the user's number of games
 	public void setStatus(List<Dice> rounds) {
 		status = (rounds.isEmpty()) ? 0							// if have no dices in the list return zero
 						: Double.parseDouble(					// parse to Double because decimal format return string

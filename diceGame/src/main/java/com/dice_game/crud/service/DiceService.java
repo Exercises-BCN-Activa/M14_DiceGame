@@ -7,7 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.dice_game.crud.dao.IDice;
 import com.dice_game.crud.dto.Dice;
+import com.dice_game.crud.dto.Player;
 
+/**
+ * Class that implements the use of the DAO class and allows queries in the database.
+ * 
+ * @author FaunoGuazina
+ *
+ */
 @Service
 public class DiceService implements simpleCrud<Dice>{
 	
@@ -43,8 +50,8 @@ public class DiceService implements simpleCrud<Dice>{
 		dao.delete(dice);
 	}
 	
-	public List<Dice> readByPlayer(String player_id) {
-		return dao.findByPlayer(player_id);
+	public List<Dice> readByPlayer(Player player) {
+		return dao.findByPlayer(player);
 	}
 
 }

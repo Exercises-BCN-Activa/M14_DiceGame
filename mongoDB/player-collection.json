@@ -1,50 +1,73 @@
 [{
   "_id": {
-    "$oid": "5f8f267a50b3ff1299a64936"
+    "$oid": "5fa2854eb6601f1a1eaa725e"
   },
+  "username": "fauno",
+  "password": "$2a$10$J2FdlPRCJQDXr8lTaNyYAOVe5Cw14DX52FjV7WCCkEF.i5h4RUQZe",
+  "roles": "ADMIN,USER",
+  "name": "Fauno Guazina",
+  "register": {
+    "$date": "2020-11-04T10:41:18.146Z"
+  },
+  "_class": "com.dice_game.crud.dto.Player"
+},{
+  "_id": {
+    "$oid": "5fa2a2082691a454c02be008"
+  },
+  "username": "jose",
+  "password": "$2a$10$zd/Z49Vt.a1FsJJQjma70eLOq.UUHYOJm9UerLfcgil84b9WmlZhq",
+  "roles": "USER",
+  "name": "Jose Marin",
+  "register": {
+    "$date": "2020-11-04T12:43:52.162Z"
+  },
+  "_class": "com.dice_game.crud.dto.Player"
+},{
+  "_id": {
+    "$oid": "5fa2d8fa4d92e91017b34f22"
+  },
+  "username": "xavi",
+  "password": "$2a$10$YNUXvWSKwcQ7XMQDoCVYxOEfpAeO44NtsIWjlJsTj4sJ0.g9JlSFO",
+  "roles": "USER",
+  "name": "Xavi Gonzales",
+  "register": {
+    "$date": "2020-11-04T16:38:18.856Z"
+  },
+  "_class": "com.dice_game.crud.dto.Player"
+},{
+  "_id": {
+    "$oid": "5fa2d92e4d92e91017b34f23"
+  },
+  "username": "piero",
+  "password": "$2a$10$mYZuEvO8giaY8jnfqX1b.usWlTXhaR6QdIOJamaqgiVqiZwCKf.3y",
+  "roles": "USER",
+  "name": "Piero Reppucci",
+  "register": {
+    "$date": "2020-11-04T16:39:09.956Z"
+  },
+  "_class": "com.dice_game.crud.dto.Player"
+},{
+  "_id": {
+    "$oid": "5fa2d9424d92e91017b34f24"
+  },
+  "username": "daniel",
+  "password": "$2a$10$huPmSQ/MeoAv.ggF59NJp.Qrl5HDeUB1Ik2Ze02hf7Uh82MaRNotu",
+  "roles": "USER",
+  "name": "Daniel Fernandez",
+  "register": {
+    "$date": "2020-11-04T16:39:30.762Z"
+  },
+  "_class": "com.dice_game.crud.dto.Player"
+},{
+  "_id": {
+    "$oid": "5fa2d9594d92e91017b34f25"
+  },
+  "username": "root",
+  "password": "$2a$10$SXTlXSl8d6.5.oBSaSFiuOdJIzJryfBoYo7xju2XfK2jPfhGKqaey",
+  "roles": "USER",
   "name": "anonymous",
   "register": {
-    "$date": "2020-10-20T18:03:38.740Z"
+    "$date": "2020-11-04T16:39:53.428Z"
   },
-  "status": 40,
-  "_class": "com.dice_game.crud.dto.Player"
-},{
-  "_id": {
-    "$oid": "5f8f27ed50b3ff1299a6493d"
-  },
-  "name": "Jose",
-  "register": {
-    "$date": "2020-10-20T18:09:49.947Z"
-  },
-  "status": 16.67,
-  "_class": "com.dice_game.crud.dto.Player"
-},{
-  "_id": {
-    "$oid": "5f8f27f350b3ff1299a6493e"
-  },
-  "name": "Fauno",
-  "register": {
-    "$date": "2020-10-20T18:09:55.493Z"
-  },
-  "status": 57.14,
-  "_class": "com.dice_game.crud.dto.Player"
-},{
-  "_id": {
-    "$oid": "5f8f27f850b3ff1299a6493f"
-  },
-  "name": "Daniel",
-  "register": {
-    "$date": "2020-10-20T18:10:00.669Z"
-  },
-  "_class": "com.dice_game.crud.dto.Player"
-},{
-  "_id": {
-    "$oid": "5f8f27ff50b3ff1299a64940"
-  },
-  "name": "Piero",
-  "register": {
-    "$date": "2020-10-20T18:10:07.151Z"
-  },
-  "status": 0,
   "_class": "com.dice_game.crud.dto.Player"
 }]

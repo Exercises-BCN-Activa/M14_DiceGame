@@ -6,8 +6,49 @@
 	},
 	"item": [
 		{
+			"name": "login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"fauno\",\n\t\"password\": \"puc\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8181/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Read ALL Players",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2MDQ1MDYwNDksImlzcyI6IkZhdW5vIEd1YXppbmEiLCJzdWIiOiJmYXVubyIsImF1ZCI6IltST0xFX0FETUlOLCBST0xFX1VTRVJdIiwiZXhwIjoxNjA1MzcwMDQ5fQ.1h9zMKvvMsST-UO2KpXLmJ5fRMJNjUPzTQ4Pzm7s-EkFA2SP12h5d5DUFgRJv9n3_RF8zxu2KxsmcUTnb4okOg",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -22,15 +63,25 @@
 		{
 			"name": "Read ONE Player",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2MDQ1MDYwNDksImlzcyI6IkZhdW5vIEd1YXppbmEiLCJzdWIiOiJmYXVubyIsImF1ZCI6IltST0xFX0FETUlOLCBST0xFX1VTRVJdIiwiZXhwIjoxNjA1MzcwMDQ5fQ.1h9zMKvvMsST-UO2KpXLmJ5fRMJNjUPzTQ4Pzm7s-EkFA2SP12h5d5DUFgRJv9n3_RF8zxu2KxsmcUTnb4okOg",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{IP}}{{PORT}}{{API}}/5f8f268450b3ff1299a64937",
+					"raw": "{{IP}}{{PORT}}{{API}}/jose",
 					"host": [
 						"{{IP}}{{PORT}}{{API}}"
 					],
 					"path": [
-						"5f8f268450b3ff1299a64937"
+						"jose"
 					]
 				}
 			},
@@ -39,11 +90,21 @@
 		{
 			"name": "Save ONE Player",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2MDQ0OTM3NjIsImlzcyI6IkZhdW5vIEd1YXppbmEiLCJzdWIiOiJmYXVubyIsImF1ZCI6IltST0xFX0FETUlOXSIsImV4cCI6MTYwNTM1Nzc2Mn0.p0kRGYVhvfgGsRNa6z02jbaa4NC8AzeeWMBrbCJRuMsWukT9wPCGXc63SAlPrGUcPLsJwjIbOjtigUqP7gcegQ",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"name\":\"Fauno\"}",
+					"raw": "{\n\t\"username\": \"root\",\n\t\"password\": \"root\",\n\t\"name\": null\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -66,7 +127,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"name\":\"Jonathan\"}",
+					"raw": "{\"name\":\"Xavi\"}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -74,12 +135,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{IP}}{{PORT}}{{API}}/5f8f268450b3ff1299a64937",
+					"raw": "{{IP}}{{PORT}}{{API}}/xavi",
 					"host": [
 						"{{IP}}{{PORT}}{{API}}"
 					],
 					"path": [
-						"5f8f268450b3ff1299a64937"
+						"xavi"
 					]
 				}
 			},
@@ -88,15 +149,25 @@
 		{
 			"name": "Delete ONE Player",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2MDQ0OTM4NjMsImlzcyI6IkZhdW5vIEd1YXppbmEiLCJzdWIiOiJqb3NlIiwiYXVkIjoiW1JPTEVfVVNFUl0iLCJleHAiOjE2MDUzNTc4NjN9.KpB8iouZnKaNFOx78vs60yQrEusj-WLLASWy9o947QeOe4382OBrVJs6J0Ga2ELncu5VG8MYDCWenOEL5uzncw",
+							"type": "string"
+						}
+					]
+				},
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{IP}}{{PORT}}{{API}}/5f8f268450b3ff1299a64937",
+					"raw": "{{IP}}{{PORT}}{{API}}/5fa2a2082691a454c02be008",
 					"host": [
 						"{{IP}}{{PORT}}{{API}}"
 					],
 					"path": [
-						"5f8f268450b3ff1299a64937"
+						"5fa2a2082691a454c02be008"
 					]
 				}
 			},
@@ -105,15 +176,25 @@
 		{
 			"name": "Create ONE Game",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2MDQ1MDYwNDksImlzcyI6IkZhdW5vIEd1YXppbmEiLCJzdWIiOiJmYXVubyIsImF1ZCI6IltST0xFX0FETUlOLCBST0xFX1VTRVJdIiwiZXhwIjoxNjA1MzcwMDQ5fQ.1h9zMKvvMsST-UO2KpXLmJ5fRMJNjUPzTQ4Pzm7s-EkFA2SP12h5d5DUFgRJv9n3_RF8zxu2KxsmcUTnb4okOg",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "{{IP}}{{PORT}}{{API}}/5f8f27ff50b3ff1299a64940/play",
+					"raw": "{{IP}}{{PORT}}{{API}}/piero/play",
 					"host": [
 						"{{IP}}{{PORT}}{{API}}"
 					],
 					"path": [
-						"5f8f27ff50b3ff1299a64940",
+						"piero",
 						"play"
 					]
 				}
@@ -123,15 +204,25 @@
 		{
 			"name": "Read All PLAYS by ID",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2MDQ1MDYwNDksImlzcyI6IkZhdW5vIEd1YXppbmEiLCJzdWIiOiJmYXVubyIsImF1ZCI6IltST0xFX0FETUlOLCBST0xFX1VTRVJdIiwiZXhwIjoxNjA1MzcwMDQ5fQ.1h9zMKvvMsST-UO2KpXLmJ5fRMJNjUPzTQ4Pzm7s-EkFA2SP12h5d5DUFgRJv9n3_RF8zxu2KxsmcUTnb4okOg",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{IP}}{{PORT}}{{API}}/5f8f27ff50b3ff1299a64940/play",
+					"raw": "{{IP}}{{PORT}}{{API}}/xavi/play",
 					"host": [
 						"{{IP}}{{PORT}}{{API}}"
 					],
 					"path": [
-						"5f8f27ff50b3ff1299a64940",
+						"xavi",
 						"play"
 					]
 				}
@@ -159,6 +250,16 @@
 		{
 			"name": "Ranking VALUE",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2MDQ1MDYwNDksImlzcyI6IkZhdW5vIEd1YXppbmEiLCJzdWIiOiJmYXVubyIsImF1ZCI6IltST0xFX0FETUlOLCBST0xFX1VTRVJdIiwiZXhwIjoxNjA1MzcwMDQ5fQ.1h9zMKvvMsST-UO2KpXLmJ5fRMJNjUPzTQ4Pzm7s-EkFA2SP12h5d5DUFgRJv9n3_RF8zxu2KxsmcUTnb4okOg",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -176,6 +277,16 @@
 		{
 			"name": "Ranking ALL",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2MDQ1MDYwNDksImlzcyI6IkZhdW5vIEd1YXppbmEiLCJzdWIiOiJmYXVubyIsImF1ZCI6IltST0xFX0FETUlOLCBST0xFX1VTRVJdIiwiZXhwIjoxNjA1MzcwMDQ5fQ.1h9zMKvvMsST-UO2KpXLmJ5fRMJNjUPzTQ4Pzm7s-EkFA2SP12h5d5DUFgRJv9n3_RF8zxu2KxsmcUTnb4okOg",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -194,6 +305,16 @@
 		{
 			"name": "Ranking LOSERs",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2MDQ1MDYwNDksImlzcyI6IkZhdW5vIEd1YXppbmEiLCJzdWIiOiJmYXVubyIsImF1ZCI6IltST0xFX0FETUlOLCBST0xFX1VTRVJdIiwiZXhwIjoxNjA1MzcwMDQ5fQ.1h9zMKvvMsST-UO2KpXLmJ5fRMJNjUPzTQ4Pzm7s-EkFA2SP12h5d5DUFgRJv9n3_RF8zxu2KxsmcUTnb4okOg",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -212,6 +333,16 @@
 		{
 			"name": "Ranking WINNERs",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2MDQ1MDYwNDksImlzcyI6IkZhdW5vIEd1YXppbmEiLCJzdWIiOiJmYXVubyIsImF1ZCI6IltST0xFX0FETUlOLCBST0xFX1VTRVJdIiwiZXhwIjoxNjA1MzcwMDQ5fQ.1h9zMKvvMsST-UO2KpXLmJ5fRMJNjUPzTQ4Pzm7s-EkFA2SP12h5d5DUFgRJv9n3_RF8zxu2KxsmcUTnb4okOg",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -252,17 +383,17 @@
 	],
 	"variable": [
 		{
-			"id": "f9be6db8-3fd2-4ebe-8b7f-c5a8a104be1c",
+			"id": "54b5d61d-d7e7-4246-93e8-01bc6dc52c17",
 			"key": "IP",
 			"value": "localhost:"
 		},
 		{
-			"id": "35ee5ec1-44c1-42bb-8c6f-13ea408a0dea",
+			"id": "2de6369f-95a2-4da4-9596-b9e76cb10396",
 			"key": "PORT",
 			"value": "8181"
 		},
 		{
-			"id": "34b17ddc-b1e8-48d1-a376-218b17d79f4a",
+			"id": "ad5981fa-91c3-41a4-a7b3-a85dd890b48e",
 			"key": "API",
 			"value": "/api/players"
 		}
