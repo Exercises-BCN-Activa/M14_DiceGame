@@ -87,12 +87,12 @@ public class Dice {
 
 	@Override
 	public String toString() {
-		return "Dice [_id=" + _id 
-				+ ", register=" + register 
-				+ ", value1=" + value1 
-				+ ", value2=" + value2 
-				+ ", status=" + status 
-				+ ", player=" + player + "]";
+		return "'Dice' : {'_id' : '" + _id + "'" 
+				+ ", 'register' : '" + register + "'" 
+				+ ", 'value1' : '" + value1 + "'"
+				+ ", 'value2' : '" + value2 + "'"
+				+ ", 'status' : '" + status + "'"
+				+ ", 'player' : '" + player + "'}";
 	}
 
 	@Override

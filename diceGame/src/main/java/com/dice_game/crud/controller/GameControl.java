@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,45 +25,52 @@ import com.dice_game.crud.service.PlayerService;
 @RestController
 @RequestMapping("/api")
 public class GameControl {
+
+	@Autowired
+	private PlayerService playerService;
+
+	@Autowired
+	private DiceService diceService;
 	
-
-	@Autowired
-	private PlayerService PLAYER;
-
-	@Autowired
-	private DiceService DICE;
-
+	private BCryptPasswordEncoder crypt = new BCryptPasswordEncoder();
+	
+	public GameControl(PlayerService playerService, DiceService diceService, BCryptPasswordEncoder crypt) {
+		this.playerService = playerService;
+		this.diceService = diceService;
+		this.crypt = crypt;
+	}
 
 	@PostMapping("/players")
 	public Player saveOne(@RequestBody Player player) {
 
 		boolean verifyName = true;
 
-		if (player.getName() != null && !player.getName().equalsIgnoreCase("unknown")
-				&& !player.getName().equalsIgnoreCase("anonymous")) {
+		if (player.getUsername() != null && !player.getUsername().isEmpty()) {
 
-			for (Player p : PLAYER.readAll()) {
+			for (Player p : playerService.readAll()) {
 
-				if (p.getName().equalsIgnoreCase(player.getName())) {
+				if (p.getUsername().equalsIgnoreCase(player.getUsername())) {
 
 					verifyName = false;
 				}
 			}
+			
+			if (verifyName) {player.setPassword(crypt.encode(player.getPassword()));}
 		}
 
-		return (verifyName) ? PLAYER.saveOne(player) : null;
+		return (verifyName) ? playerService.saveOne(player) : null;
 	}
 
 	@GetMapping("/players")
 	public List<Player> readAll() {
 
-		return PLAYER.readAll();
+		return playerService.readAll();
 	}
 
 	@GetMapping("/players/{id}")
 	public Player readOne(@PathVariable(name = "id") String id) {
 		
-		return PLAYER.readOne(id);
+		return playerService.readOne(id);
 	}
 
 	@PutMapping("/players/{id}")
@@ -72,7 +81,7 @@ public class GameControl {
 		boolean ok = false;
 
 		try {
-			player = PLAYER.readOne(id);
+			player = playerService.readOne(id);
 
 		} catch (Exception e) {
 			System.out.println("Player Not Founded!!!");
@@ -89,15 +98,16 @@ public class GameControl {
 
 		}
 
-		return (ok) ? PLAYER.updateOne(player) : null;
+		return (ok) ? playerService.updateOne(player) : null;
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/players/{id}")
 	public void deleteOne(@PathVariable(name = "id") String id) {
 
-		DICE.readByPlayer(id).stream().forEach(x -> DICE.delete(x));
+		diceService.readByPlayer(id).stream().forEach(x -> diceService.delete(x));
 
-		PLAYER.deleteOne(id);
+		playerService.deleteOne(id);
 	}
 
 	@PostMapping("/players/{id}/play")
@@ -107,16 +117,16 @@ public class GameControl {
 		Dice dice = null;
 
 		try {
-			player = PLAYER.readOne(id);
+			player = playerService.readOne(id);
 
 		} catch (Exception e) {
 			System.out.println("Player Not Founded!!!");
 		}
 
 		if (player != null) {
-			dice = DICE.saveOne(new Dice(player));
-			player.setStatus(DICE.readByPlayer(player.get_id()));
-			PLAYER.updateOne(player);
+			dice = diceService.saveOne(new Dice(player));
+			player.setStatus(diceService.readByPlayer(player.get_id()));
+			playerService.updateOne(player);
 		}
 
 		return (player == null && dice == null) ? null : dice;
@@ -128,37 +138,38 @@ public class GameControl {
 		Player player = null;
 
 		try {
-			player = PLAYER.readOne(id);
+			player = playerService.readOne(id);
 
 		} catch (Exception e) {
 			System.out.println("Player Not Founded!!!");
 		}
 		
-		return (player!=null) ? DICE.readByPlayer(player.get_id()) : null;
+		return (player!=null) ? diceService.readByPlayer(player.get_id()) : null;
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/players/{id}/play")
 	public void deleteAllPlays(@PathVariable(name = "id") String id) {
 
 		Player player = null;
 
 		try {
-			player = PLAYER.readOne(id);
+			player = playerService.readOne(id);
 
 		} catch (Exception e) {
 			System.out.println("Player Not Founded!!!");
 		}
 
-		DICE.readByPlayer(player.get_id()).stream().forEach(x -> DICE.delete(x));
-		player.setStatus(DICE.readByPlayer(player.get_id()));
-		PLAYER.updateOne(player);
+		diceService.readByPlayer(player.get_id()).stream().forEach(x -> diceService.delete(x));
+		player.setStatus(diceService.readByPlayer(player.get_id()));
+		playerService.updateOne(player);
 
 	}
 
 	@GetMapping("/players/ranking")
 	public String rankingValue() {
 
-		List<Dice> plays = DICE.readAll();
+		List<Dice> plays = diceService.readAll();
 		
 		Double wins = (double) plays.stream().filter(x->x.getStatus()==true).count();
 
@@ -168,7 +179,7 @@ public class GameControl {
 	@GetMapping("/players/ranking/all")
 	public List<Player> rankingAll() {
 		
-		List<Player> theList = PLAYER.readAll().stream()
+		List<Player> theList = playerService.readAll().stream()
 									.filter(x -> x.getStatus() != null)
 									.collect(Collectors.toList());
 		
