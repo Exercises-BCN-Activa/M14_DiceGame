@@ -15,6 +15,13 @@ import org.springframework.stereotype.Service;
 import com.dice_game.crud.dao.IPlayer;
 import com.dice_game.crud.dto.Player;
 
+/**
+ * Class that implements the use of the DAO class and allows queries in the database.
+ * It also extends the UserDetailsService interface that allows users to login.
+ * 
+ * @author FaunoGuazina
+ *
+ */
 @Service
 public class PlayerService implements UserDetailsService, simpleCrud<Player> {
 	
@@ -56,7 +63,7 @@ public class PlayerService implements UserDetailsService, simpleCrud<Player> {
 		Player player;
 		
 		try {
-			player = dao.findByUsername(username);
+			player = readUsername(username);
 		} catch (Exception e) {
 			System.out.println("Player Not Founded!!! " + e.getMessage());
 			throw new UsernameNotFoundException(username);
