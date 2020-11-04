@@ -6,4 +6,6 @@ import com.dice_game.crud.dto.Player;
 
 public interface IPlayer extends MongoRepository<Player, String>{
 	
+	Player findByUsername(String username);
+	
 }

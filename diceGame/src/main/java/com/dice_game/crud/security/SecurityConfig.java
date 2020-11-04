@@ -1,41 +1,62 @@
 package com.dice_game.crud.security;
 
+import static com.dice_game.crud.security.Constants.LOGIN_URL;
+
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	private UserDetailsService userDetailsService;
+
+	public SecurityConfig(UserDetailsService userDetailsService) {
+		this.userDetailsService = userDetailsService;
+	}
+
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 	@Override
 	protected void configure(HttpSecurity httpS) throws Exception {
-		httpS.csrf().disable()
+		httpS.cors().and().csrf().disable()
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests()
-				.antMatchers("/login").permitAll()
-				.anyRequest().authenticated()
-			.and()
-				.addFilterBefore(new LoginConfig("/login", authenticationManager()),
-		                 UsernamePasswordAuthenticationFilter.class)
-				.addFilterBefore(new JwtFilter(),
-						UsernamePasswordAuthenticationFilter.class)
-			;
+				.antMatchers(HttpMethod.POST, LOGIN_URL).permitAll()
+				.anyRequest().authenticated().and()
+					.addFilter(new JWTAuthenticationFilter(authenticationManager()))
+					.addFilter(new JWTAuthorizationFilter(authenticationManager()));
 	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder amb) throws Exception {
-		//creating accounts by default
-		amb.inMemoryAuthentication()
-				.withUser("fauno")
-				.password("{noop}puc")
-				.roles("ADMIN");
-		
-		amb.inMemoryAuthentication()
-				.withUser("user")
-				.password("{noop}usr")
-				.roles("USER");
+		amb.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
 	}
+	
+
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		return source;
+	}
+	
+	
+	
 }

@@ -9,24 +9,36 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Document(collection = "player")
+@JsonIgnoreProperties(value={ "password", "roles" }, allowSetters=true)
 public class Player {
 
 	@Id
 	private String _id;
+	
+	private String username;
+	
+	private String password;
+	
+	private String roles = "USER";
 
-	private String name = "unknown";
+	private String name;
 
 	private Date register = new Date(System.currentTimeMillis());
 
 	private Double status;
 
-	public Player() {
-	}
+	public Player() {}
 
 	public Player(String name) {
 		setName(name);
+	}
+
+	public Player(String username, String password) {
+		this.username = username;
+		this.password = password;
 	}
 
 	public String getName() {
@@ -48,6 +60,30 @@ public class Player {
 
 	public String get_id() {
 		return _id;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public String getRoles() {
+		return roles;
+	}
+
+	public void setRoles(String roles) {
+		this.roles = roles.toUpperCase();
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public void set_id(String _id) {
@@ -77,15 +113,16 @@ public class Player {
 
 	@Override
 	public String toString() {
-		return "Player [_id=" + _id 
-				+ ", name=" + name 
-				+ ", register=" + register 
-				+ ", status=" + status;
+		return "'Player' : {'_id' : '" + _id + "'"
+				+ ", 'username' : '" + username + "'" 
+				+ ", 'name' : '" + name + "'"
+				+ ", 'register' : '" + register + "'" 
+				+ ", 'status' : '" + status + "'}";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(_id, name, register, status);
+		return Objects.hash(_id, username, name, register, status);
 	}
 
 	@Override
@@ -101,7 +138,7 @@ public class Player {
 		}
 		Player other = (Player) obj;
 		return Objects.equals(_id, other._id) && Objects.equals(name, other.name)
-				&& Objects.equals(register, other.register) && Objects.equals(status, other.status);
+				&& Objects.equals(register, other.register) && Objects.equals(username, other.username);
 	}
 	
 	
