@@ -19,6 +19,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter implements Filter {
@@ -42,23 +43,22 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter implements
 
 	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
 		String token = request.getHeader(HEADER_KEY);
+		
 		if (token != null) {
-			String user = Jwts.parser()
-						.setSigningKey(SS_KEY)
-						.parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
-						.getBody()
-						.getSubject();
-			String roles = Jwts.parser()
+			
+			Claims claims = Jwts.parser()
 					.setSigningKey(SS_KEY)
 					.parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
-					.getBody().getAudience().replaceAll("\\W+", "");
+					.getBody();
 			
-			@SuppressWarnings("serial")
-			List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>() 
-										{{add(new SimpleGrantedAuthority(roles));}};
-
-			if (user != null) {
-				return new UsernamePasswordAuthenticationToken(user, null, authorities);
+			List<GrantedAuthority> authorities = new ArrayList<>();
+			
+			for (String role : claims.getAudience().replaceAll("( )+", "").split(",")) {
+				authorities.add(new SimpleGrantedAuthority(role));
+			}
+			
+			if (claims.getSubject() != null) {
+				return new UsernamePasswordAuthenticationToken(claims.getSubject(), null, authorities);
 			}
 			
 			return null;
