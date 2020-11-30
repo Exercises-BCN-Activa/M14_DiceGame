@@ -3,9 +3,8 @@ package com.dice_game.crud.security;
 import static com.dice_game.crud.security.Constants.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,15 +16,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.dice_game.crud.dto.Player;
+import com.dice_game.crud.security.jwt.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	
@@ -42,15 +38,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		try {
 			Player player = new ObjectMapper().readValue(request.getInputStream(), Player.class);
 			
-
-			List<GrantedAuthority> authorities = new ArrayList<>();
-			
-			for (String role : player.getRoles().replaceAll("( )+", "").split(",")) {
-				authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
-			}
-			
 			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-					player.getUsername(), player.getPassword(), authorities));
+					player.getUsername(), player.getPassword()));
 			
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -61,12 +50,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
 
-		String token = Jwts.builder().setIssuedAt(new Date()).setIssuer(ISSUER)
-				.setSubject(((User)auth.getPrincipal()).getUsername())
-				.setAudience((((User)auth.getPrincipal()).getAuthorities()).toString())
-				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-				.signWith(SignatureAlgorithm.HS512, SS_KEY).compact();
-		response.addHeader(HEADER_KEY, TOKEN_PREFIX + token);
+		List<String> grantedAuthorities = auth.getAuthorities().stream()
+				.map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+
+		String token = JwtService.createToken(auth.getName(), grantedAuthorities);
+		
+		response.addHeader(TOKEN_HEADER, TOKEN_PREFIX + token);
 	}
 	
 }

@@ -1,7 +1,8 @@
 package com.dice_game.crud.service;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -69,11 +70,8 @@ public class PlayerService implements UserDetailsService, simpleCrud<Player> {
 			throw new UsernameNotFoundException(username);
 		}
 		
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		
-		for (String role : player.getRoles().replaceAll("( )+", "").split(",")) {
-			authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
-		}
+		List<GrantedAuthority> authorities = Arrays.stream(player.getRoles().split(","))
+				.map(x -> new SimpleGrantedAuthority("ROLE_" + x)).collect(Collectors.toList());
 		
 		return new User(player.getUsername(), player.getPassword(), authorities);
 	}
