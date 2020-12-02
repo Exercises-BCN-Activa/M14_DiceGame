@@ -8,7 +8,6 @@ import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -18,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  *
  */
 @Document(collection = "player")
-@JsonIgnoreProperties(value={ "password", "roles" }, allowSetters=true)  //don't show fields in get requests
+@JsonIgnoreProperties(value={ "password", "roles", "status" }, allowSetters=true)  //don't show fields in get requests
 public class Player {
 
 	@Id
@@ -34,7 +33,6 @@ public class Player {
 
 	private Date register = new Date(System.currentTimeMillis()); //establish date of creation for every user
 
-	@JsonIgnore //this value always changes, there is no point in storing
 	private Double status;
 
 	public Player() {}  //standard and empty constructor

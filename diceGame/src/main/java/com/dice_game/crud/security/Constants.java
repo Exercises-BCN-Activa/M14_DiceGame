@@ -1,19 +1,20 @@
 package com.dice_game.crud.security;
 
-class Constants {
+public class Constants {
 
 	private Constants() {}
 
 	// Spring Security
 
-	static final String LOGIN_URL = "/login";
-	static final String HEADER_KEY = "Authorization";
-	static final String TOKEN_PREFIX = "Bearer ";
+	public static final String LOGIN_URL = "/login";
+	public static final String TOKEN_HEADER = "Authorization";
+	public static final String TOKEN_PREFIX = "Bearer ";
 
 	// JWT
 
-	static final String ISSUER = "Fauno Guazina";
-	static final String SS_KEY = "it WaS a LoT of WoRK";
-	static final long EXPIRATION_TIME = 864_000_000; // 10 day
+	public static final String JWT_SECRET = "^[(Do || !Do)+(But please, do not try!)*]$";
+	public static final String TOKEN_ISSUER = "Fauno Guazina";
+	public static final String TOKEN_AUDIENCE = "Dice Game Execise";
+	public static final long TOKEN_EXPIRATION_TIME = 864_000_000; // 10 day
 	
 }
