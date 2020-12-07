@@ -18,7 +18,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.dice_game.crud.dto.Player;
+import com.dice_game.crud.model.json.PlayerJson;
 import com.dice_game.crud.security.jwt.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -36,10 +36,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			throws AuthenticationException {
 		
 		try {
-			Player player = new ObjectMapper().readValue(request.getInputStream(), Player.class);
+			PlayerJson player = new ObjectMapper().readValue(request.getInputStream(), PlayerJson.class);
 			
 			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-					player.getUsername(), player.getPassword()));
+					player.getEmail(), player.getPassword()));
 			
 		} catch (IOException e) {
 			throw new RuntimeException(e);

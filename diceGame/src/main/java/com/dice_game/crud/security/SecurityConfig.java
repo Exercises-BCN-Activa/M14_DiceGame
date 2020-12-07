@@ -41,7 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, LOGIN_URL).permitAll()
 				.anyRequest().authenticated().and()
 					.addFilter(new JWTAuthenticationFilter(authenticationManager()))
-					.addFilter(new JWTAuthorizationFilter(authenticationManager()));
+					.addFilter(new JWTAuthorizationFilter(authenticationManager()))
+					;
 	}
 
 	@Override
