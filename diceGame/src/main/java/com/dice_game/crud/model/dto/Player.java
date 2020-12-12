@@ -55,6 +55,7 @@ public final class Player {
 
 		playerJson.setId(id);
 		playerJson.setEmail(email);
+		playerJson.setRegistration(registration.toString());
 		playerJson.setFullName(firstName, lastName);
 		playerJson.setStatus(getStatus());
 
@@ -127,12 +128,12 @@ public final class Player {
 	}
 
 	public void setStatus() {
-		this.status = (rounds.isEmpty()) ? 0 : fromRounds();
+		this.status = (rounds == null || rounds.isEmpty()) ? 0 : fromRounds();
 
 	}
 
 	private float fromRounds() {
-		return (rounds.stream().filter(x -> x.isWon()).count() / rounds.size() * 100);
+		return (float) rounds.stream().filter(x -> x.isWon()).count() / rounds.size() * 100;
 	}
 
 	public List<Dice> getRounds() {
