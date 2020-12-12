@@ -3,6 +3,7 @@ package com.dice_game.crud.model.json;
 import java.util.Objects;
 
 import com.dice_game.crud.model.dto.Player;
+import com.dice_game.crud.security.Role;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(value = {"password", "firstName", "lastName"}, allowSetters = true)
@@ -47,6 +48,7 @@ public final class PlayerJson {
 		player.setPassword(password);
 		player.setFirstName(firstName);
 		player.setLastName(lastName);
+		player.setType(Role.BASIC);
 		
 		return player;
 	}
@@ -107,6 +109,10 @@ public final class PlayerJson {
 
 	public String getRegistration() {
 		return registration;
+	}
+
+	public void setRegistration(String registration) {
+		this.registration = registration;
 	}
 
 	public String getStatus() {
