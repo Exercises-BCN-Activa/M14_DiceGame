@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.dice_game.crud.model.dao.PlayerDAO;
 import com.dice_game.crud.model.dto.Player;
-import com.dice_game.crud.model.json.PlayerJson;
+import com.dice_game.crud.model.dto.PlayerJson;
 import com.dice_game.crud.view.service.PlayerService;
 
 @Service

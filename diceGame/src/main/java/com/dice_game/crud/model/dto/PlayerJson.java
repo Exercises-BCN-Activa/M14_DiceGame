@@ -1,34 +1,35 @@
-package com.dice_game.crud.model.json;
+package com.dice_game.crud.model.dto;
 
 import java.util.Date;
 import java.util.Objects;
 
-import com.dice_game.crud.model.dto.Player;
+import org.springframework.util.StringUtils;
+
 import com.dice_game.crud.security.Role;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(value = {"password", "firstName", "lastName"}, allowSetters = true)
+@JsonIgnoreProperties(value = { "password", "firstName", "lastName" }, allowSetters = true)
 public final class PlayerJson {
 
 	private Long id;
-	
+
 	private String firstName;
-	
+
 	private String lastName;
-	
+
 	private String fullName;
 
 	private String email;
-	
+
 	private String password;
 
 	private Date registration;
 
 	private String status;
-	
+
 	public PlayerJson() {
 	}
-	
+
 	private PlayerJson(Player player) {
 		id = player.getId();
 		email = player.getEmail();
@@ -36,29 +37,29 @@ public final class PlayerJson {
 		setFullName(player.getFirstName(), player.getLastName());
 		setStatus(player.getStatus());
 	}
-	
+
 	public static PlayerJson from(Player player) {
 		return new PlayerJson(player);
 	}
-	
+
 	public Player toPlayer() {
-		
+
 		Player player = new Player();
-		
+
 		player.setEmail(email);
 		player.setPassword(password);
 		player.setFirstName(firstName);
 		player.setLastName(lastName);
 		player.setType(Role.BASIC);
-		
+
 		return player;
 	}
 
 	public Long getId() {
 		return id;
 	}
-	
-	public void setId(Long id) {
+
+	protected void setId(Long id) {
 		this.id = id;
 	}
 
@@ -79,14 +80,13 @@ public final class PlayerJson {
 	}
 
 	public String getFullName() {
+		if (StringUtils.isEmpty(fullName)) {
+			setFullName(firstName, lastName);
+		}
 		return fullName;
 	}
-	
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-	
-	public void setFullName(String firstName, String lastName) {
+
+	protected void setFullName(String firstName, String lastName) {
 		setFirstName(firstName);
 		setLastName(lastName);
 		this.fullName = String.format("%s, %s", lastName, firstName);
@@ -112,15 +112,15 @@ public final class PlayerJson {
 		return registration;
 	}
 
-	public void setRegistration(Date registration) {
+	void setRegistration(Date registration) {
 		this.registration = registration;
 	}
 
 	public String getStatus() {
 		return status;
 	}
-	
-	public void setStatus(float status) {
+
+	void setStatus(float status) {
 		this.status = (status == 0) ? "never played" : status + "% victories";
 	}
 
@@ -141,8 +141,9 @@ public final class PlayerJson {
 			return false;
 		}
 		PlayerJson other = (PlayerJson) obj;
-		return Objects.equals(email, other.email) && Objects.equals(id, other.id) && Objects.equals(fullName, other.fullName)
-				&& Objects.equals(registration, other.registration) && Objects.equals(status, other.status);
+		return Objects.equals(email, other.email) && Objects.equals(id, other.id)
+				&& Objects.equals(fullName, other.fullName) && Objects.equals(registration, other.registration)
+				&& Objects.equals(status, other.status);
 	}
 
 	@Override
@@ -161,5 +162,5 @@ public final class PlayerJson {
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 }

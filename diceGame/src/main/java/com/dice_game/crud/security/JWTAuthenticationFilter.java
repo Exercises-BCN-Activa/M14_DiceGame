@@ -18,7 +18,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.dice_game.crud.model.json.PlayerJson;
+import com.dice_game.crud.model.dto.PlayerJson;
 import com.dice_game.crud.security.jwt.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.dice_game.crud.model.json.PlayerJson;
 import com.dice_game.crud.security.Role;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -51,15 +50,7 @@ public final class Player {
 	}
 
 	public PlayerJson toJson() {
-		PlayerJson playerJson = new PlayerJson();
-
-		playerJson.setId(id);
-		playerJson.setEmail(email);
-		playerJson.setRegistration(registration);
-		playerJson.setFullName(firstName, lastName);
-		playerJson.setStatus(getStatus());
-
-		return playerJson;
+		return PlayerJson.from(this);
 	}
 
 	public Long getId() {
