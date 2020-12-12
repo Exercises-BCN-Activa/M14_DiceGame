@@ -2,6 +2,8 @@ package com.dice_game.crud.model.dto;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.Random;
+import java.util.stream.IntStream;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,15 +40,21 @@ public final class Dice {
 	private Dice() {
 	}
 
-	public static Dice newRound() {
+	public static Dice newRound(Player player) {
 		Dice dice = new Dice();
+		dice.setPlayer(player);
 		dice.rollDices();
 		return dice;
 	}
+	
+	private void rollDices() {
+		this.setValue1(randonNumberFrom1To6());
+		this.setValue2(randonNumberFrom1To6());
+	}
 
-	public void rollDices() {
-		value1 = (int) Math.ceil(Math.random() * 6);
-		value2 = (int) Math.ceil(Math.random() * 6);
+	private static int randonNumberFrom1To6() {
+		Random diceSimulator = new Random();
+		return IntStream.generate(() -> diceSimulator.nextInt(6) + 1).limit(36).findAny().getAsInt();
 	}
 
 	public boolean isWon() {
@@ -126,7 +134,7 @@ public final class Dice {
 		builder.append(", value2=");
 		builder.append(value2);
 		builder.append(", player=");
-		builder.append(player);
+		builder.append(player.getId());
 		builder.append(", isWon()=");
 		builder.append(isWon());
 		builder.append("]");
