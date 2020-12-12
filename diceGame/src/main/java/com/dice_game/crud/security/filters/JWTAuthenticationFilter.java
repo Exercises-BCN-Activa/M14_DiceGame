@@ -1,4 +1,4 @@
-package com.dice_game.crud.security;
+package com.dice_game.crud.security.filters;
 
 import static com.dice_game.crud.security.Constants.*;
 
