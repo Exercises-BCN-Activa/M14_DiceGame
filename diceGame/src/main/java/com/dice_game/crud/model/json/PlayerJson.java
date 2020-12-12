@@ -1,5 +1,6 @@
 package com.dice_game.crud.model.json;
 
+import java.util.Date;
 import java.util.Objects;
 
 import com.dice_game.crud.model.dto.Player;
@@ -21,7 +22,7 @@ public final class PlayerJson {
 	
 	private String password;
 
-	private String registration;
+	private Date registration;
 
 	private String status;
 	
@@ -31,7 +32,7 @@ public final class PlayerJson {
 	private PlayerJson(Player player) {
 		id = player.getId();
 		email = player.getEmail();
-		registration = player.getRegistration().toString();
+		registration = player.getRegistration();
 		setFullName(player.getFirstName(), player.getLastName());
 		setStatus(player.getStatus());
 	}
@@ -107,11 +108,11 @@ public final class PlayerJson {
 		this.password = password;
 	}
 
-	public String getRegistration() {
+	public Date getRegistration() {
 		return registration;
 	}
 
-	public void setRegistration(String registration) {
+	public void setRegistration(Date registration) {
 		this.registration = registration;
 	}
 

@@ -55,7 +55,7 @@ public final class Player {
 
 		playerJson.setId(id);
 		playerJson.setEmail(email);
-		playerJson.setRegistration(registration.toString());
+		playerJson.setRegistration(registration);
 		playerJson.setFullName(firstName, lastName);
 		playerJson.setStatus(getStatus());
 
