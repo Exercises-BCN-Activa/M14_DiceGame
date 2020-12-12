@@ -1,30 +1,29 @@
-package com.dice_game.crud.model.json;
+package com.dice_game.crud.model.dto;
 
+import java.util.Date;
 import java.util.Objects;
-
-import com.dice_game.crud.model.dto.Dice;
 
 public final class DiceJson {
 
 	private Long id;
 
-	private String registration;
+	private Date registration;
 
 	private Integer value1;
 
 	private Integer value2;
 
 	private boolean status;
-
-	public DiceJson() {
+	
+	protected DiceJson() {
 	}
 
 	private DiceJson(Dice dice) {
-		this.id = dice.getId();
-		this.registration = dice.getRegistration().toString();
-		this.value1 = dice.getValue1();
-		this.value2 = dice.getValue2();
-		this.status = dice.isWon();
+		setId(dice.getId());
+		setRegistration(dice.getRegistration());
+		setValue1(dice.getValue1());
+		setValue2(dice.getValue2());
+		setStatus(dice.isWon());
 	}
 
 	public static DiceJson from(Dice dice) {
@@ -35,15 +34,15 @@ public final class DiceJson {
 		return id;
 	}
 
-	public void setId(Long id) {
+	void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getRegistration() {
+	public Date getRegistration() {
 		return registration;
 	}
 
-	public void setRegistration(String registration) {
+	void setRegistration(Date registration) {
 		this.registration = registration;
 	}
 
@@ -51,7 +50,7 @@ public final class DiceJson {
 		return value1;
 	}
 
-	public void setValue1(Integer value1) {
+	void setValue1(Integer value1) {
 		this.value1 = value1;
 	}
 
@@ -59,7 +58,7 @@ public final class DiceJson {
 		return value2;
 	}
 
-	public void setValue2(Integer value2) {
+	void setValue2(Integer value2) {
 		this.value2 = value2;
 	}
 
@@ -67,7 +66,7 @@ public final class DiceJson {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	void setStatus(boolean status) {
 		this.status = status;
 	}
 

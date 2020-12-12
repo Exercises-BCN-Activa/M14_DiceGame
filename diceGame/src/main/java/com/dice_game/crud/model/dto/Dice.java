@@ -37,7 +37,11 @@ public final class Dice {
 	@ManyToOne
 	private Player player;
 
-	private Dice() {
+	protected Dice() {
+	}
+
+	public DiceJson toJson() {
+		return DiceJson.from(this);
 	}
 
 	public static Dice newRound(Player player) {

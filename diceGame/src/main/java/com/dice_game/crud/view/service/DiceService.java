@@ -3,7 +3,7 @@ package com.dice_game.crud.view.service;
 import java.util.Map;
 
 import com.dice_game.crud.model.dto.Dice;
-import com.dice_game.crud.model.json.PlayerJson;
+import com.dice_game.crud.model.dto.PlayerJson;
 
 public interface DiceService {
 	
