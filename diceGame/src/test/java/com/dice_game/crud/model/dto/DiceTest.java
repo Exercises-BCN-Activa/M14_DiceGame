@@ -12,24 +12,24 @@ import com.dice_game.crud.security.Role;
 
 class DiceTest {
 	
-	Long id;
-	String firstName;
-	String lastName;
-	String email;
-	Date registration;
-	String password;
-	Player player;
-	Dice winner;
-	Dice loser;
-	Dice dice;
-	DiceJson diceJson;
+	private Long id;
+	private String firstName;
+	private String lastName;
+	private String email;
+	private Date registration;
+	private String password;
+	private Player player;
+	private Dice winner;
+	private Dice loser;
+	private Dice dice;
+	private DiceJson diceJson;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		id = 1l;
-		firstName = "Fauno";
-		lastName = "Guazina";
-		email = "fauno@guazina.com";
+		firstName = "Fulano";
+		lastName = "Ciclano";
+		email = "fulano@cliclano.com";
 		password = "senha2020";
 		registration = new Date();
 
