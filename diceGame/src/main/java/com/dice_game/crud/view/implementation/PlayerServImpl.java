@@ -27,22 +27,27 @@ public final class PlayerServImpl implements PlayerService, UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		
+
 		try {
-			
-			Player player = dao.findByEmail(email).get();
-			
-			List<GrantedAuthority> authorities = Arrays.stream(player.getType().split(","))
-					.map(x -> new SimpleGrantedAuthority("ROLE_" + x)).collect(Collectors.toList());
-			
-			return new User(player.getEmail(), player.getPassword(), authorities);
-			
+
+			Player player = DAO.findByEmail(email).get();
+
+			return validUserToLoad(player);
+
 		} catch (Exception e) {
-			
 			System.out.println("Player Not Founded!!! " + e.getMessage());
 			throw new UsernameNotFoundException(email);
 		}
+	}
 	
+	private User validUserToLoad(Player player) {
+		return new User(player.getEmail(), player.getPassword(), listAuthorities(player));
+	}
+	
+	private List<GrantedAuthority> listAuthorities(Player player) {
+		return Arrays.stream(player.getType().split(","))
+				.map(x -> new SimpleGrantedAuthority("ROLE_" + x))
+				.collect(Collectors.toList());
 	}
 
 	@Override
