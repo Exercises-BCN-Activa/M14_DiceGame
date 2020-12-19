@@ -5,7 +5,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -26,8 +27,8 @@ public final class Dice {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(updatable = false)
 	private Date registration;
 
 	private int value1;
@@ -37,7 +38,7 @@ public final class Dice {
 	@ManyToOne
 	private Player player;
 
-	protected Dice() {
+	public Dice() {
 	}
 
 	public DiceJson toJson() {
@@ -57,8 +58,7 @@ public final class Dice {
 	}
 
 	private static int randonNumberFrom1To6() {
-		Random diceSimulator = new Random();
-		return IntStream.generate(() -> diceSimulator.nextInt(6) + 1).limit(36).findAny().getAsInt();
+		return IntStream.generate(() -> new Random().nextInt(6) + 1).limit(36).findAny().getAsInt();
 	}
 
 	public boolean isWon() {
