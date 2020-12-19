@@ -41,12 +41,6 @@ public final class DiceServImpl implements DiceService {
 	}
 
 	@Override
-	public Map<String, Object> updateAll(String password) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Map<String, Object> deleteAll(String password) {
 		// TODO Auto-generated method stub
 		return null;
