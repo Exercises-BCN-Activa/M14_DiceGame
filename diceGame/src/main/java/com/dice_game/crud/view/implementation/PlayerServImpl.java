@@ -21,9 +21,9 @@ import com.dice_game.crud.view.service.PlayerService;
 
 @Service
 public final class PlayerServImpl implements PlayerService, UserDetailsService {
-	
+
 	@Autowired
-	private PlayerDAO dao;
+	private PlayerDAO DAO;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
