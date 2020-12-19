@@ -104,10 +104,9 @@ class DataBaseDAOTest {
 	
 	@Test
 	@Order(4)
-	@DisplayName("Not Can Find Player by Email")
-	public void testNoFindPlayerByEmail() {
-		
-		assertFalse(playerDAO.findByEmail("teste@erroneo.com").isPresent());
+	@DisplayName("Exists Player by Email")
+	public void testExistsPlayerByEmail() {
+		assertTrue(playerDAO.existsByEmail(email));
 	}
 
 	@Test
@@ -260,6 +259,14 @@ class DataBaseDAOTest {
 		
 		assertTrue(listDice.isEmpty());
 		
+	}
+
+	@Test
+	@Order(15)
+	@DisplayName("Not Can Find Player by Email")
+	public void testNoFindPlayerByEmail() {
+		
+		assertFalse(playerDAO.findByEmail(email).isPresent());
 	}
 
 	private String msgError(String input) {
