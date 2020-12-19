@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.springframework.util.StringUtils;
 
 import com.dice_game.crud.security.Role;
+import static com.dice_game.crud.utilities.Util.encrypt;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(value = { "password", "firstName", "lastName" }, allowSetters = true)
@@ -47,7 +48,7 @@ public final class PlayerJson {
 		Player player = new Player();
 
 		player.setEmail(email);
-		player.setPassword(password);
+		player.setPassword(encrypt(password));
 		player.setFirstName(firstName);
 		player.setLastName(lastName);
 		player.setType(Role.BASIC);
