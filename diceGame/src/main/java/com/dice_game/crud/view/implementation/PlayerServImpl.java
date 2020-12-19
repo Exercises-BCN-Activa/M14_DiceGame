@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dice_game.crud.model.dao.PlayerDAO;
@@ -25,8 +24,6 @@ public final class PlayerServImpl implements PlayerService, UserDetailsService {
 	
 	@Autowired
 	private PlayerDAO dao;
-	
-	private BCryptPasswordEncoder crypt = new BCryptPasswordEncoder();
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
