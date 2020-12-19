@@ -9,4 +9,6 @@ import com.dice_game.crud.model.dto.Player;
 public interface PlayerDAO extends JpaRepository<Player, Long> {
 
 	public Optional<Player> findByEmail(String email);
+	
+	public boolean existsByEmail(String email);
 }
