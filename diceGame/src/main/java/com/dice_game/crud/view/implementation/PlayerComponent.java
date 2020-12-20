@@ -42,5 +42,13 @@ final class PlayerComponent {
 		return DAO.existsByEmail(playerJson.getEmail());
 	}
 
+	static PlayerJson savePlayerByJsonReturnJson(PlayerJson playerJson) {
+		Player playerToSave = playerJson.toPlayer();
+
+		Player playerSaved = DAO.save(playerToSave);
+
+		return playerSaved.toJson();
+	}
+
 
 }
