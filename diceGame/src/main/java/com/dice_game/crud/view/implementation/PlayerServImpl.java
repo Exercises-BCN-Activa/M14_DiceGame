@@ -52,8 +52,33 @@ public final class PlayerServImpl implements PlayerService, UserDetailsService {
 
 	@Override
 	public Map<String, Object> createOne(PlayerJson playerJson) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+
+			ifNotHaveAllNeededToBeCreatedThrowException(playerJson);
+			
+			ifEmailIsInvalidFormatThrowException(playerJson);
+
+			ifEmailIsAlreadyRegisteredThrowException(exists(playerJson));
+
+			PlayerJson savedToSend = save(playerJson);
+
+			return successMap("Player successfully created", savedToSend);
+
+		} catch (Exception e) {
+			return errorMap(msgError("create Player").concat(e.getMessage()));
+		}
+	}
+
+	private boolean exists(PlayerJson playerJson) {
+		return DAO.existsByEmail(playerJson.getEmail());
+	}
+
+	private PlayerJson save(PlayerJson playerJson) {
+		Player playerToSave = playerJson.toPlayer();
+
+		Player playerSaved = DAO.save(playerToSave);
+
+		return playerSaved.toJson();
 	}
 
 	@Override
