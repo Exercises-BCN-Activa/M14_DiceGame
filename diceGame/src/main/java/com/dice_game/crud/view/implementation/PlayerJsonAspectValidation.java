@@ -8,24 +8,24 @@ import com.dice_game.crud.model.dto.PlayerJson;
 import com.dice_game.crud.utilities.exceptions.PlayerServImplException;
 
 final class PlayerJsonAspectValidation {
-
-	private PlayerJson playerJson;
-
-	PlayerJsonAspectValidation(PlayerJson playerJson) {
-		this.playerJson = playerJson;
-	}
 	
-	static void verifyIsAbleToSave(PlayerJson playerJson) {
+	static void verifyIsAbleToSave(PlayerJson playerJson) throws PlayerServImplException {
 		PlayerJsonAspectValidation verify = new PlayerJsonAspectValidation(playerJson);
-
+		
 		verify.ifNotHaveAllNeededToBeCreatedThrowException();
 		
 		verify.ifEmailIsInvalidFormatThrowException();
-
+		
 		verify.ifEmailIsAlreadyRegisteredThrowException();
 	}
 
-	void ifNotHaveAllNeededToBeCreatedThrowException() throws PlayerServImplException {
+	private PlayerJson playerJson;
+
+	private PlayerJsonAspectValidation(PlayerJson playerJson) {
+		this.playerJson = playerJson;
+	}
+
+	private void ifNotHaveAllNeededToBeCreatedThrowException() throws PlayerServImplException {
 		if (notHaveAllNeededToBeCreated())
 			throwExceptionWithEspecificFlawsOfThis();
 	}
@@ -54,13 +54,13 @@ final class PlayerJsonAspectValidation {
 		PlayerServImplException.throwsUp(message.trim());
 	}
 
-	void ifEmailIsInvalidFormatThrowException() throws PlayerServImplException {
+	private void ifEmailIsInvalidFormatThrowException() throws PlayerServImplException {
 		
 		if (!isValidEmail(playerJson.getEmail()))
 			PlayerServImplException.throwsUp("This email has invalid format!");
 	}
 
-	void ifEmailIsAlreadyRegisteredThrowException() throws PlayerServImplException {
+	private void ifEmailIsAlreadyRegisteredThrowException() throws PlayerServImplException {
 		
 		if (exists(playerJson))
 			PlayerServImplException.throwsUp("This email is already registered!");
