@@ -35,7 +35,7 @@ final class PlayerJsonAspectValidation {
 				|| isEmpty(playerJson.getFirstName()) || isEmpty(playerJson.getLastName());
 	}
 
-	private PlayerServImplException throwExceptionWithEspecificFlawsOfThis() {
+	private void throwExceptionWithEspecificFlawsOfThis() throws PlayerServImplException {
 		
 		String message = "";
 
@@ -51,7 +51,7 @@ final class PlayerJsonAspectValidation {
 		if (isEmpty(playerJson.getLastName()))
 			message.concat("Missing Last Name! ");
 
-		return PlayerServImplException.throwsUp(message.trim());
+		PlayerServImplException.throwsUp(message.trim());
 	}
 
 	void ifEmailIsInvalidFormatThrowException() throws PlayerServImplException {

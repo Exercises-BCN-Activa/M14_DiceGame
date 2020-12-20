@@ -10,7 +10,7 @@ public class PlayerServImplException extends RuntimeException {
 		super(DETAILS.concat(message));
 	}
 	
-	public static PlayerServImplException throwsUp(String message) {
-		return new PlayerServImplException(message);
+	public static void throwsUp(String message) {
+		throw new PlayerServImplException(message);
 	}
 }
