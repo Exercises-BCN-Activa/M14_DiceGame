@@ -60,5 +60,45 @@ final class PlayerComponent {
 				.collect(Collectors.toList());
 	}
 
+	static void ifNotHaveAllNeededToBeCreatedThrowException(PlayerJson playerJson) 
+			throws PlayerServImplException {
+		if (notHaveAllNeededToBeCreated(playerJson))
+			throwExceptionWithEspecificFlawsOfThis(playerJson);
+	}
+	
+	static boolean notHaveAllNeededToBeCreated(PlayerJson playerJson) {
+		return isEmpty(playerJson.getEmail()) || isEmpty(playerJson.getPassword()) 
+				|| isEmpty(playerJson.getFirstName()) || isEmpty(playerJson.getLastName());
+	}
+	
+	static PlayerServImplException throwExceptionWithEspecificFlawsOfThis(PlayerJson playerJson) {
+		String message = "";
+
+		if (isEmpty(playerJson.getEmail()))
+			message.concat("Missing E-mail! ");
+
+		if (isEmpty(playerJson.getPassword()))
+			message.concat("Missing Password! ");
+
+		if (isEmpty(playerJson.getFirstName()))
+			message.concat("Missing First Name! ");
+
+		if (isEmpty(playerJson.getLastName()))
+			message.concat("Missing Last Name! ");
+
+		return PlayerServImplException.throwsUp(message.trim());
+	}
+
+	static void ifEmailIsInvalidFormatThrowException(PlayerJson playerJson) 
+			throws PlayerServImplException {
+		if (!isValidEmail(playerJson.getEmail()))
+			throw PlayerServImplException.throwsUp("This email has invalid format!");
+	}
+
+	static void ifEmailIsAlreadyRegisteredThrowException(PlayerJson playerJson) 
+			throws PlayerServImplException {
+		if (exists(playerJson))
+			throw PlayerServImplException.throwsUp("This email is already registered!");
+	}
 
 }
