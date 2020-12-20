@@ -1,4 +1,4 @@
-package com.dice_game.crud.view.implementation.exceptions;
+package com.dice_game.crud.utilities.exceptions;
 
 public class PlayerServImplException extends RuntimeException {
 
