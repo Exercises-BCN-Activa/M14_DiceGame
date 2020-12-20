@@ -50,5 +50,15 @@ final class PlayerComponent {
 		return playerSaved.toJson();
 	}
 
+	static User validSpringUserToLoad(Player player) {
+		return new User(player.getEmail(), player.getPassword(), listAuthorities(player));
+	}
+
+	private static List<GrantedAuthority> listAuthorities(Player player) {
+		return Arrays.stream(player.getType().split(","))
+				.map(x -> new SimpleGrantedAuthority("ROLE_" + x))
+				.collect(Collectors.toList());
+	}
+
 
 }
