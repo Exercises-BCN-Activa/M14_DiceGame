@@ -1,8 +1,8 @@
 package com.dice_game.crud.view.implementation;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,11 +53,14 @@ final class PlayerComponent {
 		return new User(player.getEmail(), player.getPassword(), listAuthorities(player));
 	}
 
-	private static List<GrantedAuthority> listAuthorities(Player player) {
-		return Arrays.stream(player.getType().split(","))
+	private static Set<GrantedAuthority> listAuthorities(Player player) {
+		return Arrays.stream(arrayRoles(player))
 				.map(x -> new SimpleGrantedAuthority("ROLE_" + x))
+				.collect(Collectors.toSet());
 	}
 	
+	private static String[] arrayRoles(Player player) {
+		return player.getType().replaceAll("( )+", "").split(",");
 	}
 
 }
