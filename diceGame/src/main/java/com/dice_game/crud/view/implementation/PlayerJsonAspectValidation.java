@@ -2,7 +2,6 @@ package com.dice_game.crud.view.implementation;
 
 import static com.dice_game.crud.utilities.Util.isEmpty;
 import static com.dice_game.crud.utilities.Util.isValidEmail;
-import static com.dice_game.crud.view.implementation.PlayerComponent.exists;
 
 import com.dice_game.crud.model.dto.PlayerJson;
 import com.dice_game.crud.utilities.exceptions.PlayerServImplException;
@@ -16,7 +15,6 @@ final class PlayerJsonAspectValidation {
 		
 		verify.ifEmailIsInvalidFormatThrowException();
 		
-		verify.ifEmailIsAlreadyRegisteredThrowException();
 	}
 
 	private PlayerJson playerJson;
@@ -58,12 +56,6 @@ final class PlayerJsonAspectValidation {
 		
 		if (!isValidEmail(playerJson.getEmail()))
 			PlayerServImplException.throwsUp("This email has invalid format!");
-	}
-
-	private void ifEmailIsAlreadyRegisteredThrowException() throws PlayerServImplException {
-		
-		if (exists(playerJson))
-			PlayerServImplException.throwsUp("This email is already registered!");
 	}
 
 }
