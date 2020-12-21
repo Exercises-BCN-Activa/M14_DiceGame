@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.dice_game.crud.model.dao.PlayerDAO;
 import com.dice_game.crud.model.dto.Player;
@@ -17,39 +17,51 @@ import com.dice_game.crud.model.dto.PlayerJson;
 
 import com.dice_game.crud.utilities.exceptions.PlayerServImplException;
 
-@Service
-final class PlayerComponent {
+@Component
+final class PlayerServiceComponent {
 
 	@Autowired
-	private static PlayerDAO DAO;
+	private final PlayerDAO DAO;
 	
-	static Player findPlayerByEmail(String email) throws PlayerServImplException {
+	
+	PlayerServiceComponent(PlayerDAO dAO) {
+		DAO = dAO;
+	}
+
+	Player findPlayerByEmail(String email) throws PlayerServImplException {
 		Optional<Player> player = DAO.findByEmail(email);
 		if (!player.isPresent())
 			PlayerServImplException.throwsUp("This player does not exist!");
 		return player.get();
 	}
 	
-	static Player findPlayerByID(Long id) throws PlayerServImplException {
+	Player findPlayerByID(Long id) throws PlayerServImplException {
 		Optional<Player> player = DAO.findById(id);
 		if (!player.isPresent())
 			PlayerServImplException.throwsUp("This player does not exist!");
 		return player.get();
 	}
 
-	static boolean exists(PlayerJson playerJson) {
-		return DAO.existsByEmail(playerJson.getEmail());
+	boolean existsByEmail(String email) {
+		return DAO.existsByEmail(email);
 	}
 
-	static PlayerJson savePlayerByJsonReturnJson(PlayerJson playerJson) {
+	PlayerJson savePlayerByJsonReturnJson(PlayerJson playerJson) {
 		Player playerToSave = playerJson.toPlayer();
 
 		Player playerSaved = DAO.save(playerToSave);
 
 		return playerSaved.toJson();
 	}
+	
+	void ifEmailIsAlreadyRegisteredThrowException(PlayerJson playerJson) throws PlayerServImplException {
+		
+		if (existsByEmail(playerJson.getEmail()))
+			PlayerServImplException.throwsUp("This email is already registered!");
+	}
 
-	static User validSpringUserToLoad(Player player) {
+	User validSpringUserToLoad(String email) {
+		Player player = findPlayerByEmail(email);
 		return new User(player.getEmail(), player.getPassword(), listAuthorities(player));
 	}
 
