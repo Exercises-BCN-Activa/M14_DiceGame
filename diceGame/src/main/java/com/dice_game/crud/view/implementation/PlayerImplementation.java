@@ -2,27 +2,35 @@ package com.dice_game.crud.view.implementation;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.dice_game.crud.model.dto.PlayerJson;
+
 import static com.dice_game.crud.utilities.Util.successMap;
 import static com.dice_game.crud.utilities.Util.errorMap;
 import static com.dice_game.crud.utilities.Util.msgError;
-import static com.dice_game.crud.view.implementation.PlayerComponent.*;
 import com.dice_game.crud.view.service.PlayerService;
 
 @Service
 public final class PlayerImplementation implements PlayerService, UserDetailsService {
 	
+	@Autowired
+	private final PlayerServiceComponent DAO;
+	
+	PlayerImplementation(PlayerServiceComponent playerServiceComponent) {
+		DAO = playerServiceComponent;
+	}
+
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
 		try {
 
-			return validSpringUserToLoad(findPlayerByEmail(email));
+			return DAO.validSpringUserToLoad(email);
 
 		} catch (Exception e) {
 			throw new UsernameNotFoundException(email);
@@ -34,8 +42,10 @@ public final class PlayerImplementation implements PlayerService, UserDetailsSer
 		try {
 			
 			PlayerJsonAspectValidation.verifyIsAbleToSave(playerJson);
+			
+			DAO.ifEmailIsAlreadyRegisteredThrowException(playerJson);
 
-			PlayerJson savedToSend = savePlayerByJsonReturnJson(playerJson);
+			PlayerJson savedToSend = DAO.savePlayerByJsonReturnJson(playerJson);
 
 			return successMap("Player successfully created", savedToSend);
 
