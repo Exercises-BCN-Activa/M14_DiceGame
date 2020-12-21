@@ -3,6 +3,9 @@ package com.dice_game.crud.view.implementation;
 import static com.dice_game.crud.utilities.Util.isEmpty;
 import static com.dice_game.crud.utilities.Util.isValidEmail;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dice_game.crud.model.dto.PlayerJson;
 import com.dice_game.crud.utilities.exceptions.PlayerServImplException;
 
@@ -16,8 +19,9 @@ final class PlayerJsonAspectValidation {
 		verify.ifEmailIsInvalidFormatThrowException();
 		
 	}
-
-	private PlayerJson playerJson;
+	
+	private final PlayerJson playerJson;
+	
 
 	private PlayerJsonAspectValidation(PlayerJson playerJson) {
 		this.playerJson = playerJson;
@@ -35,21 +39,21 @@ final class PlayerJsonAspectValidation {
 
 	private void throwExceptionWithEspecificFlawsOfThis() throws PlayerServImplException {
 		
-		String message = "";
+		List<String> message = new ArrayList<>();
 
 		if (isEmpty(playerJson.getEmail()))
-			message.concat("Missing E-mail! ");
+			message.add("Missing E-mail!");
 
 		if (isEmpty(playerJson.getPassword()))
-			message.concat("Missing Password! ");
+			message.add("Missing Password!");
 
 		if (isEmpty(playerJson.getFirstName()))
-			message.concat("Missing First Name! ");
+			message.add("Missing First Name!");
 
 		if (isEmpty(playerJson.getLastName()))
-			message.concat("Missing Last Name! ");
+			message.add("Missing Last Name!");
 
-		PlayerServImplException.throwsUp(message.trim());
+		PlayerServImplException.throwsUp(String.join(" ", message));
 	}
 
 	private void ifEmailIsInvalidFormatThrowException() throws PlayerServImplException {
