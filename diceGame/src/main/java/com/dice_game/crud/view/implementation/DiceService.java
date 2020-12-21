@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import com.dice_game.crud.model.dao.DiceDAO;
 import com.dice_game.crud.model.dto.Dice;
 import com.dice_game.crud.model.dto.PlayerJson;
-import com.dice_game.crud.view.service.DiceService;
+import com.dice_game.crud.view.service.DetailDiceService;
 
 @Service
-public final class DiceServImpl implements DiceService {
+public final class DiceService implements DetailDiceService {
 	
 	@Autowired
 	private DiceDAO dao;

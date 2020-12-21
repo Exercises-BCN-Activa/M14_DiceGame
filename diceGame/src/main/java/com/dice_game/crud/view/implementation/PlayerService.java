@@ -13,15 +13,15 @@ import com.dice_game.crud.model.dto.PlayerJson;
 import static com.dice_game.crud.utilities.Util.successMap;
 import static com.dice_game.crud.utilities.Util.errorMap;
 import static com.dice_game.crud.utilities.Util.msgError;
-import com.dice_game.crud.view.service.PlayerService;
+import com.dice_game.crud.view.service.DetailPlayerService;
 
 @Service
-public final class PlayerImplementation implements PlayerService, UserDetailsService {
+public final class PlayerService implements DetailPlayerService, UserDetailsService {
 	
 	@Autowired
 	private final PlayerServiceComponent DAO;
 	
-	PlayerImplementation(PlayerServiceComponent playerServiceComponent) {
+	PlayerService(PlayerServiceComponent playerServiceComponent) {
 		DAO = playerServiceComponent;
 	}
 
