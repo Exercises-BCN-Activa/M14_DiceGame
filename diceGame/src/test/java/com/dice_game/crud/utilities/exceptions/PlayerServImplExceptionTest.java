@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 class PlayerServImplExceptionTest {
 
 	@Test
-	@DisplayName("Exception is thrown")
+	@DisplayName("Exception is throw")
 	void testThrowsUp() {
-		assertThrows(PlayerServImplException.class, () -> PlayerServImplException.throwsUp("teste"));
+		assertThrows(PlayerServImplException.class, () -> PlayerServImplException.throwsUp("test"));
 	}
 
 }
