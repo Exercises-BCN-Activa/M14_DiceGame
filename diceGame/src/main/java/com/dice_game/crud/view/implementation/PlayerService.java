@@ -19,10 +19,10 @@ import com.dice_game.crud.view.service.DetailPlayerService;
 public final class PlayerService implements DetailPlayerService, UserDetailsService {
 	
 	@Autowired
-	private final PlayerServiceComponent DAO;
+	private final PlayerServiceComponent service;
 	
 	PlayerService(PlayerServiceComponent playerServiceComponent) {
-		DAO = playerServiceComponent;
+		service = playerServiceComponent;
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public final class PlayerService implements DetailPlayerService, UserDetailsServ
 
 		try {
 
-			return DAO.validSpringUserToLoad(email);
+			return service.validSpringUserToLoad(email);
 
 		} catch (Exception e) {
 			throw new UsernameNotFoundException(email);
@@ -43,11 +43,11 @@ public final class PlayerService implements DetailPlayerService, UserDetailsServ
 			
 			PlayerJsonAspectValidation.verifyIsAbleToSave(playerJson);
 			
-			DAO.ifEmailIsAlreadyRegisteredThrowException(playerJson);
+			service.ifEmailIsAlreadyRegisteredThrowException(playerJson);
 
-			PlayerJson savedToSend = DAO.savePlayerByJsonReturnJson(playerJson);
+			PlayerJson saved = service.savePlayerByJsonReturnJson(playerJson);
 
-			return successMap("Player successfully created", savedToSend);
+			return successMap("Player successfully created", saved);
 
 		} catch (Exception e) {
 			return errorMap(msgError("create Player").concat(e.getMessage()));
@@ -56,7 +56,7 @@ public final class PlayerService implements DetailPlayerService, UserDetailsServ
 
 
 	@Override
-	public Map<String, Object> readAll(String password) {
+	public Map<String, Object> readAll(PlayerJson playerJson) {
 		try {
 
 			return successMap(null, null);
@@ -87,7 +87,7 @@ public final class PlayerService implements DetailPlayerService, UserDetailsServ
 	}
 
 	@Override
-	public Map<String, Object> updateAll(String password) {
+	public Map<String, Object> updateAll(PlayerJson playerJson) {
 		try {
 
 			return successMap(null, null);
@@ -109,7 +109,7 @@ public final class PlayerService implements DetailPlayerService, UserDetailsServ
 	}
 
 	@Override
-	public Map<String, Object> deleteAll(String password) {
+	public Map<String, Object> deleteAll(PlayerJson playerJson) {
 		try {
 
 			return successMap(null, null);
