@@ -9,21 +9,18 @@ import java.util.List;
 import com.dice_game.crud.model.dto.PlayerJson;
 import com.dice_game.crud.utilities.exceptions.PlayerServImplException;
 
-final class PlayerJsonAspectValidation {
+final class PlayerJsonToSaveValidation {
 	
-	static void verifyIsAbleToSave(PlayerJson playerJson) throws PlayerServImplException {
-		PlayerJsonAspectValidation verify = new PlayerJsonAspectValidation(playerJson);
+	static void verifyIsAble(PlayerJson playerJson) throws PlayerServImplException {
+		PlayerJsonToSaveValidation verify = new PlayerJsonToSaveValidation(playerJson);
 		
 		verify.ifNotHaveAllNeededToBeCreatedThrowException();
 		
 		verify.ifEmailIsInvalidFormatThrowException();
 		
 	}
-	
-	private final PlayerJson playerJson;
-	
 
-	private PlayerJsonAspectValidation(PlayerJson playerJson) {
+	private PlayerJsonToSaveValidation(PlayerJson playerJson) {
 		this.playerJson = playerJson;
 	}
 
@@ -61,5 +58,7 @@ final class PlayerJsonAspectValidation {
 		if (!isValidEmail(playerJson.getEmail()))
 			PlayerServImplException.throwsUp("This email has invalid format!");
 	}
+	
+	private final PlayerJson playerJson;
 
 }
