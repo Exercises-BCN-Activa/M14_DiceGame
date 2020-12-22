@@ -1,5 +1,6 @@
 package com.dice_game.crud.view.implementation;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,28 +21,12 @@ public final class PlayerService implements DetailPlayerService, UserDetailsServ
 	
 	@Autowired
 	private final PlayerServiceComponent service;
-	
-	PlayerService(PlayerServiceComponent playerServiceComponent) {
-		service = playerServiceComponent;
-	}
-
-	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
-		try {
-
-			return service.validSpringUserToLoad(email);
-
-		} catch (Exception e) {
-			throw new UsernameNotFoundException(email);
-		}
-	}
 
 	@Override
 	public Map<String, Object> createOne(PlayerJson playerJson) {
 		try {
 			
-			PlayerJsonAspectValidation.verifyIsAbleToSave(playerJson);
+			PlayerJsonToSaveValidation.verifyIsAble(playerJson);
 			
 			service.ifEmailIsAlreadyRegisteredThrowException(playerJson);
 
@@ -56,12 +41,17 @@ public final class PlayerService implements DetailPlayerService, UserDetailsServ
 
 
 	@Override
-	public Map<String, Object> readAll(PlayerJson playerJson) {
+	public Map<String, Object> readAll(PlayerJson AdminEmailAndPassword) {
 		try {
-
-			return successMap(null, null);
+			
+			service.ifPasswordDoesNotMatchThrowException(AdminEmailAndPassword);
+			
+			List<PlayerJson> listOfAllPlayers = service.findAllPlayers();
+			
+			return successMap("List of All Players in DataBase", listOfAllPlayers);
+			
 		} catch (Exception e) {
-			return errorMap("Something went wrong when creating the player: ".concat(e.getMessage()));
+			return errorMap(msgError("list all Players").concat(e.getMessage()));
 		}
 	}
 
@@ -69,54 +59,70 @@ public final class PlayerService implements DetailPlayerService, UserDetailsServ
 	public Map<String, Object> readOne(PlayerJson playerJson) {
 		try {
 
-			return successMap(null, null);
+			PlayerJson requested = service.findPlayerByEmailOrId(playerJson).toJson();
+			
+			return successMap("Player successfully finded", requested);
+			
 		} catch (Exception e) {
-			return errorMap("Something went wrong when creating the player: ".concat(e.getMessage()));
+			return errorMap(msgError("find a Player").concat(e.getMessage()));
 		}
 	}
 
 	@Override
 	public Map<String, Object> updateOne(PlayerJson playerJson) {
 		try {
+			
+			PlayerJson updated = service.updatePlayerIfMeetRequirements(playerJson);
 
-			return successMap(null, null);
-
-		} catch (Exception e) {
-			return errorMap("Something went wrong when creating the player: ".concat(e.getMessage()));
-		}
-	}
-
-	@Override
-	public Map<String, Object> updateAll(PlayerJson playerJson) {
-		try {
-
-			return successMap(null, null);
+			return successMap("Player updated successfully", updated);
 
 		} catch (Exception e) {
-			return errorMap("Something went wrong when creating the player: ".concat(e.getMessage()));
+			return errorMap(msgError("update a Player").concat(e.getMessage()));
 		}
 	}
 
 	@Override
 	public Map<String, Object> deleteOne(PlayerJson playerJson) {
 		try {
+			
+			service.deleteEspecificPlayerIfWasUser(playerJson);
 
-			return successMap(null, null);
+			return successMap("The Player was correctly deleted", null);
 
 		} catch (Exception e) {
-			return errorMap("Something went wrong when creating the player: ".concat(e.getMessage()));
+			return errorMap(msgError("delete a Player").concat(e.getMessage()));
 		}
 	}
 
 	@Override
-	public Map<String, Object> deleteAll(PlayerJson playerJson) {
+	public Map<String, Object> deleteAll(PlayerJson AdminEmailAndPassword) {
 		try {
+			
+			service.ifPasswordDoesNotMatchThrowException(AdminEmailAndPassword);
+			
+			service.deleteAllPlayersWhoHaveRoleUser();
 
-			return successMap(null, null);
+			return successMap("All users have been deleted", null);
 
 		} catch (Exception e) {
-			return errorMap("Something went wrong when creating the player: ".concat(e.getMessage()));
+			return errorMap(msgError("delete all users").concat(e.getMessage()));
 		}
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+		try {
+
+			return service.validSpringUserToLoad(email);
+
+		} catch (Exception e) {
+			throw new UsernameNotFoundException(email);
+		}
+	}
+	
+	PlayerService(PlayerServiceComponent playerServiceComponent) {
+		service = playerServiceComponent;
 	}
 
 }
