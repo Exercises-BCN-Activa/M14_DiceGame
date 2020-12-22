@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import com.dice_game.crud.model.dto.PlayerJson;
 import com.dice_game.crud.utilities.exceptions.PlayerServImplException;
 
-class PlayerJsonAspectValidationTest {
+class PlayerJsonToSaveValidationTest {
 	
 	private PlayerJson pJsonWithoutAllNull;
 	private PlayerJson pJsonWithoutAllEmpty;
@@ -85,19 +85,19 @@ class PlayerJsonAspectValidationTest {
 		
 		assertAll(
 				() -> assertThrows(PlayerServImplException.class, 
-						() -> PlayerJsonAspectValidation.verifyIsAbleToSave(pJsonWithoutAllNull), msgError("Throws 1")),
+						() -> PlayerJsonToSaveValidation.verifyIsAble(pJsonWithoutAllNull), msgError("Throws 1")),
 				() -> assertThrows(PlayerServImplException.class, 
-						() -> PlayerJsonAspectValidation.verifyIsAbleToSave(pJsonWithoutAllEmpty), msgError("Throws 2")),
+						() -> PlayerJsonToSaveValidation.verifyIsAble(pJsonWithoutAllEmpty), msgError("Throws 2")),
 				() -> assertThrows(PlayerServImplException.class, 
-						() -> PlayerJsonAspectValidation.verifyIsAbleToSave(pJsonWithoutEmail), msgError("Throws 3")),
+						() -> PlayerJsonToSaveValidation.verifyIsAble(pJsonWithoutEmail), msgError("Throws 3")),
 				() -> assertThrows(PlayerServImplException.class, 
-						() -> PlayerJsonAspectValidation.verifyIsAbleToSave(pJsonWithoutPassword), msgError("Throws 4")),
+						() -> PlayerJsonToSaveValidation.verifyIsAble(pJsonWithoutPassword), msgError("Throws 4")),
 				() -> assertThrows(PlayerServImplException.class, 
-						() -> PlayerJsonAspectValidation.verifyIsAbleToSave(pJsonWithoutFirstName), msgError("Throws 5")),
+						() -> PlayerJsonToSaveValidation.verifyIsAble(pJsonWithoutFirstName), msgError("Throws 5")),
 				() -> assertThrows(PlayerServImplException.class, 
-						() -> PlayerJsonAspectValidation.verifyIsAbleToSave(pJsonWithoutLastName), msgError("Throws 6")),
+						() -> PlayerJsonToSaveValidation.verifyIsAble(pJsonWithoutLastName), msgError("Throws 6")),
 				() -> assertThrows(PlayerServImplException.class, 
-						() -> PlayerJsonAspectValidation.verifyIsAbleToSave(pJsonWithAllButInvalidEmail), msgError("Throws 7"))
+						() -> PlayerJsonToSaveValidation.verifyIsAble(pJsonWithAllButInvalidEmail), msgError("Throws 7"))
 				);
 
 	}
@@ -106,7 +106,7 @@ class PlayerJsonAspectValidationTest {
 	@DisplayName("Should NOT Throw Exception")
 	void testVerifyIsAbleToSaveDoesNotThrow() {
 
-		assertDoesNotThrow(() -> PlayerJsonAspectValidation.verifyIsAbleToSave(pJsonWithAllOk),
+		assertDoesNotThrow(() -> PlayerJsonToSaveValidation.verifyIsAble(pJsonWithAllOk),
 				msgError("Does Not Throw 9"));
 
 	}

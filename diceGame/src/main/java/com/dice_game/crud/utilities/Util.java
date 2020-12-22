@@ -21,16 +21,28 @@ public final class Util {
 		return StringUtils.isEmpty(something);
 	}
 	
+	public static boolean isEmpty(Number something) {
+		return something == null || something.longValue() <= 0;
+	}
+	
 	public static boolean noEmpty(String something) {
 		return !StringUtils.isEmpty(something);
+	}
+	
+	public static boolean noEmpty(Number something) {
+		return something != null && something.longValue() > 0;
 	}
 	
 	public static String TitleCase(String toConvert) {
 		return TitleCase.all(toConvert);
 	}
 
-	public static String encrypt(String toEncrypt) {
+	public static String encryptPassword(String toEncrypt) {
 		return new BCryptPasswordEncoder().encode(toEncrypt);
+	}
+	
+	public static boolean encryptMatches(String rawPassword, String encodedPassword) {
+		return new BCryptPasswordEncoder().matches(rawPassword, encodedPassword);
 	}
 	
 	public static boolean isValidEmail(String email) {
