@@ -10,7 +10,9 @@ import java.util.stream.Collectors;
  * string to be converted. The second receives as parameters the string to be
  * converted and an array of exceptions to be ignored in the conversion. And
  * finally, the third method is the same as the second, except that it ignores
- * capitalized words, such as acronyms.
+ * capitalized words, such as acronyms. Another way to set up global exceptions
+ * is to create an instance of the class and thus use its two public methods,
+ * which ignore exceptions or capitalized words.
  * 
  * @author FaunoGuazina
  *
@@ -23,8 +25,7 @@ public final class TitleCase {
 	 * Public static method that processes the string to be converted: eliminates
 	 * any space characters that may be at the beginning and at the end, then
 	 * removes any double spacing, after all proceed with the conversion into Title
-	 * Case. If the whole sentence is in upper case it will be fully converted to
-	 * lower case by default.
+	 * Case.
 	 * 
 	 * @param toConvert : the string sentence that will be converted.
 	 * @return The same string sentence converted to a Title Case.
@@ -42,8 +43,7 @@ public final class TitleCase {
 	 * Public static method that processes the string to be converted: eliminates
 	 * any space characters that may be at the beginning and at the end, then
 	 * removes any double spacing, if have any exceptions set to be ignored, after
-	 * all send everything to conversion. If the whole sentence is in upper case it
-	 * will be fully converted to lower case by default.
+	 * all send everything to conversion.
 	 * 
 	 * @param toConvert  : the string sentence that will be converted.
 	 * @param exceptions : array of strings with all words that will be ignored when
@@ -65,8 +65,8 @@ public final class TitleCase {
 	 * any space characters that may be at the beginning and at the end, then
 	 * removes any double spacing, if have any exceptions set to be ignored, after
 	 * all send everything to conversion. This method ignores any word that is fully
-	 * capitalized, if the whole sentence is in upper case it will be fully
-	 * converted to lower case by default.
+	 * capitalized, if the whole sentence is not all in upper case, in this case it
+	 * is necessary to configure the exceptions that will be ignored.
 	 * 
 	 * @param toConvert  : the string sentence that will be converted.
 	 * @param exceptions : array of all words that will be ignored when converting
@@ -103,8 +103,7 @@ public final class TitleCase {
 	 * Public instance method that processes the string to be converted: eliminates
 	 * any space characters that may be at the beginning and at the end, then
 	 * removes any double spacing, use instance global exceptions to set the words
-	 * to be ignored, after all send everything to conversion. If the whole sentence
-	 * is in upper case it will be fully converted to lower case by default.
+	 * to be ignored, after all send everything to conversion.
 	 * 
 	 * @param toConvert : the string sentence that will be converted.
 	 * @return the same string sentence converted to a Title Case.
@@ -121,8 +120,9 @@ public final class TitleCase {
 	 * any space characters that may be at the beginning and at the end, then
 	 * removes any double spacing, use global instance exceptions to set the words
 	 * to be ignored, after all send everything to conversion. This method ignores
-	 * any word that is fully capitalized, if the whole sentence is in upper case it
-	 * will be fully converted to lower case by default.
+	 * any word that is fully capitalized, if the whole sentence is not all in upper
+	 * case, in this case it is necessary to configure the exceptions that will be
+	 * ignored.
 	 * 
 	 * @param toConvert : the string sentence that will be converted.
 	 * @return the same string sentence converted to a Title Case.
@@ -163,16 +163,12 @@ public final class TitleCase {
 
 	/**
 	 * Private auxiliary method that prepares the string that will be converted.
-	 * First check if the string is all uppercase, if so it converts it to all
-	 * lowercase, then eliminates spaces that may exist at the beginning and at the
-	 * end (TRIM), then replace any multiple space with single spaces.
+	 * First eliminate spaces that may exist at the beginning and at the end
+	 * (TRIM), then replace any multiple space with single spaces.
 	 * 
 	 * @param input string to be converted
 	 */
 	private static void setTheInput(String input) {
-		if (input.matches(UPPER_SENTENCE)) {
-			input = input.toLowerCase();
-		}
 		TitleCase.theInput = input.trim().replaceAll("( )+", " ");
 	}
 
@@ -211,7 +207,7 @@ public final class TitleCase {
 	private static boolean isExceptions(String word) {
 		boolean isException = Arrays.stream(exceptions.split(" "))
 				.parallel().anyMatch(w -> w.equalsIgnoreCase(word));
-		boolean isCapitalWord = capitalWord && word.matches(CAPITAL);
+		boolean isCapitalWord = capitalWord && word.matches(CAPITAL_WORD);
 		return isException || isCapitalWord;
 	}
 
@@ -225,7 +221,8 @@ public final class TitleCase {
 	 *         converting.
 	 */
 	private static String rateExceptions(String word) {
-		boolean isException = Arrays.stream(exceptions.split(" ")).parallel().anyMatch(w -> w.equals(word));
+		boolean isException = Arrays.stream(exceptions.split(" "))
+				.parallel().anyMatch(w -> w.equals(word));
 		return capitalWord || isException ? word : word.toLowerCase();
 	}
 
@@ -244,7 +241,7 @@ public final class TitleCase {
 	 * case if necessary.
 	 */
 	private static void rateFirstWordOfArray() {
-		boolean isFirstWordNonCapital = capitalWord && !arrayWords[0].matches(CAPITAL);
+		boolean isFirstWordNonCapital = capitalWord && !arrayWords[0].matches(CAPITAL_WORD);
 		if (!capitalWord || isFirstWordNonCapital) {
 			arrayWords[0] = toTitleCase(arrayWords[0]);
 		}
@@ -349,53 +346,37 @@ public final class TitleCase {
 
 		TitleCase.exceptions = Arrays.stream(words).parallel()
 				.map(TitleCase::concatAllVariations)
-				.collect(Collectors.joining());
+				.collect(Collectors.joining(" "));
 	}
 
-	// Concat all variations methods
+	// Concat all variations possibles whith symbol library
 	private static String concatAllVariations(String word) {
-		return word.concat(whithWraps(word)).concat(whithPuncts(word));
+		return word.concat(whithSymbols(word)).concat(whithWraps(word));
 	}
-
-	// Produce variations with WRAPS
-	private static String whithWraps(String word) {
-		return Arrays.stream(WRAPS.split("")).parallel()
-				.map(w -> " " + w + word + w + " (" + word 
-						+ ") [" + word + "] {" + word + "} ")
+	private static String whithSymbols(String word) {
+		return Arrays.stream(SYMBOLS.split("")).parallel()
+				.map(s -> String.format(" %s%s %s%s%s %s%s", s, word, s, word, s, word, s))
 				.collect(Collectors.joining());
 	}
-
-	// Produce variations with PUNCTS
-	private static String whithPuncts(String word) {
-		return Arrays.stream(PUNCTS.split("")).parallel()
-				.map(p -> word + p + " ").collect(Collectors.joining());
+	private static String whithWraps(String word) {
+		builder = new StringBuilder();
+		for (int i = 0; i < RIGHT_WRAPS.length; i++) {
+			builder.append(String.format(" %s%s%s", RIGHT_WRAPS[i], word, LEFT_WRAPS[i]));
+		}
+		return builder.toString();
 	}
-
 	// set of static variables used by this utility class
-
-		private static String[] arrayWords;
-
-		private static String theInput;
-
-		private static String exceptions;
-
-		private static boolean capitalWord;
-
-		private static StringBuilder builder;
-
-		private static final String WRAPS = "\"'`";
-
-		private static final String PUNCTS = "!,./\\:;?";
-
-		private static final String JUST_LETTERS = "\\p{L}+";
-
-		private static final String PC = "\\p{Punct}";
-		
-		private static final String N_LU = "[\\p{N}\\p{Lu}]+";
-		
-		private static final String CAPITAL = String.format("%s*%s(%s+%s)*%s*", PC, N_LU, PC, N_LU, PC);
-
-		private static final String UPPER_SENTENCE = String.format("^\\s*%s(\\s+%s)*\\s*$", CAPITAL, CAPITAL);
-
+	private static String exceptions;
+	private static boolean capitalWord;
+	private static String theInput;
+	private static String [] arrayWords;
+	private static StringBuilder builder;
+	private static final String SYMBOLS = "¡!¿?⸘‽“”‘’‛‟.,‚„'\"′″´˝^°¸˛¨`˙˚ªº…:;&_¯§#¶†‡@%‰‱¦|/\\ˉˆ˘ˇ~*‼︎⁇⁈⁉︎❛❜❝❞❢❣❡"
+			+ "$€¥¢£₽₨₩฿₺₮₱₭₴₦৲৳૱௹﷼₹₲₪₡₫៛₵₢₸₤₳₥₠₣₰₧₯₶₷®©℗™℠№ªº℔℥ℨℬℊµℹ︎ℌ℞ℳ℃℉℀℁℅℆+×=∞ℇ∀∁∃∄∅∆∇<>≤≥∑⨋√∛∜∬-";
+	private static final String [] RIGHT_WRAPS = "‹«<⟨⟪❨(❮{[〔【〖❪❴❲❬⎧⎡⎨⎜⎢⎪⎣⎝⎩¡¿⸘“‘".split("");
+	private static final String [] LEFT_WRAPS = "›»>⟩⟫❩)❯}]〕】〗❫❵❳❭⎫⎤⎬⎟⎥⎪⎦⎠⎭!?‽”’".split("");
+	private static final String JUST_LETTERS = "^[\\p{L}]+$";
+	private static final String CAPITAL_WORD = "^[\\p{Lu}\\p{Punct}\\p{N}]*$";
+	private static final String UPPER_SENTENCE = "^\\s*[\\p{Lu}\\p{Punct}\\p{N}]+\\s*$";
 
 }
