@@ -1,14 +1,20 @@
 package com.dice_game.crud.view.implementation;
 
-import java.util.Arrays;
+import static com.dice_game.crud.utilities.Util.noEmpty;
+import static com.dice_game.crud.utilities.exceptions.PlayerServImplException.throwsUp;
+import static com.dice_game.crud.view.implementation.PlayerJsonUpdateValidation.cloneStructureSetWhatIsUpgradeable;
+import static com.dice_game.crud.view.implementation.PlayerServiceValidations.ifIsInvalidEmailThrowException;
+import static com.dice_game.crud.view.implementation.PlayerServiceValidations.ifIsInvalidNumberIdThrowException;
+import static com.dice_game.crud.view.implementation.PlayerServiceValidations.ifNotHaveIdAndEmailThrowException;
+import static com.dice_game.crud.view.implementation.PlayerServiceValidations.ifPasswordsNotMachesThrowException;
+import static com.dice_game.crud.view.implementation.PlayerServiceValidations.ifPlayerIsNotPresentThrowException;
+import static com.dice_game.crud.view.implementation.PlayerServiceValidations.newValidUserBy;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
@@ -16,12 +22,6 @@ import com.dice_game.crud.model.dao.PlayerDAO;
 import com.dice_game.crud.model.dto.Player;
 import com.dice_game.crud.model.dto.PlayerJson;
 import com.dice_game.crud.security.Role;
-import static com.dice_game.crud.utilities.Util.noEmpty;
-import static com.dice_game.crud.utilities.Util.isEmpty;
-import static com.dice_game.crud.utilities.Util.isValidEmail;
-import static com.dice_game.crud.utilities.Util.encryptMatches;
-import static com.dice_game.crud.view.implementation.PlayerJsonUpdateValidation.cloneStructureSetWhatIsUpgradeable;
-
 import com.dice_game.crud.utilities.exceptions.PlayerServImplException;
 
 @Component
@@ -34,7 +34,7 @@ final class PlayerServiceComponent {
 			throws PlayerServImplException {
 		
 		if (existsByEmail(playerJson.getEmail()))
-			PlayerServImplException.throwsUp("This email is already registered!");
+			throwsUp("This email is already registered!");
 	}
 	
 	private boolean existsByEmail(String email) {
@@ -78,88 +78,49 @@ final class PlayerServiceComponent {
 		Player toUpdate = cloneStructureSetWhatIsUpgradeable(oldPlayer, playerJson);
 		if (oldPlayer.equals(toUpdate))
 			PlayerServImplException.throwsUp("It looks like there's nothing to update!");
-		Player newPlayer = DAO.save(toUpdate);
-		return newPlayer.toJson();
+		Player updatedPlayer = DAO.save(toUpdate);
+		return updatedPlayer.toJson();
 	}
 	
-	void deleteEspecificPlayerIfWasUser(PlayerJson playerJson) {
+	void deleteEspecificPlayerIfWasUser(PlayerJson playerJson) throws PlayerServImplException {
 		Player player = findPlayerByEmailOrId(playerJson);
 		DAO.delete(player);
-		if (existsByEmail(playerJson.getEmail()))
-			PlayerServImplException.throwsUp("I don't know what to say, but it seems that this player doesn't die!");
+		if (existsByEmail(player.getEmail()))
+			throwsUp("I don't know what to say, but it seems that this player doesn't die!");
 		
-	}
-
-	void deleteAllPlayersWhoHaveRoleUser() {
-		List<Player> beforeDelete = DAO.findAll().parallelStream()
-				.filter(play -> play.getType().equals(Role.BASIC.getRole()))
-				.collect(Collectors.toList());
-		
-		if (!beforeDelete.isEmpty())
-			beforeDelete.stream().forEach(play -> DAO.delete(play));
-		else
-			PlayerServImplException.throwsUp("It seems that there are no players users in the database!");
-		
-		List<Player> afterDelete = DAO.findAll().parallelStream()
-				.filter(play -> play.getType().equals(Role.BASIC.getRole()))
-				.collect(Collectors.toList());
-		
-		if (!afterDelete.isEmpty())
-			PlayerServImplException.throwsUp("It seems that players users still remain in database!");
 	}
 	
-	void ifPasswordDoesNotMatchThrowException(PlayerJson playerJson) {
+	void ifPasswordDoesNotMatchThrowException(PlayerJson playerJson) throws PlayerServImplException {
 		Player player = findPlayerByEmail(playerJson.getEmail());
 		ifPasswordsNotMachesThrowException(playerJson.getPassword(), player.getPassword());
 		
 	}
 
+	void deleteAllPlayersWhoHaveRoleUser() throws PlayerServImplException {
+		List<Player> beforeDelete = listAllPlayersUsers();
+		
+		if (beforeDelete.isEmpty())
+			throwsUp("It seems that there are no players users in the database!");
+		else
+			beforeDelete.stream().forEach(player -> DAO.delete(player));
+		
+		List<Player> afterDelete = listAllPlayersUsers();
+		
+		if (!afterDelete.isEmpty())
+			throwsUp("It seems that players users still remain in database!");
+	}
+	
+	private List<Player> listAllPlayersUsers(){
+		return DAO.findAll().parallelStream()
+				.filter(play -> play.getType().equals(Role.BASIC.getRole()))
+				.collect(Collectors.toList());
+	}
+
 	User validSpringUserToLoad(String email) throws PlayerServImplException {
 		Player player = findPlayerByEmail(email);
-		return new User(player.getEmail(), player.getPassword(), listAuthorities(player));
+		return newValidUserBy(player);
 	}
 
-	private static Set<GrantedAuthority> listAuthorities(Player player) {
-		return Arrays.stream(arrayRoles(player))
-				.map(x -> new SimpleGrantedAuthority("ROLE_" + x))
-				.collect(Collectors.toSet());
-	}
-	
-	private static String[] arrayRoles(Player player) throws PlayerServImplException {
-		return player.getType().replaceAll("( )+", "").split(",");
-	}
-	
-	private void ifPasswordsNotMachesThrowException(String rawPassword, String encodedPassword)
-			throws PlayerServImplException {
-
-		if (!encryptMatches(rawPassword, encodedPassword))
-			PlayerServImplException.throwsUp("This email is already registered!");
-	}
-
-	private void ifNotHaveIdAndEmailThrowException(PlayerJson playerJson) 
-			throws PlayerServImplException {
-		if (isEmpty(playerJson.getId()) && isEmpty(playerJson.getEmail()))
-			PlayerServImplException.throwsUp("Do not have email and ID for consultation!");
-	}
-	
-	private void ifIsInvalidNumberIdThrowException(Long id) 
-			throws PlayerServImplException {
-		if (isEmpty(id))
-			PlayerServImplException.throwsUp("This ID does not have a valid format!");
-	}
-	
-	private void ifIsInvalidEmailThrowException(String email) 
-			throws PlayerServImplException {
-		if (!isValidEmail(email))
-			PlayerServImplException.throwsUp("This email does not have a valid format!");
-	}
-	
-	private void ifPlayerIsNotPresentThrowException(Optional<Player> player) 
-			throws PlayerServImplException {
-		if (!player.isPresent())
-			PlayerServImplException.throwsUp("This player does not exist!");
-	}
-	
 	PlayerServiceComponent(PlayerDAO dAO) {
 		DAO = dAO;
 	}
