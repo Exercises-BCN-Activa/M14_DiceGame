@@ -5,7 +5,7 @@ import java.util.Map;
 import com.dice_game.crud.model.dto.Dice;
 import com.dice_game.crud.model.dto.PlayerJson;
 
-public interface DetailDiceService {
+public interface DiceDetailService {
 	
 	public Map<String, Object> createOne(PlayerJson playerJson);
 	public Map<String, Object> readAllByPlayer(PlayerJson playerJson);
