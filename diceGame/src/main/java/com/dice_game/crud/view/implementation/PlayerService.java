@@ -1,5 +1,9 @@
 package com.dice_game.crud.view.implementation;
 
+import static com.dice_game.crud.utilities.Util.errorMap;
+import static com.dice_game.crud.utilities.Util.msgError;
+import static com.dice_game.crud.utilities.Util.successMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -10,14 +14,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.dice_game.crud.model.dto.PlayerJson;
-
-import static com.dice_game.crud.utilities.Util.successMap;
-import static com.dice_game.crud.utilities.Util.errorMap;
-import static com.dice_game.crud.utilities.Util.msgError;
-import com.dice_game.crud.view.service.DetailPlayerService;
+import com.dice_game.crud.view.service.PlayerDetailService;
 
 @Service
-public final class PlayerService implements DetailPlayerService, UserDetailsService {
+public final class PlayerService implements PlayerDetailService, UserDetailsService {
 	
 	@Autowired
 	private final PlayerServiceComponent service;
