@@ -36,11 +36,11 @@ public final class Util {
 	}
 
 	public static String encryptPassword(String toEncrypt) {
-		return new BCryptPasswordEncoder().encode(toEncrypt);
+		return BCrypt.encode(toEncrypt);
 	}
 	
 	public static boolean encryptMatches(String rawPassword, String encodedPassword) {
-		return new BCryptPasswordEncoder().matches(rawPassword, encodedPassword);
+		return BCrypt.matches(rawPassword, encodedPassword);
 	}
 	
 	public static boolean isValidEmail(String email) {
@@ -50,7 +50,11 @@ public final class Util {
 		String regex = String.format("%s(?:.%s)*@%s", front, front, domin);
 		return noEmpty(email) && email.matches(regex);
 	}
+	
 	private Util() {
+		throw new RuntimeException("It is forbidden to create instances of this utilitarian class");
 	}
+	
+	private static final BCryptPasswordEncoder BCrypt = new BCryptPasswordEncoder();
 
 }
