@@ -50,7 +50,7 @@ public final class Util {
 		String back = "[\\p{L}\\p{N}](?:[a-z0-9-]*[\\p{L}\\p{N}]";
 		String domin = String.format("(?:%s)?.)+%s)?", back, back);
 		String regex = String.format("%s(?:.%s)*@%s", front, front, domin);
-		return email.matches(regex);
+		return noEmpty(email) && email.matches(regex);
 	}
 
 	public static HashMap<String, Object> successMap(String message, Object content) {
