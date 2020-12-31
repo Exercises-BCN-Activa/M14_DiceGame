@@ -241,7 +241,9 @@ class UtilTest {
 				() -> assertFalse(Util.isValidEmail("@someserver"), assertError("False 1")),
 				() -> assertFalse(Util.isValidEmail("@someserver.com"), assertError("False 2")),
 				() -> assertFalse(Util.isValidEmail("john@."), assertError("False 3")),
-				() -> assertFalse(Util.isValidEmail(".@somewhere.com"), assertError("False 4"))
+				() -> assertFalse(Util.isValidEmail(""), assertError("False 4")),
+				() -> assertFalse(Util.isValidEmail(null), assertError("False 5")),
+				() -> assertFalse(Util.isValidEmail(".@somewhere.com"), assertError("False 6"))
 				);
 
 	}
