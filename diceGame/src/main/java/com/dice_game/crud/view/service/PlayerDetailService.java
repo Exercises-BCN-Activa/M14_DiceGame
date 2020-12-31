@@ -1,16 +1,15 @@
 package com.dice_game.crud.view.service;
 
-import java.util.Map;
-
 import com.dice_game.crud.model.dto.PlayerJson;
+import com.dice_game.crud.utilities.Response;
 
 public interface PlayerDetailService {
 	
-	public Map<String, Object> createOne(PlayerJson playerJson);
-	public Map<String, Object> readAll(PlayerJson playerJson);
-	public Map<String, Object> readOne(PlayerJson playerJson);
-	public Map<String, Object> updateOne(PlayerJson playerJson);
-	public Map<String, Object> deleteOne(PlayerJson playerJson);
-	public Map<String, Object> deleteAll(PlayerJson playerJson);
+	public Response createOne(PlayerJson playerJson);
+	public Response readAll(PlayerJson playerJson);
+	public Response readOne(PlayerJson playerJson);
+	public Response updateOne(PlayerJson playerJson);
+	public Response deleteOne(PlayerJson playerJson);
+	public Response deleteAll(PlayerJson playerJson);
 
 }

@@ -1,11 +1,10 @@
 package com.dice_game.crud.view.implementation;
 
-import static com.dice_game.crud.utilities.Util.errorMap;
+import static com.dice_game.crud.utilities.Response.error;
+import static com.dice_game.crud.utilities.Response.success;
 import static com.dice_game.crud.utilities.Util.msgError;
-import static com.dice_game.crud.utilities.Util.successMap;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.dice_game.crud.model.dto.PlayerJson;
+import com.dice_game.crud.utilities.Response;
 import com.dice_game.crud.view.service.PlayerDetailService;
 
 @Service
@@ -23,90 +23,120 @@ public final class PlayerService implements PlayerDetailService, UserDetailsServ
 	private final PlayerServiceComponent service;
 
 	@Override
-	public Map<String, Object> createOne(PlayerJson playerJson) {
+	public Response createOne(PlayerJson playerJson) {
+		
+		Response response = error(msgError("create Player"));
+		
 		try {
-			
+
 			PlayerJsonToSaveValidation.verifyIsAble(playerJson);
-			
+
 			service.ifEmailIsAlreadyRegisteredThrowException(playerJson);
 
 			PlayerJson saved = service.savePlayerByJsonReturnJson(playerJson);
 
-			return successMap("Player successfully created", saved);
+			response = success("Player successfully created", saved);
 
 		} catch (Exception e) {
-			return errorMap(msgError("create Player").concat(e.getMessage()));
+			response.addExceptionToMessage(e);
 		}
+		
+		return response;
 	}
 
 
 	@Override
-	public Map<String, Object> readAll(PlayerJson AdminEmailAndPassword) {
+	public Response readAll(PlayerJson AdminEmailAndPassword) {
+		
+		Response response = error(msgError("list all Players"));
+		
 		try {
 			
 			service.ifPasswordDoesNotMatchThrowException(AdminEmailAndPassword);
 			
 			List<PlayerJson> listOfAllPlayers = service.findAllPlayers();
 			
-			return successMap("List of All Players in DataBase", listOfAllPlayers);
+			response = success("List of All Players in DataBase", listOfAllPlayers);
 			
 		} catch (Exception e) {
-			return errorMap(msgError("list all Players").concat(e.getMessage()));
+			response.addExceptionToMessage(e);
 		}
+		
+		return response;
 	}
 
 	@Override
-	public Map<String, Object> readOne(PlayerJson playerJson) {
+	public Response readOne(PlayerJson playerJson) {
+		
+		Response response = error(msgError("find a Player"));
+		
 		try {
 
 			PlayerJson requested = service.findPlayerByEmailOrId(playerJson).toJson();
 			
-			return successMap("Player successfully finded", requested);
+			response = success("Player successfully finded", requested);
 			
 		} catch (Exception e) {
-			return errorMap(msgError("find a Player").concat(e.getMessage()));
+			response.addExceptionToMessage(e);
 		}
+		
+		return response;
 	}
 
 	@Override
-	public Map<String, Object> updateOne(PlayerJson playerJson) {
+	public Response updateOne(PlayerJson playerJson) {
+		
+		Response response = error(msgError("update a Player"));
+		
 		try {
 			
 			PlayerJson updated = service.updatePlayerIfMeetRequirements(playerJson);
 
-			return successMap("Player updated successfully", updated);
+			response = success("Player updated successfully", updated);
 
 		} catch (Exception e) {
-			return errorMap(msgError("update a Player").concat(e.getMessage()));
+			response.addExceptionToMessage(e);
 		}
+		
+		return response;
 	}
 
 	@Override
-	public Map<String, Object> deleteOne(PlayerJson playerJson) {
+	public Response deleteOne(PlayerJson playerJson) {
+		
+		Response response = error(msgError("delete a Player"));
+		
 		try {
 			
 			service.deleteEspecificPlayerIfWasUser(playerJson);
 
-			return successMap("The Player was correctly deleted", null);
+			response = success("The Player was correctly deleted", null);
 
 		} catch (Exception e) {
-			return errorMap(msgError("delete a Player").concat(e.getMessage()));
+			response.addExceptionToMessage(e);
 		}
+		
+		return response;
 	}
 
 	@Override
-	public Map<String, Object> deleteAll(PlayerJson AdminEmailAndPassword) {
+	public Response deleteAll(PlayerJson AdminEmailAndPassword) {
+		
+		Response response = error(msgError("delete all users"));
+		
 		try {
 			
 			service.ifPasswordDoesNotMatchThrowException(AdminEmailAndPassword);
 			
 			service.deleteAllPlayersWhoHaveRoleUser();
 
-			return successMap("All users have been deleted", null);
+			response = success("All users have been deleted", null);
 
 		} catch (Exception e) {
-			return errorMap(msgError("delete all users").concat(e.getMessage()));
+			response.addExceptionToMessage(e);
 		}
+		
+		return response;
 	}
 
 	@Override
