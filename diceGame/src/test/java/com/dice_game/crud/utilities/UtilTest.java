@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.HashMap;
 import static com.dice_game.crud.utilities.Util.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,8 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 class UtilTest {
 	
-	private HashMap<String, Object> map;
-
 	@Test
 	@DisplayName("Standard Error Msg with Input Details")
 	void testMsgError() {
@@ -29,42 +26,6 @@ class UtilTest {
 		String msgError = msgError(input);
 
 		assertTrue(msgError.contains(input), assertError("True 1"));
-	}
-
-	@Test
-	@DisplayName("New Map with Success Message and Object")
-	void testSuccessMap() {
-		Boolean testObject = true;
-		String msgTest = "Everything is OK!";
-		
-		assertDoesNotThrow(() -> successMap(msgTest, testObject), assertError("Does Not Throw 1"));
-		
-		map = successMap(msgTest, testObject);
-		
-		assertAll(
-				() -> assertNotNull(map, assertError("Not Null 1")),
-				() -> assertTrue(map.size() == 3, assertError("True 1 - Size should be 3")),
-				() -> assertEquals(true, map.get("success"), assertError("Equals 1 - Should be True")),
-				() -> assertEquals(msgTest, map.get("message"), assertError("Equals 2 - Should be: " + msgTest)),
-				() -> assertEquals(testObject, map.get("content"), assertError("Equals 3 - Should be: " + testObject))
-				);
-	}
-
-	@Test
-	@DisplayName("New Map with Error Message")
-	void testErrorMap() {
-		String msgTest = "Everything is NOT OK!";
-		
-		assertDoesNotThrow(() -> errorMap(msgTest), assertError("Does Not Throw 1"));
-		
-		map = errorMap(msgTest);
-		
-		assertAll(
-				() -> assertNotNull(map, assertError("Not Null 1")),
-				() -> assertTrue(map.size() == 2, assertError("True 1 - Size should be 2")),
-				() -> assertEquals(false, map.get("success"), assertError("Equals 1 - Should be True")),
-				() -> assertEquals(msgTest, map.get("message"), assertError("Equals 2 - Should be: " + msgTest))
-				);
 	}
 
 	@Test

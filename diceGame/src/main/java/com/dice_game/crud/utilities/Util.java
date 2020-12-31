@@ -1,7 +1,5 @@
 package com.dice_game.crud.utilities;
 
-import java.util.HashMap;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 
@@ -52,25 +50,7 @@ public final class Util {
 		String regex = String.format("%s(?:.%s)*@%s", front, front, domin);
 		return noEmpty(email) && email.matches(regex);
 	}
-
-	public static HashMap<String, Object> successMap(String message, Object content) {
-		map = new HashMap<>();
-		map.put("success", true);
-		map.put("message", message);
-		map.put("content", content);
-		return map;
-	}
-
-	public static HashMap<String, Object> errorMap(String message) {
-		map = new HashMap<>();
-		map.put("success", false);
-		map.put("message", message);
-		return map;
-	}
-
 	private Util() {
 	}
-
-	private static HashMap<String, Object> map;
 
 }
