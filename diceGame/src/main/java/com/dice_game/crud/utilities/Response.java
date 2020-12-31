@@ -23,6 +23,10 @@ public class Response {
 		return (String) get("message");
 	}
 	
+	public void addExceptionToMessage(Exception exception) {
+		put("message", getMessage().concat(exception.getMessage()));
+	}
+	
 	public boolean isSuccess() {
 		return (boolean) get("success");
 	}

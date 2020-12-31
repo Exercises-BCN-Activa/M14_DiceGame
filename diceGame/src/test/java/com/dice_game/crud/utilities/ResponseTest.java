@@ -11,6 +11,7 @@ class ResponseTest {
 	
 	private Response response;
 	private String message;
+	private String messagePlusException;
 	private final String CONTENT_ERROR = "Error response have no content!";
 
 	@Test
@@ -25,6 +26,12 @@ class ResponseTest {
 				() -> assertEquals(CONTENT_ERROR, response.getContent(), msgError("Equals 2")),
 				() -> assertFalse(response.isSuccess(), msgError("False 1"))
 				);
+		
+		Exception exception = new Exception("Add exception test");
+		response.addExceptionToMessage(exception);
+		messagePlusException = message.concat(exception.getMessage());
+		
+		assertEquals(messagePlusException, response.getMessage(), msgError("Equals Message Exceptions"));
 	}
 	
 	@Test
