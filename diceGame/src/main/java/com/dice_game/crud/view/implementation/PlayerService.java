@@ -72,7 +72,7 @@ public final class PlayerService implements PlayerDetailService, UserDetailsServ
 		
 		try {
 
-			PlayerJson requested = service.findPlayerByEmailOrId(playerJson).toJson();
+			PlayerJson requested = service.findPlayer(playerJson);
 			
 			response = success("Player successfully finded", requested);
 			
