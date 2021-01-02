@@ -73,7 +73,7 @@ final class PlayerServiceComponent {
 		return DAO.findAll().parallelStream().map(Player::toJson).collect(Collectors.toList());
 	}
 
-	PlayerJson updatePlayerIfMeetRequirements(PlayerJson playerJson) throws PlayerServImplException {
+	PlayerJson updatePlayerByIdIfMeetRequirements(PlayerJson playerJson) throws PlayerServImplException {
 		Player oldPlayer = findPlayerByID(playerJson.getId());
 		Player toUpdate = cloneStructureSetWhatIsUpgradeable(oldPlayer, playerJson);
 		if (oldPlayer.equals(toUpdate))

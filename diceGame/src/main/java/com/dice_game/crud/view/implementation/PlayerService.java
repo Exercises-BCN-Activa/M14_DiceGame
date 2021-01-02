@@ -90,7 +90,7 @@ public final class PlayerService implements PlayerDetailService, UserDetailsServ
 		
 		try {
 			
-			PlayerJson updated = service.updatePlayerIfMeetRequirements(playerJson);
+			PlayerJson updated = service.updatePlayerByIdIfMeetRequirements(playerJson);
 
 			response = success("Player updated successfully", updated);
 
