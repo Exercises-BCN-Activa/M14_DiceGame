@@ -1,6 +1,6 @@
 package com.dice_game.crud.view.implementation;
 
-import static com.dice_game.crud.utilities.Util.isEmpty;
+import static com.dice_game.crud.utilities.Util.isNullOrEmpty;
 import static com.dice_game.crud.utilities.Util.isValidEmail;
 
 import java.util.ArrayList;
@@ -30,24 +30,24 @@ final class PlayerJsonToSaveValidation {
 	}
 
 	private boolean notHaveAllNeededToBeCreated() {
-		return isEmpty(playerJson.getEmail()) || isEmpty(playerJson.getPassword()) 
-				|| isEmpty(playerJson.getFirstName()) || isEmpty(playerJson.getLastName());
+		return isNullOrEmpty(playerJson.getEmail()) || isNullOrEmpty(playerJson.getPassword()) 
+				|| isNullOrEmpty(playerJson.getFirstName()) || isNullOrEmpty(playerJson.getLastName());
 	}
 
 	private void throwExceptionWithEspecificFlawsOfThis() throws PlayerServImplException {
 		
 		List<String> message = new ArrayList<>();
 
-		if (isEmpty(playerJson.getEmail()))
+		if (isNullOrEmpty(playerJson.getEmail()))
 			message.add("Missing E-mail!");
 
-		if (isEmpty(playerJson.getPassword()))
+		if (isNullOrEmpty(playerJson.getPassword()))
 			message.add("Missing Password!");
 
-		if (isEmpty(playerJson.getFirstName()))
+		if (isNullOrEmpty(playerJson.getFirstName()))
 			message.add("Missing First Name!");
 
-		if (isEmpty(playerJson.getLastName()))
+		if (isNullOrEmpty(playerJson.getLastName()))
 			message.add("Missing Last Name!");
 
 		PlayerServImplException.throwsUp(String.join(" ", message));

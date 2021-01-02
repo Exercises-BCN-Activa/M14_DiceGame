@@ -1,8 +1,8 @@
 package com.dice_game.crud.view.implementation;
 
-import static com.dice_game.crud.utilities.Util.encryptMatches;
-import static com.dice_game.crud.utilities.Util.isEmpty;
-import static com.dice_game.crud.utilities.Util.isValidEmail;
+import static com.dice_game.crud.utilities.Util.encryptNotMatches;
+import static com.dice_game.crud.utilities.Util.isNullOrLessThanOne;
+import static com.dice_game.crud.utilities.Util.notValidEmail;
 import static com.dice_game.crud.utilities.exceptions.PlayerServImplException.throwsUp;
 
 import java.util.Arrays;
@@ -37,25 +37,25 @@ final class PlayerServiceValidations {
 	static void ifPasswordsNotMachesThrowException(String rawPassword, String encodedPassword)
 			throws PlayerServImplException {
 
-		if (!encryptMatches(rawPassword, encodedPassword))
-			throwsUp("This email is already registered!");
+		if (encryptNotMatches(rawPassword, encodedPassword))
+			throwsUp("The password provided is incorrect!");
 	}
 
 	static void ifNotHaveIdAndEmailThrowException(PlayerJson playerJson) 
 			throws PlayerServImplException {
-		if (isEmpty(playerJson.getId()) && isEmpty(playerJson.getEmail()))
+		if (isNullOrLessThanOne(playerJson.getId()) && notValidEmail(playerJson.getEmail()))
 			throwsUp("Do not have email and ID for consultation!");
 	}
 	
 	static void ifIsInvalidNumberIdThrowException(Long id) 
 			throws PlayerServImplException {
-		if (isEmpty(id))
+		if (isNullOrLessThanOne(id))
 			throwsUp("This ID does not have a valid format!");
 	}
 	
 	static void ifIsInvalidEmailThrowException(String email) 
 			throws PlayerServImplException {
-		if (!isValidEmail(email))
+		if (notValidEmail(email))
 			throwsUp("This email does not have a valid format!");
 	}
 	

@@ -15,19 +15,19 @@ public final class Util {
 		return String.format("Something went wrong trying to %s : ", input);
 	}
 
-	public static boolean isEmpty(String something) {
+	public static boolean isNullOrEmpty(String something) {
 		return StringUtils.isEmpty(something);
 	}
 	
-	public static boolean isEmpty(Number something) {
+	public static boolean isNullOrLessThanOne(Number something) {
 		return something == null || something.longValue() <= 0;
 	}
 	
-	public static boolean noEmpty(String something) {
-		return !StringUtils.isEmpty(something);
+	public static boolean notNullOrEmpty(String something) {
+		return something != null && !"".equals(something);
 	}
 	
-	public static boolean noEmpty(Number something) {
+	public static boolean notNullOrLessThanOne(Number something) {
 		return something != null && something.longValue() > 0;
 	}
 	
