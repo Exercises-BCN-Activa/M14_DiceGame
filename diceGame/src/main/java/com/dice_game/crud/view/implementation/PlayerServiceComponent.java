@@ -28,7 +28,7 @@ import com.dice_game.crud.utilities.exceptions.PlayerServImplException;
 final class PlayerServiceComponent {
 
 	@Autowired
-	private final PlayerDAO DAO;
+	private PlayerDAO DAO;
 	
 	void ifEmailIsAlreadyRegisteredThrowException(PlayerJson playerJson) 
 			throws PlayerServImplException {
@@ -122,10 +122,6 @@ final class PlayerServiceComponent {
 	User validSpringUserToLoad(String email) throws PlayerServImplException {
 		Player player = findPlayerByEmail(email);
 		return newValidUserBy(player);
-	}
-
-	PlayerServiceComponent(PlayerDAO dAO) {
-		DAO = dAO;
 	}
 
 }

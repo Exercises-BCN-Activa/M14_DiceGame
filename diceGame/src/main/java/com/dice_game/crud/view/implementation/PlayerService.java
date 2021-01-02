@@ -20,7 +20,7 @@ import com.dice_game.crud.view.service.PlayerDetailService;
 public final class PlayerService implements PlayerDetailService, UserDetailsService {
 	
 	@Autowired
-	private final PlayerServiceComponent service;
+	private PlayerServiceComponent service;
 
 	@Override
 	public Response createOne(PlayerJson playerJson) {
@@ -149,10 +149,6 @@ public final class PlayerService implements PlayerDetailService, UserDetailsServ
 		} catch (Exception e) {
 			throw new UsernameNotFoundException(email);
 		}
-	}
-	
-	PlayerService(PlayerServiceComponent playerServiceComponent) {
-		service = playerServiceComponent;
 	}
 
 }
