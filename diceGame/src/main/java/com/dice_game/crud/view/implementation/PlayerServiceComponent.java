@@ -1,6 +1,6 @@
 package com.dice_game.crud.view.implementation;
 
-import static com.dice_game.crud.utilities.Util.noEmpty;
+import static com.dice_game.crud.utilities.Util.notNullOrLessThanOne;
 import static com.dice_game.crud.utilities.exceptions.PlayerServImplException.throwsUp;
 import static com.dice_game.crud.view.implementation.PlayerJsonUpdateValidation.cloneStructureSetWhatIsUpgradeable;
 import static com.dice_game.crud.view.implementation.PlayerServiceValidations.ifIsInvalidEmailThrowException;
@@ -45,6 +45,10 @@ final class PlayerServiceComponent {
 		Player playerToSave = playerJson.toPlayer();
 		Player playerSaved = DAO.save(playerToSave);
 		return playerSaved.toJson();
+	}
+	
+	PlayerJson findPlayer(PlayerJson playerJson) throws PlayerServImplException {
+		return findPlayerByEmailOrId(playerJson).toJson();
 	}
 
 	Player findPlayerByEmailOrId(PlayerJson playerJson) {
