@@ -95,7 +95,7 @@ final class PlayerServiceComponent {
 	}
 	
 	void ifPasswordDoesNotMatchThrowException(PlayerJson playerJson) throws PlayerServImplException {
-		Player player = findPlayerByEmail(playerJson.getEmail());
+		Player player = findPlayerByEmailOrId(playerJson);
 		ifPasswordsNotMachesThrowException(playerJson.getPassword(), player.getPassword());
 		
 	}
