@@ -63,7 +63,7 @@ public final class PlayerJson {
 		return id;
 	}
 
-	protected void setId(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -90,7 +90,7 @@ public final class PlayerJson {
 		return fullName;
 	}
 
-	protected void setFullName(String firstName, String lastName) {
+	void setFullName(String firstName, String lastName) {
 		setFirstName(firstName);
 		setLastName(lastName);
 		this.fullName = String.format("%s, %s", lastName, firstName);
