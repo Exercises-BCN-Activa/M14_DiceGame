@@ -40,7 +40,11 @@ public final class Util {
 	}
 	
 	public static boolean encryptMatches(String rawPassword, String encodedPassword) {
-		return BCrypt.matches(rawPassword, encodedPassword);
+		return notNullOrEmpty(rawPassword) && BCrypt.matches(rawPassword, encodedPassword);
+	}
+	
+	public static boolean encryptNotMatches(String rawPassword, String encodedPassword) {
+		return !encryptMatches(rawPassword, encodedPassword);
 	}
 	
 	public static boolean isValidEmail(String email) {
@@ -48,7 +52,11 @@ public final class Util {
 		String back = "[\\p{L}\\p{N}](?:[a-z0-9-]*[\\p{L}\\p{N}]";
 		String domin = String.format("(?:%s)?.)+%s)?", back, back);
 		String regex = String.format("%s(?:.%s)*@%s", front, front, domin);
-		return noEmpty(email) && email.matches(regex);
+		return notNullOrEmpty(email) && email.matches(regex);
+	}
+	
+	public static boolean notValidEmail(String email) {
+		return !isValidEmail(email);
 	}
 	
 	private Util() {
