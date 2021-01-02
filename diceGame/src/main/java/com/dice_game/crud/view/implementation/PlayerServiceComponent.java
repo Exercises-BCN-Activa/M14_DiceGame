@@ -51,7 +51,7 @@ final class PlayerServiceComponent {
 		return findPlayerByEmailOrId(playerJson).toJson();
 	}
 
-	Player findPlayerByEmailOrId(PlayerJson playerJson) {
+	Player findPlayerByEmailOrId(PlayerJson playerJson) throws PlayerServImplException {
 		ifNotHaveIdAndEmailThrowException(playerJson);
 		Player player = (noEmpty(playerJson.getId())) 
 							? findPlayerByID(playerJson.getId())
