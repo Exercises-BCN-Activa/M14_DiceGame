@@ -231,8 +231,10 @@ class PlayerServiceComponentTest {
 	@DisplayName("Deletes a specific Player")
 	void test_deleteEspecificPlayerIfWasUser() {
 		Mockito.when(DAO.findByEmail(any(String.class))).thenReturn(Optional.of(player));
-		Mockito.doAnswer((i) -> {assertEquals(player, i.getArgument(0));
-								return null;}).when(DAO).delete(player);
+		Mockito.doAnswer(i -> {
+			assertEquals(player, i.getArgument(0));
+			return null;
+		}).when(DAO).delete(player);
 		Mockito.when(DAO.existsByEmail(email)).thenReturn(true, false);
 		assertThrows(PlayerServImplException.class, 
 				() -> service.deleteEspecificPlayerIfWasUser(playerJson), 
@@ -259,8 +261,10 @@ class PlayerServiceComponentTest {
 		chief.setType(Role.CHIEF);
 		list.add(chief);
 		Mockito.when(DAO.findAll()).thenReturn(list);
-		Mockito.doAnswer((i) -> {assertEquals(player, i.getArgument(0));
-								return null;}).when(DAO).delete(player);
+		Mockito.doAnswer(i -> {
+			assertEquals(player, i.getArgument(0));
+			return null;
+		}).when(DAO).delete(player);
 		assertThrows(PlayerServImplException.class, 
 				() -> service.deleteAllPlayersWhoHaveRoleUser(), 
 				msgError("Does Throws - because the list is NOT empty"));
