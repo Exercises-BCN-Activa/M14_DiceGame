@@ -164,21 +164,21 @@ public final class Player {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Player [id=");
+		builder.append("Player :{id : ");
 		builder.append(id);
-		builder.append(", registration=");
+		builder.append(", registration : ");
 		builder.append(registration);
-		builder.append(", firstName=");
+		builder.append(", firstName : ");
 		builder.append(firstName);
-		builder.append(", lastName=");
+		builder.append(", lastName : ");
 		builder.append(lastName);
-		builder.append(", email=");
+		builder.append(", email : ");
 		builder.append(email);
-		builder.append(", type=");
+		builder.append(", type : ");
 		builder.append(type);
-		builder.append(", status=");
-		builder.append(status);
-		builder.append("]");
+		builder.append(", status : ");
+		builder.append(status());
+		builder.append("}");
 		return builder.toString();
 	}
 

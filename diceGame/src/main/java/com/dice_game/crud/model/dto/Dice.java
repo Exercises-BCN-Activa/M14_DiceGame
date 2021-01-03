@@ -129,19 +129,19 @@ public final class Dice {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Dice [id=");
+		builder.append("Dice : {id : ");
 		builder.append(id);
-		builder.append(", registration=");
+		builder.append(", registration : ");
 		builder.append(registration);
-		builder.append(", value1=");
+		builder.append(", value1 : ");
 		builder.append(value1);
-		builder.append(", value2=");
+		builder.append(", value2 : ");
 		builder.append(value2);
-		builder.append(", player=");
+		builder.append(", player : ");
 		builder.append(player.getId());
-		builder.append(", isWon()=");
+		builder.append(", isWon : ");
 		builder.append(isWon());
-		builder.append("]");
+		builder.append("}");
 		return builder.toString();
 	}
 
