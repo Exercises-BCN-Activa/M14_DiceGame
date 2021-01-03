@@ -38,7 +38,7 @@ public final class PlayerJson {
 		email = player.getEmail();
 		registration = player.getRegistration();
 		setFullName(player.getFirstName(), player.getLastName());
-		setStatus(player.getStatus());
+		setStatus(player.status());
 	}
 
 	public static PlayerJson from(Player player) {

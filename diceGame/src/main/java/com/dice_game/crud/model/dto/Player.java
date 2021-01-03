@@ -45,8 +45,6 @@ public final class Player {
 
 	private String type;
 
-	private float status;
-
 	@OneToMany(orphanRemoval = true, targetEntity = Dice.class, mappedBy = "player", cascade = CascadeType.REMOVE)
 	private List<Dice> rounds;
 
@@ -55,6 +53,14 @@ public final class Player {
 
 	public PlayerJson toJson() {
 		return PlayerJson.from(this);
+	}
+	
+	public float status() {
+		return (rounds == null || rounds.isEmpty()) ? 0 : calculateFromListOfRounds();
+	}
+
+	private float calculateFromListOfRounds() {
+		return (float) rounds.stream().filter(dice -> dice.isWon()).count() / rounds.size() * 100;
 	}
 
 	public Long getId() {
@@ -115,20 +121,6 @@ public final class Player {
 
 	public void setRegistration(Date registration) {
 		this.registration = registration;
-	}
-
-	public float getStatus() {
-		setStatus();
-		return status;
-	}
-
-	public void setStatus() {
-		this.status = (rounds == null || rounds.isEmpty()) ? 0 : fromRounds();
-
-	}
-
-	private float fromRounds() {
-		return (float) rounds.stream().filter(x -> x.isWon()).count() / rounds.size() * 100;
 	}
 
 	public List<Dice> getRounds() {

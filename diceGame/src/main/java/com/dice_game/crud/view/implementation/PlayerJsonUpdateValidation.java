@@ -30,7 +30,7 @@ final class PlayerJsonUpdateValidation {
 		newPlayer.setRegistration(oldPlayer.getRegistration());
 		newPlayer.setType(oldPlayer.getType());
 		newPlayer.setRounds(oldPlayer.getRounds());
-		newPlayer.setStatus();
+		newPlayer.status();
 	}
 
 	private void compareAndSetUpdatableAttributes() {

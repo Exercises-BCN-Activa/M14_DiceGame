@@ -42,7 +42,6 @@ class PlayerJsonUpdateValidationTest {
 		oldPlayer.setRegistration(new Date());
 		oldPlayer.setType(Role.BASIC);
 		oldPlayer.setRounds(new ArrayList<>());
-		oldPlayer.setStatus();
 		oldPlayer.setEmail(email);
 		oldPlayer.setPassword(Util.encryptPassword("senha2020"));
 		oldPlayer.setFirstName(firstName);

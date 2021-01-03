@@ -2,6 +2,7 @@ package com.dice_game.crud.model.dao;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -19,6 +20,7 @@ import org.springframework.test.annotation.Rollback;
 import com.dice_game.crud.model.dto.Dice;
 import com.dice_game.crud.model.dto.Player;
 import com.dice_game.crud.security.Role;
+import com.dice_game.crud.utilities.Util;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -53,7 +55,7 @@ class DataBaseDAOTest {
 		player.setFirstName(firstName);
 		player.setLastName(lastName);
 		player.setType(Role.FULL);
-		player.setStatus();
+		player.setRounds(new ArrayList<Dice>());
 	}
 
 	@Test
@@ -65,11 +67,10 @@ class DataBaseDAOTest {
 		Player toCompare = playerDAO.save(player);
 
 		assertAll(
-				() -> assertNotNull(toCompare),
 				() -> assertEquals(player.getEmail(), toCompare.getEmail(), msgError("E-mail")),
 				() -> assertEquals(player.getFirstName(), toCompare.getFirstName(), msgError("First name")),
 				() -> assertEquals(player.getLastName(), toCompare.getLastName(), msgError("Last name")),
-				() -> assertEquals(player.getStatus(), toCompare.getStatus(), msgError("Status")),
+				() -> assertEquals(player.status(), toCompare.status(), msgError("Status")),
 				() -> assertEquals(Role.FULL.getRole(), toCompare.getType(), msgError("Role Type")),
 				() -> assertEquals(player.getPassword(), toCompare.getPassword(), msgError("Password")),
 				() -> assertNotNull(toCompare.getId(), "Id can't be null, because is autogenerate in DB"),
@@ -87,9 +88,17 @@ class DataBaseDAOTest {
 	@DisplayName("Find Player by ID")
 	public void testFindPlayerById() {
 		Player toCompare = playerDAO.findById(player.getId()).get();
-
-		assertAll(() -> assertNotNull(toCompare),
-				() -> assertEquals(player, toCompare, msgError("Player and toCompare")));
+		
+		assertAll(
+				() -> assertEquals(player.getEmail(), toCompare.getEmail(), msgError("E-mail")),
+				() -> assertEquals(player.getFirstName(), toCompare.getFirstName(), msgError("First name")),
+				() -> assertEquals(player.getLastName(), toCompare.getLastName(), msgError("Last name")),
+				() -> assertEquals(player.status(), toCompare.status(), msgError("Status")),
+				() -> assertEquals(Role.FULL.getRole(), toCompare.getType(), msgError("Role Type")),
+				() -> assertEquals(player.getPassword(), toCompare.getPassword(), msgError("Password")),
+				() -> assertEquals(player.getId(), toCompare.getId(), msgError("Id")),
+				() -> assertEquals(player.getRegistration(), toCompare.getRegistration(), msgError("Register"))
+				);
 	}
 
 	@Test
@@ -98,8 +107,16 @@ class DataBaseDAOTest {
 	public void testFindPlayerByEmail() {
 		Player toCompare = playerDAO.findByEmail(email).get();
 
-		assertAll(() -> assertNotNull(toCompare),
-				() -> assertEquals(player, toCompare, msgError("Player and toCompare")));
+		assertAll(
+				() -> assertEquals(player.getEmail(), toCompare.getEmail(), msgError("E-mail")),
+				() -> assertEquals(player.getFirstName(), toCompare.getFirstName(), msgError("First name")),
+				() -> assertEquals(player.getLastName(), toCompare.getLastName(), msgError("Last name")),
+				() -> assertEquals(player.status(), toCompare.status(), msgError("Status")),
+				() -> assertEquals(Role.FULL.getRole(), toCompare.getType(), msgError("Role Type")),
+				() -> assertEquals(player.getPassword(), toCompare.getPassword(), msgError("Password")),
+				() -> assertEquals(player.getId(), toCompare.getId(), msgError("Id")),
+				() -> assertEquals(player.getRegistration(), toCompare.getRegistration(), msgError("Register"))
+				);
 	}
 	
 	@Test
@@ -119,13 +136,10 @@ class DataBaseDAOTest {
 		lastName = "Beltrano Ciclano";
 
 		toCompare.setLastName(lastName);
-		player.setLastName(lastName);
 
 		Player toCompareAfterUpdate = playerDAO.save(toCompare);
 
 		assertAll(() -> assertNotNull(toCompare), () -> assertNotNull(toCompareAfterUpdate),
-				() -> assertEquals(player, toCompare, msgError("Player and toCompare")),
-				() -> assertEquals(player, toCompareAfterUpdate, msgError("Player and toCompareAfterUpdate")),
 				() -> assertEquals(toCompare, toCompareAfterUpdate, msgError("toCompare and toCompareAfterUpdate")));
 	}
 	
@@ -162,8 +176,13 @@ class DataBaseDAOTest {
 		
 		Dice toCompare = diceDAO.findById(dice.getId()).get();
 		
-		assertAll(() -> assertNotNull(toCompare),
-				() -> assertEquals(dice, toCompare, msgError("Dice and toCompare")));
+		assertAll(
+				() -> assertEquals(dice.getValue1(), toCompare.getValue1(), msgError("Value1")),
+				() -> assertEquals(dice.getValue2(), toCompare.getValue2(), msgError("Value2")),
+				() -> assertEquals(dice.getPlayer().getId(), toCompare.getPlayer().getId(), msgError("Player ID")),
+				() -> assertEquals(dice.getId(), toCompare.getId(), msgError("Dice and toCompare")),
+				() -> assertNotNull(toCompare.getRegistration())
+				);
 	}
 	
 	
@@ -192,8 +211,13 @@ class DataBaseDAOTest {
 		
 		Dice toCompare = listDice.get(0);
 		
-		assertAll(() -> assertNotNull(toCompare),
-				() -> assertEquals(dice, toCompare, msgError("Dice and toCompare")));
+		assertAll(
+				() -> assertEquals(dice.getValue1(), toCompare.getValue1(), msgError("Value1")),
+				() -> assertEquals(dice.getValue2(), toCompare.getValue2(), msgError("Value2")),
+				() -> assertEquals(dice.getPlayer().getId(), toCompare.getPlayer().getId(), msgError("Player ID")),
+				() -> assertEquals(dice.getId(), toCompare.getId(), msgError("Dice and toCompare")),
+				() -> assertNotNull(toCompare.getRegistration())
+				);
 	}
 	
 	@Test
