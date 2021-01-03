@@ -292,6 +292,37 @@ class DataBaseDAOTest {
 		
 		assertFalse(playerDAO.findByEmail(email).isPresent());
 	}
+	
+	@Test
+	@Order(16)
+	@Rollback(false)
+	@DisplayName("Create a new player in DB")
+	public void testCreateAdminToIniciateTheAplication() {
+		
+		String adminEmail = "admin@dicegame.com";
+
+		Player admin = new Player();
+		admin.setEmail(adminEmail);
+		admin.setPassword(Util.encryptPassword("root"));
+		admin.setFirstName("Admin");
+		admin.setLastName("Root");
+		admin.setType(Role.FULL);
+
+		Player adminSaved = (playerDAO.existsByEmail(adminEmail)) 
+				? playerDAO.findByEmail(adminEmail).get()
+				: playerDAO.save(admin);
+		
+		assertAll(
+				() -> assertEquals(admin.getEmail(), adminSaved.getEmail()),
+				() -> assertEquals(admin.getFirstName(), adminSaved.getFirstName()),
+				() -> assertEquals(admin.getLastName(), adminSaved.getLastName()),
+				() -> assertEquals(Role.FULL.getRole(), adminSaved.getType()),
+				() -> assertTrue(Util.encryptMatches("root", adminSaved.getPassword())),
+				() -> assertNotNull(adminSaved.getId()),
+				() -> assertNotNull(adminSaved.getRegistration())
+				);
+
+	}
 
 	private String msgError(String input) {
 		return String.format("%s should be equals because they were created from the same attribute", input);
