@@ -25,7 +25,7 @@ import com.dice_game.crud.security.Role;
 import com.dice_game.crud.utilities.exceptions.PlayerServImplException;
 
 @Component
-final class PlayerServiceComponent {
+class PlayerServiceComponent {
 
 	@Autowired
 	private PlayerDAO DAO;
