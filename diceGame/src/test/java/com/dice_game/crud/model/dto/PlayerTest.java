@@ -37,7 +37,6 @@ class PlayerTest {
 		player.setEmail(email);
 		player.setFirstName(firstName);
 		player.setLastName(lastName);
-		player.setStatus();
 		player.setRegistration(registration);
 		player.setType(Role.BASIC);
 		player.setPassword(password);
@@ -55,7 +54,7 @@ class PlayerTest {
 	@DisplayName("Calculation of status by Dice list")
 	public void testStatusCalculating() {
 
-		float beforePutDices = player.getStatus();
+		float beforePutDices = player.status();
 
 		Dice winner = Dice.newRound(player);
 		winner.setValue1(5);
@@ -75,7 +74,7 @@ class PlayerTest {
 		player.setRounds(dices);
 
 		assertAll(() -> assertEquals(0, beforePutDices, "it should be zero because there was no game yet"),
-				() -> assertEquals(20, player.getStatus(), "should be 20% as there is only 1 winning out of 5 games"));
+				() -> assertEquals(20, player.status(), "should be 20% as there is only 1 winning out of 5 games"));
 	}
 
 	@Test
@@ -173,7 +172,7 @@ class PlayerTest {
 				() -> assertEquals(registration, player.getRegistration(), msgError("Registration Date")),
 				() -> assertEquals(firstName, player.getFirstName(), msgError("First name")),
 				() -> assertEquals(lastName, player.getLastName(), msgError("Last name")),
-				() -> assertEquals(0, player.getStatus(), msgError("Status")),
+				() -> assertEquals(0, player.status(), msgError("Status")),
 				() -> assertEquals(Role.BASIC.getRole(), player.getType(), msgError("Role Type")),
 				() -> assertEquals(password, player.getPassword(), msgError("Password")));
 	}

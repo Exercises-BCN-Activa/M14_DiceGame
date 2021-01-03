@@ -36,14 +36,14 @@ class UtilTest {
 		String msgTest3 = "Everything is OK!";
 		
 		assertAll(
-				() -> assertDoesNotThrow(() -> isEmpty(msgTest1), assertError("Does Not Throw 1")),
-				() -> assertDoesNotThrow(() -> isEmpty(msgTest2), assertError("Does Not Throw 2")),
-				() -> assertDoesNotThrow(() -> isEmpty(msgTest3), assertError("Does Not Throw 3"))
+				() -> assertDoesNotThrow(() -> isNullOrEmpty(msgTest1), assertError("Does Not Throw 1")),
+				() -> assertDoesNotThrow(() -> isNullOrEmpty(msgTest2), assertError("Does Not Throw 2")),
+				() -> assertDoesNotThrow(() -> isNullOrEmpty(msgTest3), assertError("Does Not Throw 3"))
 				);
 		
-		Boolean test1 = isEmpty(msgTest1);
-		Boolean test2 = isEmpty(msgTest2);
-		Boolean test3 = isEmpty(msgTest3);
+		Boolean test1 = isNullOrEmpty(msgTest1);
+		Boolean test2 = isNullOrEmpty(msgTest2);
+		Boolean test3 = isNullOrEmpty(msgTest3);
 		
 		assertAll(
 				() -> assertTrue(test1, assertError("True 1")),
@@ -62,18 +62,18 @@ class UtilTest {
 		long msgTest5 = 1;
 
 		assertAll(
-				() -> assertDoesNotThrow(() -> isEmpty(msgTest1), assertError("Does Not Throw 1")),
-				() -> assertDoesNotThrow(() -> isEmpty(msgTest2), assertError("Does Not Throw 2")),
-				() -> assertDoesNotThrow(() -> isEmpty(msgTest3), assertError("Does Not Throw 3")),
-				() -> assertDoesNotThrow(() -> isEmpty(msgTest4), assertError("Does Not Throw 4")),
-				() -> assertDoesNotThrow(() -> isEmpty(msgTest5), assertError("Does Not Throw 5"))
+				() -> assertDoesNotThrow(() -> isNullOrLessThanOne(msgTest1), assertError("Does Not Throw 1")),
+				() -> assertDoesNotThrow(() -> isNullOrLessThanOne(msgTest2), assertError("Does Not Throw 2")),
+				() -> assertDoesNotThrow(() -> isNullOrLessThanOne(msgTest3), assertError("Does Not Throw 3")),
+				() -> assertDoesNotThrow(() -> isNullOrLessThanOne(msgTest4), assertError("Does Not Throw 4")),
+				() -> assertDoesNotThrow(() -> isNullOrLessThanOne(msgTest5), assertError("Does Not Throw 5"))
 				);
 		
-		Boolean test1 = isEmpty(msgTest1);
-		Boolean test2 = isEmpty(msgTest2);
-		Boolean test3 = isEmpty(msgTest3);
-		Boolean test4 = isEmpty(msgTest4);
-		Boolean test5 = isEmpty(msgTest5);
+		Boolean test1 = isNullOrLessThanOne(msgTest1);
+		Boolean test2 = isNullOrLessThanOne(msgTest2);
+		Boolean test3 = isNullOrLessThanOne(msgTest3);
+		Boolean test4 = isNullOrLessThanOne(msgTest4);
+		Boolean test5 = isNullOrLessThanOne(msgTest5);
 		
 		assertAll(
 				() -> assertFalse(test3, assertError("False 1")),
@@ -92,14 +92,14 @@ class UtilTest {
 		String msgTest3 = "Everything is OK!";
 
 		assertAll(
-				() -> assertDoesNotThrow(() -> noEmpty(msgTest1), assertError("Does Not Throw 1")),
-				() -> assertDoesNotThrow(() -> noEmpty(msgTest2), assertError("Does Not Throw 2")),
-				() -> assertDoesNotThrow(() -> noEmpty(msgTest3), assertError("Does Not Throw 3"))
+				() -> assertDoesNotThrow(() -> notNullOrEmpty(msgTest1), assertError("Does Not Throw 1")),
+				() -> assertDoesNotThrow(() -> notNullOrEmpty(msgTest2), assertError("Does Not Throw 2")),
+				() -> assertDoesNotThrow(() -> notNullOrEmpty(msgTest3), assertError("Does Not Throw 3"))
 				);
 		
-		Boolean test1 = noEmpty(msgTest1);
-		Boolean test2 = noEmpty(msgTest2);
-		Boolean test3 = noEmpty(msgTest3);
+		Boolean test1 = notNullOrEmpty(msgTest1);
+		Boolean test2 = notNullOrEmpty(msgTest2);
+		Boolean test3 = notNullOrEmpty(msgTest3);
 		
 		assertAll(
 				() -> assertNotNull(test1, assertError("Not Null 1")),
@@ -121,18 +121,18 @@ class UtilTest {
 		long msgTest5 = 1;
 
 		assertAll(
-				() -> assertDoesNotThrow(() -> noEmpty(msgTest1), assertError("Does Not Throw 1")),
-				() -> assertDoesNotThrow(() -> noEmpty(msgTest2), assertError("Does Not Throw 2")),
-				() -> assertDoesNotThrow(() -> noEmpty(msgTest3), assertError("Does Not Throw 3")),
-				() -> assertDoesNotThrow(() -> noEmpty(msgTest4), assertError("Does Not Throw 4")),
-				() -> assertDoesNotThrow(() -> noEmpty(msgTest5), assertError("Does Not Throw 5"))
+				() -> assertDoesNotThrow(() -> notNullOrLessThanOne(msgTest1), assertError("Does Not Throw 1")),
+				() -> assertDoesNotThrow(() -> notNullOrLessThanOne(msgTest2), assertError("Does Not Throw 2")),
+				() -> assertDoesNotThrow(() -> notNullOrLessThanOne(msgTest3), assertError("Does Not Throw 3")),
+				() -> assertDoesNotThrow(() -> notNullOrLessThanOne(msgTest4), assertError("Does Not Throw 4")),
+				() -> assertDoesNotThrow(() -> notNullOrLessThanOne(msgTest5), assertError("Does Not Throw 5"))
 				);
 		
-		Boolean test1 = noEmpty(msgTest1);
-		Boolean test2 = noEmpty(msgTest2);
-		Boolean test3 = noEmpty(msgTest3);
-		Boolean test4 = noEmpty(msgTest4);
-		Boolean test5 = noEmpty(msgTest5);
+		Boolean test1 = notNullOrLessThanOne(msgTest1);
+		Boolean test2 = notNullOrLessThanOne(msgTest2);
+		Boolean test3 = notNullOrLessThanOne(msgTest3);
+		Boolean test4 = notNullOrLessThanOne(msgTest4);
+		Boolean test5 = notNullOrLessThanOne(msgTest5);
 		
 		assertAll(
 				() -> assertTrue(test3, assertError("True 1")),

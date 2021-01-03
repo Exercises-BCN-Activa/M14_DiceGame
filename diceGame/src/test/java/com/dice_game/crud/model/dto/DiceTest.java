@@ -38,7 +38,7 @@ class DiceTest {
 		player.setEmail(email);
 		player.setFirstName(firstName);
 		player.setLastName(lastName);
-		player.setStatus();
+		player.status();
 		player.setRegistration(registration);
 		player.setType(Role.BASIC);
 		player.setPassword(password);
