@@ -2,13 +2,13 @@ package com.dice_game.crud.view.implementation;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import static org.mockito.ArgumentMatchers.any;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -65,13 +65,12 @@ class PlayerServiceComponentTest {
 		player.setRegistration(new Date());
 		player.setType(Role.BASIC);
 		player.setRounds(new ArrayList<>());
-		player.setStatus();
 	}
 
 	@Test
 	@DisplayName("Should Throw Exception If Email Is Already Registered")
 	void test_ifEmailIsAlreadyRegisteredThrowException() {
-		Mockito.when(DAO.existsByEmail(email)).thenReturn(true, false);
+		Mockito.when(DAO.existsByEmail(any(String.class))).thenReturn(true, false);
 		assertThrows(PlayerServImplException.class, 
 				() -> service.ifEmailIsAlreadyRegisteredThrowException(playerJson),
 				msgError("Throws - becuase mockito return true"));
@@ -82,7 +81,7 @@ class PlayerServiceComponentTest {
 	@Test
 	@DisplayName("Should Return Json from Player Saved")
 	void test_savePlayerByJsonReturnJson() {
-		Mockito.when(DAO.save(playerJson.toPlayer())).thenReturn(player);
+		Mockito.when(DAO.save(any(Player.class))).thenReturn(player);
 		PlayerJson toCompare = service.savePlayerByJsonReturnJson(playerJson);
 		assertAll(
 				() -> assertEquals(playerJson.getEmail(), toCompare.getEmail(), msgError("Equals 1")),
@@ -99,7 +98,7 @@ class PlayerServiceComponentTest {
 	@Test
 	@DisplayName("Find by Email Should Return Player Saved and Does Not Throw Nothing")
 	void test1_findPlayerByEmail() {
-		Mockito.when(DAO.findByEmail(email)).thenReturn(Optional.of(player));
+		Mockito.when(DAO.findByEmail(any(String.class))).thenReturn(Optional.of(player));
 		Player toCompare = service.findPlayerByEmail(email);
 		assertEquals(player, toCompare, msgError("Equals 1"));
 	}
@@ -107,7 +106,7 @@ class PlayerServiceComponentTest {
 	@Test
 	@DisplayName("Find by Email Should Throw Exception Because Optional<Player> is Empty")
 	void test2_findPlayerByEmail() {
-		Mockito.when(DAO.findByEmail(email)).thenReturn(Optional.empty());
+		Mockito.when(DAO.findByEmail(any(String.class))).thenReturn(Optional.empty());
 		assertThrows(PlayerServImplException.class, () -> service.findPlayerByEmail(email),
 				msgError("Throws - becuase there's no one with that email"));
 	}
@@ -129,7 +128,7 @@ class PlayerServiceComponentTest {
 	@Test
 	@DisplayName("Find by ID Should Return Player Saved and Does Not Throw Nothing")
 	void test1_findPlayerByID() {
-		Mockito.when(DAO.findById(id)).thenReturn(Optional.of(player));
+		Mockito.when(DAO.findById(any(Long.class))).thenReturn(Optional.of(player));
 		Player toCompare = service.findPlayerByID(id);
 		assertEquals(player, toCompare, msgError("Equals 1"));
 	}
@@ -137,7 +136,7 @@ class PlayerServiceComponentTest {
 	@Test
 	@DisplayName("Find by ID Should Throw Exception Because Optional<Player> is Empty")
 	void test2_findPlayerByID() {
-		Mockito.when(DAO.findById(id)).thenReturn(Optional.empty());
+		Mockito.when(DAO.findById(any(Long.class))).thenReturn(Optional.empty());
 		assertThrows(PlayerServImplException.class, () -> service.findPlayerByID(id),
 				msgError("Throws - becuase there's no one with that ID"));
 	}
@@ -165,7 +164,7 @@ class PlayerServiceComponentTest {
 	@Test
 	@DisplayName("Find by ID or Email* Should Return Player Saved and Does Not Throw Nothing")
 	void test2_findPlayerByEmailOrId() {
-		Mockito.when(DAO.findByEmail(email)).thenReturn(Optional.of(player));
+		Mockito.when(DAO.findByEmail(any(String.class))).thenReturn(Optional.of(player));
 		Player toCompare = service.findPlayerByEmailOrId(playerJson);
 		assertEquals(player, toCompare, msgError("Equals 1"));
 	}
@@ -175,7 +174,7 @@ class PlayerServiceComponentTest {
 	void test3_findPlayerByEmailOrId() {
 		playerJson.setId(id);
 		playerJson.setEmail("");
-		Mockito.when(DAO.findById(playerJson.getId())).thenReturn(Optional.of(player));
+		Mockito.when(DAO.findById(any(Long.class))).thenReturn(Optional.of(player));
 		Player toCompare = service.findPlayerByEmailOrId(playerJson);
 		assertEquals(player, toCompare, msgError("Equals 1"));
 	}
@@ -206,7 +205,7 @@ class PlayerServiceComponentTest {
 	@DisplayName("Update Method Should Throw Exception if all attributes are identical")
 	void test1_updatePlayerByIdIfMeetRequirements() {
 		playerJson.setId(id);
-		Mockito.when(DAO.findById(playerJson.getId())).thenReturn(Optional.of(player));
+		Mockito.when(DAO.findById(any(Long.class))).thenReturn(Optional.of(player));
 		assertThrows(PlayerServImplException.class, 
 				() -> service.updatePlayerByIdIfMeetRequirements(playerJson),
 				msgError("Throws - because there is nothing to update"));
@@ -215,7 +214,7 @@ class PlayerServiceComponentTest {
 	@Test
 	@DisplayName("If the password is not correct throw exceptions")
 	void test_ifPasswordDoesNotMatchThrowException() {
-		Mockito.when(DAO.findByEmail(email)).thenReturn(Optional.of(player));
+		Mockito.when(DAO.findByEmail(any(String.class))).thenReturn(Optional.of(player));
 		
 		assertDoesNotThrow(() -> service.ifPasswordDoesNotMatchThrowException(playerJson), 
 				msgError("Does Not Throw - because there is the same"));
@@ -231,7 +230,7 @@ class PlayerServiceComponentTest {
 	@Test
 	@DisplayName("Deletes a specific Player")
 	void test_deleteEspecificPlayerIfWasUser() {
-		Mockito.when(DAO.findByEmail(playerJson.getEmail())).thenReturn(Optional.of(player));
+		Mockito.when(DAO.findByEmail(any(String.class))).thenReturn(Optional.of(player));
 		Mockito.doAnswer((i) -> {assertEquals(player, i.getArgument(0));
 								return null;}).when(DAO).delete(player);
 		Mockito.when(DAO.existsByEmail(email)).thenReturn(true, false);
@@ -267,15 +266,12 @@ class PlayerServiceComponentTest {
 				msgError("Does Throws - because the list is NOT empty"));
 	}
 	
-	//the second call from the Mock (SAVE) is pointed to null
-	@Disabled
 	@Test
 	@DisplayName("Update Method Should NOT Throw Exception AND Return")
 	void test2_updatePlayerByIdIfMeetRequirements() {
 		playerJson.setId(id);
 		playerJson.setFirstName("Jonh");
 		playerJson.setLastName("Somewhere");
-		Mockito.when(DAO.findById(playerJson.getId())).thenReturn(Optional.of(player));
 		Player updated = new Player();
 		updated.setFirstName("Jonh");
 		updated.setLastName("Somewhere");
@@ -285,10 +281,10 @@ class PlayerServiceComponentTest {
 		updated.setRegistration(new Date());
 		updated.setType(Role.BASIC);
 		updated.setRounds(new ArrayList<>());
-		updated.setStatus();
-		Mockito.when(DAO.save(updated)).thenReturn(updated);
+		Mockito.when(DAO.findById(any(Long.class))).thenReturn(Optional.of(player));
+		Mockito.when(DAO.save(any(Player.class))).thenReturn(updated);
 		PlayerJson jsonUpdated = service.updatePlayerByIdIfMeetRequirements(playerJson);
-		assertEquals(updated.toJson(), jsonUpdated);
+		assertEquals(updated.toJson(), jsonUpdated, msgError("Equals"));
 	}
 	
 	private String msgError(String input) {
