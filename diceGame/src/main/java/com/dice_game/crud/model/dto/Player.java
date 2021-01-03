@@ -141,24 +141,25 @@ public final class Player {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, registration, email, firstName, lastName, type);
+		return Objects.hash(email, firstName, id, lastName, registration, rounds, type);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (obj == null) {
+		if (obj == null)
 			return false;
-		}
-		if (getClass() != obj.getClass()) {
+		if (getClass() != obj.getClass())
 			return false;
-		}
 		Player other = (Player) obj;
-		return Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
-				&& Objects.equals(id, other.id) && Objects.equals(lastName, other.lastName)
-				&& Objects.equals(registration, other.registration) && Objects.equals(type, other.type);
+		return Objects.equals(email, other.email) 
+				&& Objects.equals(firstName, other.firstName)
+				&& Objects.equals(id, other.id) 
+				&& Objects.equals(lastName, other.lastName)
+				&& Objects.equals(registration, other.registration) 
+				&& Objects.equals(rounds, other.rounds)
+				&& Objects.equals(type, other.type);
 	}
 
 	@Override
