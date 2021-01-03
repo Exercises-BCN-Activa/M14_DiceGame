@@ -16,7 +16,7 @@ import com.dice_game.crud.view.service.DiceDetailService;
 public final class DiceService implements DiceDetailService {
 	
 	@Autowired
-	private DiceDAO dao;
+	private DiceServiceComponent service;
 
 	@Override
 	public Response createRound(PlayerJson playerJson) {
