@@ -1,13 +1,15 @@
 package com.dice_game.crud.view.implementation;
 
-import java.util.Map;
+import static com.dice_game.crud.utilities.Response.error;
+import static com.dice_game.crud.utilities.Response.success;
+import static com.dice_game.crud.utilities.Util.msgError;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dice_game.crud.model.dao.DiceDAO;
-import com.dice_game.crud.model.dto.Dice;
+import com.dice_game.crud.model.dto.DiceJson;
 import com.dice_game.crud.model.dto.PlayerJson;
+import com.dice_game.crud.utilities.Response;
 import com.dice_game.crud.view.service.DiceDetailService;
 
 @Service
@@ -17,33 +19,67 @@ public final class DiceService implements DiceDetailService {
 	private DiceDAO dao;
 
 	@Override
-	public Map<String, Object> createOne(PlayerJson playerJson) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response createRound(PlayerJson playerJson) {
+		
+		Response response = error(msgError("Create a Round"));
+		
+		try {
+			
+			response = success("Round successfully created", newRound);
+			
+		} catch (Exception e) {
+			response.addExceptionToMessage(e);
+		}
+		
+		return response;
 	}
 
 	@Override
-	public Map<String, Object> readAllByPlayer(PlayerJson playerJson) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response readRoundsByPlayer(PlayerJson playerJson) {
+		
+		Response response = error(msgError("Read Rounds By Player"));
+		
+		try {
+
+			response = success("Round successfully created", null);
+			
+		} catch (Exception e) {
+			response.addExceptionToMessage(e);
+		}
+		
+		return response;
 	}
 
 	@Override
-	public Map<String, Object> deleteAllByPlayer(PlayerJson playerJson) {
-		// TODO Auto-generated method stub
-		return null;
+	public Response deleteRoundsByPlayer(PlayerJson playerJson) {
+		
+		Response response = error(msgError("Delete Rounds By Player"));
+		
+		try {
+
+			response = success("Round successfully created", null);
+			
+		} catch (Exception e) {
+			response.addExceptionToMessage(e);
+		}
+		
+		return response;
 	}
 
 	@Override
-	public Map<String, Object> deleteOne(Dice dice) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Response deleteRoundsFromTheEntireGame(PlayerJson playerJson) {
+		
+		Response response = error(msgError("DELETE ALL: Reset the entire game"));
+		
+		try {
 
-	@Override
-	public Map<String, Object> deleteAll(String password) {
-		// TODO Auto-generated method stub
-		return null;
+			response = success("GENERAL RESET: all rounds was erased", null);
+			
+		} catch (Exception e) {
+			response.addExceptionToMessage(e);
+		}
+		
+		return response;
 	}
 
 }
