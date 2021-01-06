@@ -102,7 +102,7 @@ class DiceTest {
 				() -> assertEquals(2, diceJson.getValue2(), msgError("value 2")),
 				() -> assertEquals(1, diceJson.getId(), msgError("Id")),
 				() -> assertEquals(registration, diceJson.getRegistration(), msgError("Registration date")),
-				() -> assertTrue(diceJson.isStatus(), msgError("Status True"))
+				() -> assertTrue(diceJson.isWon(), msgError("Status True"))
 		);
 		
 	}
@@ -122,13 +122,13 @@ class DiceTest {
 				() -> assertEquals(2, toCompare.getValue2(), msgError("value 2")),
 				() -> assertEquals(1, toCompare.getId(), msgError("Id")),
 				() -> assertEquals(registration, toCompare.getRegistration(), msgError("Registration date")),
-				() -> assertTrue(toCompare.isStatus()),
+				() -> assertTrue(toCompare.isWon()),
 				
 				() -> assertEquals(5, toCompare2.getValue1(), msgError("Value 1")),
 				() -> assertEquals(2, toCompare2.getValue2(), msgError("value 2")),
 				() -> assertEquals(1, toCompare2.getId(), msgError("Id")),
 				() -> assertEquals(registration, toCompare2.getRegistration(), msgError("Registration date")),
-				() -> assertTrue(toCompare2.isStatus(), msgError("Status True")),
+				() -> assertTrue(toCompare2.isWon(), msgError("Status True")),
 				
 				() -> assertEquals(toCompare, toCompare2, msgError("toCompare and toCompare2")),
 				
@@ -136,13 +136,13 @@ class DiceTest {
 				() -> assertTrue(toCompare3.getValue2() >= 1 && toCompare3.getValue2() <= 6, msgError("rangeError")),
 				() -> assertEquals(null, toCompare3.getId(), msgError("nullError")),
 				() -> assertEquals(null, toCompare3.getRegistration(), msgError("nullError")),
-				() -> assertTrue(toCompare3.isStatus() || !toCompare3.isStatus(), msgError("wonError")),
+				() -> assertTrue(toCompare3.isWon() || !toCompare3.isWon(), msgError("wonError")),
 				
 				() -> assertTrue(toCompare4.getValue1() >= 1 && toCompare4.getValue1() <= 6, msgError("rangeError")),
 				() -> assertTrue(toCompare4.getValue2() >= 1 && toCompare4.getValue2() <= 6, msgError("rangeError")),
 				() -> assertEquals(null, toCompare4.getId(), msgError("nullError")),
 				() -> assertEquals(null, toCompare4.getRegistration(), msgError("nullError")),
-				() -> assertTrue(toCompare4.isStatus() || !toCompare4.isStatus(), msgError("wonError")),
+				() -> assertTrue(toCompare4.isWon() || !toCompare4.isWon(), msgError("wonError")),
 				
 				() -> assertEquals(toCompare3, toCompare4, msgError("toCompare and toCompare2"))
 		);

@@ -62,7 +62,7 @@ public final class DiceJson {
 		this.value2 = value2;
 	}
 
-	public boolean isStatus() {
+	public boolean isWon() {
 		return status;
 	}
 
