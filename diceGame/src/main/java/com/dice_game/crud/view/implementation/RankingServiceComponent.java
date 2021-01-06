@@ -17,7 +17,7 @@ import com.dice_game.crud.model.dto.PlayerJson;
 import com.dice_game.crud.utilities.exceptions.RankingServImplException;
 
 @Component
-final class RankingServiceComponent {
+class RankingServiceComponent {
 
 	@Autowired
 	private PlayerDAO PLAYERS;
