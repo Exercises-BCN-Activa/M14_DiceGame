@@ -6,42 +6,53 @@ public class Response {
 	
 	public static Response error(String message) {
 		Response response = new Response();
-		response.put("success", false);
-		response.put("message", message);
+		response.put(SUCCESS, false);
+		response.put(MESSAGE, message);
 		return response;
 	}
 	
 	public static Response success(String message, Object content) {
 		Response response = new Response();
-		response.put("success", true);
-		response.put("message", message);
-		response.put("content", content);
+		response.put(SUCCESS, true);
+		response.put(MESSAGE, message);
+		response.put(CONTENT, content);
 		return response;
 	}
 	
-	public String getMessage() {
-		return (String) get("message");
+	public void addExceptionToMessage(Exception exception) {
+		String oldMessage = getMessage();
+		String exceptMessage = catchMsg(exception.getMessage());
+		String newMessage = oldMessage.concat(exceptMessage);
+		put(MESSAGE, newMessage);
 	}
 	
-	public void addExceptionToMessage(Exception exception) {
-		put("message", getMessage().concat(exception.getMessage()));
+	public String getMessage() {
+		return (String) get(MESSAGE);
+	}
+	
+	private String catchMsg(String exceptionMsg) {
+		return (Util.notNullOrEmpty(exceptionMsg)) ? exceptionMsg : EXCEPTION_MSG_ERROR;
 	}
 	
 	public boolean isSuccess() {
-		return (boolean) get("success");
+		return (boolean) get(SUCCESS);
 	}
 	
 	public Object getContent() {
-		return (map.containsKey("content")) ? get("content") : CONTENT_ERROR;
+		return (map.containsKey(CONTENT)) ? get(CONTENT) : CONTENT_ERROR;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Response : " + map;
+		return "Response : {"
+				+ "success : " + isSuccess() 
+				+ ", message : " + getMessage() 
+				+ ", content : " + getContent() 
+				+ "}";
 	}
-	
+
 	private Response() {
-		map = new HashMap<>();
+		map = new HashMap<String, Object>();
 	}
 	
 	private void put(String key, Object value) {
@@ -53,5 +64,9 @@ public class Response {
 	}
 	
 	private final HashMap<String, Object> map;
-	private final String CONTENT_ERROR = "Error response have no content!";
+	private final String CONTENT_ERROR = "Error Response have no content!";
+	private final String EXCEPTION_MSG_ERROR = "No Exception Messages Available!";
+	private final static String SUCCESS = "success";
+	private final static String MESSAGE = "message";
+	private final static String CONTENT = "content";
 }
