@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -75,6 +76,7 @@ class RankingServiceComponentTest {
 	}
 	
 	@Test
+	@DisplayName("Percentage Of Victories")
 	void test1_getWinningPercentageOfAllGames() {
 		Mockito.when(DICE.findAll()).thenReturn(listDice);
 		float winningPercentage = service.getWinningPercentageOfAllGames();
@@ -83,6 +85,7 @@ class RankingServiceComponentTest {
 	}
 	
 	@Test
+	@DisplayName("Error in Percentage Of Victories")
 	void test2_getWinningPercentageOfAllGames() {
 		Mockito.when(DICE.findAll()).thenReturn(new ArrayList<Dice>());
 		assertThrows(RankingServImplException.class, () -> service.getWinningPercentageOfAllGames(),
@@ -90,6 +93,7 @@ class RankingServiceComponentTest {
 	}
 
 	@Test
+	@DisplayName("Ranked List")
 	void test1_rankedListOfPlayersWithStatus() {
 		Mockito.when(PLAYER.findAll()).thenReturn(listPlayer);
 		List<PlayerJson> toCompare = service.rankedListOfPlayersWithStatus();
@@ -98,6 +102,7 @@ class RankingServiceComponentTest {
 	}
 	
 	@Test
+	@DisplayName("Error in Ranked List")
 	void test2_rankedListOfPlayersWithStatus() {
 		Mockito.when(PLAYER.findAll()).thenReturn(new ArrayList<Player>());
 		assertThrows(RankingServImplException.class, () -> service.rankedListOfPlayersWithStatus(),
@@ -105,6 +110,7 @@ class RankingServiceComponentTest {
 	}
 
 	@Test
+	@DisplayName("First Position Player With One Player")
 	void test1_firstPositionListOfPlayers() {
 		Mockito.when(PLAYER.findAll()).thenReturn(listPlayer);
 		List<PlayerJson> winners = service.firstPositionListOfPlayers();
@@ -115,6 +121,7 @@ class RankingServiceComponentTest {
 	}
 	
 	@Test
+	@DisplayName("First Position Player With More than One Player")
 	void test2_firstPositionListOfPlayers() {
 		Player player = createPlayer(7);
 		for (int i = 4; i <= 8; i++) {
@@ -132,6 +139,7 @@ class RankingServiceComponentTest {
 	}
 	
 	@Test
+	@DisplayName("Error in First Position Player With NO Player")
 	void test3_firstPositionListOfPlayers() {
 		Mockito.when(PLAYER.findAll()).thenReturn(new ArrayList<Player>());
 		assertThrows(RankingServImplException.class, () -> service.firstPositionListOfPlayers(),
@@ -139,6 +147,7 @@ class RankingServiceComponentTest {
 	}
 
 	@Test
+	@DisplayName("Last Position Player With One Player")
 	void test1_lastPositionListOfPlayers() {
 		Mockito.when(PLAYER.findAll()).thenReturn(listPlayer);
 		List<PlayerJson> losers = service.lastPositionListOfPlayers();
@@ -149,6 +158,7 @@ class RankingServiceComponentTest {
 	}
 	
 	@Test
+	@DisplayName("Last Position Player With More than One Player")
 	void test2_lastPositionListOfPlayers() {
 		Player player = createPlayer(7);
 		for (int i = 1; i <= 5; i++) {
@@ -166,6 +176,7 @@ class RankingServiceComponentTest {
 	}
 	
 	@Test
+	@DisplayName("Error in last Position Player With NO Player")
 	void test3_lastPositionListOfPlayers() {
 		Mockito.when(PLAYER.findAll()).thenReturn(new ArrayList<Player>());
 		assertThrows(RankingServImplException.class, () -> service.lastPositionListOfPlayers(),
