@@ -56,7 +56,7 @@ class DiceServiceComponentTest {
 	private String lastName;
 	private String email;
 	private String password;
-	private Long id = 1l;
+	private Long id;
 	private List<Dice> listDice;
 	private List<DiceJson> listJson;
 
@@ -66,6 +66,7 @@ class DiceServiceComponentTest {
 		lastName = "Ciclano";
 		email = "john@somewhere.com";
 		password = "senha2020";
+		id = 1l;
 		
 		playerJson = new PlayerJson();
 		playerJson.setFirstName(firstName);
@@ -99,7 +100,7 @@ class DiceServiceComponentTest {
 		diceLoser.setId(3l);
 		diceLoser.setRegistration(new Date());
 		diceLoser.setValue1(2);
-		diceLoser.setValue2(5);
+		diceLoser.setValue2(3);
 		
 		listDice = new ArrayList<Dice>();
 		listDice.add(dice);
