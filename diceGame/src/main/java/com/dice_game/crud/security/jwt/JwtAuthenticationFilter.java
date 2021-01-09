@@ -1,4 +1,4 @@
-package com.dice_game.crud.security.filters;
+package com.dice_game.crud.security.jwt;
 
 import static com.dice_game.crud.security.Constants.*;
 
@@ -19,15 +19,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.dice_game.crud.model.dto.PlayerJson;
-import com.dice_game.crud.security.jwt.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	
 	private AuthenticationManager authenticationManager;
 	
-	public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+	public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
 	}
 

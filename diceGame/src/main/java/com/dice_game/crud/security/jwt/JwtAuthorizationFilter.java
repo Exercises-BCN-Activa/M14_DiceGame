@@ -1,4 +1,4 @@
-package com.dice_game.crud.security.filters;
+package com.dice_game.crud.security.jwt;
 
 import static com.dice_game.crud.security.Constants.*;
 
@@ -19,11 +19,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.dice_game.crud.security.jwt.JwtService;
+public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
-
-	public JWTAuthorizationFilter(AuthenticationManager authenticationManager) {
+	public JwtAuthorizationFilter(AuthenticationManager authenticationManager) {
 		super(authenticationManager);
 	}
 

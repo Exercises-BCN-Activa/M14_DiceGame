@@ -9,9 +9,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 import java.util.List;
 
-public final class JwtService {
+final class JwtService {
 
-	public static boolean isValid(String token) {
+	static boolean isValid(String token) {
 		if (token == null) {
 			throw new JwtException("This Token is null");
 		}
@@ -25,16 +25,16 @@ public final class JwtService {
 		}
 	}
 
-	public static String extractUsername(String token) {
+	static String extractUsername(String token) {
 		return decodeToken(token).getSubject();
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<String> extractRoles(String token) {
+	static List<String> extractRoles(String token) {
 		return (List<String>) decodeToken(token).get("roles");
 	}
 
-	public static String createToken(String user, List<String> roles) {
+	static String createToken(String user, List<String> roles) {
 		return Jwts.builder().setIssuedAt(new Date()).setIssuer(TOKEN_ISSUER)
 				.setExpiration(new Date(System.currentTimeMillis() + TOKEN_EXPIRATION_TIME))
 				.setSubject(user).claim("roles", roles).setAudience(TOKEN_AUDIENCE)
