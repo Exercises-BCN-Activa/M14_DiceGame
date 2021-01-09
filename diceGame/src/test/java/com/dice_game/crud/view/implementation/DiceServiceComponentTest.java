@@ -127,23 +127,31 @@ class DiceServiceComponentTest {
 	
 	@Test
 	@DisplayName("Should Return List DiceJson of Dices Saved")
-	void test_reedAllRoundsOfPlayerBy() {
+	void test1_reedAllRoundsOfPlayerBy() {
 		Mockito.when(DICE.findByPlayerId(any(Long.class))).thenReturn(listDice);
 		List<DiceJson> toCompare = dService.reedAllRoundsOfPlayerBy(playerJson);
 		assertEquals(listJson, toCompare, msgError("Equals"));
 	}
 	
 	@Test
-	@DisplayName("Should Return False If Player Has No Rounds")
+	@DisplayName("Should Throws Exception If Player Has No Rounds to Show")
+	void test2_reedAllRoundsOfPlayerBy() {
+		Mockito.when(DICE.findByPlayerId(any(Long.class))).thenReturn(new ArrayList<Dice>());
+		assertThrows(DiceServImplException.class, () -> dService.reedAllRoundsOfPlayerBy(playerJson), 
+				msgError("Throws"));
+	}
+	
+	@Test
+	@DisplayName("Should Throws Exception If Player Has No Rounds to Delete")
 	void test1_deleteAllRoundsOfPlayerBy() {
 		Mockito.when(DICE.findByPlayerId(any(Long.class))).thenReturn(new ArrayList<Dice>());
-		boolean shouldBeFalse = dService.deleteAllRoundsOfPlayerBy(playerJson);
-		assertFalse(shouldBeFalse, msgError("False - Because List is empty"));
+		assertThrows(DiceServImplException.class, () -> dService.deleteAllRoundsOfPlayerBy(playerJson), 
+				msgError("Throws"));
 	}
 	
 	@SuppressWarnings("unchecked") //by the lambdas on the line 147
 	@Test
-	@DisplayName("Should Return True If Player Has Rounds")
+	@DisplayName("Should Return True If Player Has Rounds And Do Delete")
 	void test2_deleteAllRoundsOfPlayerBy() {
 		Mockito.when(DICE.findByPlayerId(any(Long.class))).thenReturn(listDice);
 		Mockito.doAnswer(i -> {
@@ -183,7 +191,7 @@ class DiceServiceComponentTest {
 	}
 	
 	@Test
-	@DisplayName("Should Throws Exception Because Player Don't have authorization")
+	@DisplayName("Should Return True Because Player have authorization")
 	void test2_ifIsAdminAndDeleteAllRoundsOfGame() {
 		player.setType(Role.FULL);
 		Mockito.when(pService.findPlayerByEmailOrId(playerJson)).thenReturn(player);
@@ -191,17 +199,6 @@ class DiceServiceComponentTest {
 		Mockito.when(DICE.findAll()).thenReturn(new ArrayList<Dice>());
 		boolean isAllErased = dService.ifIsAdminAndDeleteAllRoundsOfGame(playerJson);
 		assertTrue(isAllErased, msgError("Throws"));
-	}
-	
-	@Test
-	@DisplayName("Should Throws Exception Because Player Don't have authorization")
-	void test3_ifIsAdminAndDeleteAllRoundsOfGame() {
-		player.setType(Role.FULL);
-		Mockito.when(pService.findPlayerByEmailOrId(playerJson)).thenReturn(player);
-		Mockito.doNothing().when(DICE).deleteAll();
-		Mockito.when(DICE.findAll()).thenReturn(listDice);
-		boolean isAllErased = dService.ifIsAdminAndDeleteAllRoundsOfGame(playerJson);
-		assertFalse(isAllErased, msgError("Throws"));
 	}
 
 	private String msgError(String input) {
