@@ -65,7 +65,7 @@ public final class DiceService implements DiceDetailService {
 			
 			boolean isDeleted = service.deleteAllRoundsOfPlayerBy(playerJson);
 
-			response = success("Round successfully deleted", isDeleted);
+			response = success("Rounds successfully deleted", isDeleted);
 			
 		} catch (Exception e) {
 			response.addExceptionToMessage(e);
