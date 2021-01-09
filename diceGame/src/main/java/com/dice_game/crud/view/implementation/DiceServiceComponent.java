@@ -19,7 +19,7 @@ import com.dice_game.crud.utilities.exceptions.DiceServImplException;
 import com.dice_game.crud.utilities.exceptions.PlayerServImplException;
 
 @Component
-final class DiceServiceComponent {
+class DiceServiceComponent {
 	
 	@Autowired
 	private PlayerServiceComponent playerService;
