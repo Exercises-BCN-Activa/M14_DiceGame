@@ -33,7 +33,7 @@ class RankingServiceTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 	}
 
 	@Test

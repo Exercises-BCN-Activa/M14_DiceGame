@@ -30,7 +30,7 @@ public final class PlayerService implements PlayerDetailService, UserDetailsServ
 		try {
 
 			PlayerJsonToSaveValidation.verifyIsAble(playerJson);
-
+		
 			service.ifEmailIsAlreadyRegisteredThrowException(playerJson);
 
 			PlayerJson saved = service.savePlayerByJsonReturnJson(playerJson);
@@ -110,7 +110,7 @@ public final class PlayerService implements PlayerDetailService, UserDetailsServ
 			
 			service.deleteEspecificPlayerIfWasUser(playerJson);
 
-			response = success("The Player was correctly deleted", null);
+			response = success("The Player was correctly deleted", true);
 
 		} catch (Exception e) {
 			response.addExceptionToMessage(e);
@@ -130,7 +130,7 @@ public final class PlayerService implements PlayerDetailService, UserDetailsServ
 			
 			service.deleteAllPlayersWhoHaveRoleUser();
 
-			response = success("All users have been deleted", null);
+			response = success("All users have been deleted", true);
 
 		} catch (Exception e) {
 			response.addExceptionToMessage(e);

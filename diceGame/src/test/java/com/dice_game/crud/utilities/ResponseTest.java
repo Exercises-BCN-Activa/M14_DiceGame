@@ -12,7 +12,7 @@ class ResponseTest {
 	private Response response;
 	private String message;
 	private String messagePlusException;
-	private final String CONTENT_ERROR = "Error response have no content!";
+	private final String CONTENT_ERROR = "Error Response have no content!";
 
 	@Test
 	@DisplayName("Error Response with Message")

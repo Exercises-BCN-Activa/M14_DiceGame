@@ -9,7 +9,7 @@ import java.util.List;
 import com.dice_game.crud.model.dto.PlayerJson;
 import com.dice_game.crud.utilities.exceptions.PlayerServImplException;
 
-final class PlayerJsonToSaveValidation {
+class PlayerJsonToSaveValidation {
 	
 	static void verifyIsAble(PlayerJson playerJson) throws PlayerServImplException {
 		PlayerJsonToSaveValidation verify = new PlayerJsonToSaveValidation(playerJson);

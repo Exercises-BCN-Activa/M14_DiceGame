@@ -12,9 +12,12 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.dice_game.crud.model.dto.Dice;
 import com.dice_game.crud.model.dto.DiceJson;
@@ -23,6 +26,8 @@ import com.dice_game.crud.model.dto.PlayerJson;
 import com.dice_game.crud.utilities.Response;
 import com.dice_game.crud.utilities.exceptions.PlayerServImplException;
 
+@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
 class DiceServiceTest {
 	
 	@Mock
@@ -39,7 +44,7 @@ class DiceServiceTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 	}
 
 	@Test
