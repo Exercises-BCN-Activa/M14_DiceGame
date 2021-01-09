@@ -45,7 +45,8 @@ class DiceServiceComponent {
 		return player;
 	}
 
-	List<DiceJson> reedAllRoundsOfPlayerBy(PlayerJson playerJson) throws PlayerServImplException {
+	List<DiceJson> reedAllRoundsOfPlayerBy(PlayerJson playerJson) 
+			throws PlayerServImplException, DiceServImplException {
 		
 		Player player = findPlayerByJson(playerJson);
 		
@@ -57,9 +58,18 @@ class DiceServiceComponent {
 	}
 	
 	private List<Dice> collectListDiceByPlayer(Player player) {
-		return DAO.findByPlayerId(player.getId());
+		List<Dice> listDice = DAO.findByPlayerId(player.getId());
+		ifNoHaveDicesToDeleteThrowExceptions(listDice);
+		return listDice;
 	}
 	
+	private void ifNoHaveDicesToDeleteThrowExceptions(List<Dice> listDice) {
+		boolean noHaveDiceToDeleted = listDice.isEmpty();
+		if (noHaveDiceToDeleted)
+			throwsUp("It seems that there is no dice to delete!");
+		
+	}
+
 	private List<DiceJson> convertListDiceToJson(List<Dice> listDice) {
 		return listDice.parallelStream()
 				.map(dice -> dice.toJson()).collect(Collectors.toList());
@@ -72,22 +82,11 @@ class DiceServiceComponent {
 		
 		List<Dice> listDice = collectListDiceByPlayer(player);
 		
-		boolean hasDiceToDeleted = (listDice.isEmpty()) ? false : true;
-		
-		boolean wasDeleted = false;
-		
-		if (hasDiceToDeleted) {
+		DAO.deleteAll(listDice);
 			
-			DAO.deleteAll(listDice);
-			
-			ifStillExistsAnyDiceThrowsException(listDice);
-			
-			wasDeleted = true;
-		}
-		
-		return hasDiceToDeleted && wasDeleted;
+		return trueIfNoExistsAnyDiceElseThrowsException(listDice);
 	}
-	
+
 	private Player findPlayerByJsonAndVerifyPassword(PlayerJson playerJson) throws PlayerServImplException {
 		
 		Player player = findPlayerByJson(playerJson);
@@ -97,13 +96,15 @@ class DiceServiceComponent {
 		return player;
 	}
 	
-	private void ifStillExistsAnyDiceThrowsException(List<Dice> listDice) throws DiceServImplException {
+	private boolean trueIfNoExistsAnyDiceElseThrowsException(List<Dice> listDice) throws DiceServImplException {
 		
 		boolean stillExists = listDice.stream()
 				.anyMatch(dice -> DAO.existsById(dice.getId()));
 		
 		if (stillExists)
 			throwsUp("It seems this Player still have Rounds in database!");
+		
+		return true;
 	}
 
 	boolean ifIsAdminAndDeleteAllRoundsOfGame(PlayerJson playerJson) 
@@ -115,11 +116,19 @@ class DiceServiceComponent {
 		
 		DAO.deleteAll();
 		
-		boolean isAllErased = DAO.findAll().isEmpty();
-		
-		return isAllErased;
+		return trueIfAllErasedElseThrowException();
 	}
 	
+	private boolean trueIfAllErasedElseThrowException() {
+		
+		boolean ifNotErased = DAO.findAll().isEmpty() ? false : true;
+		
+		if (ifNotErased)
+			throwsUp("It looks like you don't have authorization for reset the game!");
+		
+		return true;
+	}
+
 	private void ifPlayerIsNotAdminThrowsExceptions(Player player) throws DiceServImplException {
 		
 		String playerAuth = player.getType();
