@@ -3,11 +3,11 @@ package com.dice_game.crud.view.implementation;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,22 +15,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
-import com.dice_game.crud.model.dao.DiceDAO;
-import com.dice_game.crud.model.dao.PlayerDAO;
 import com.dice_game.crud.model.dto.PlayerJson;
 import com.dice_game.crud.utilities.Response;
 import com.dice_game.crud.utilities.exceptions.RankingServImplException;
 
 class RankingServiceTest {
 
-	@MockBean
-	private PlayerDAO PLAYER;
-	
-	@MockBean
-	private DiceDAO DICE;
-	
 	@Mock
 	RankingServiceComponent component;
 	
@@ -40,11 +31,6 @@ class RankingServiceTest {
 	private final List<PlayerJson> LIST_JSON = new ArrayList<PlayerJson>();
 	private final String CONTENT_ERROR = "Error Response have no content!";
 	
-
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-	}
-
 	@BeforeEach
 	void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
@@ -53,7 +39,7 @@ class RankingServiceTest {
 	@Test
 	@DisplayName("Error Response - Percentage Of Victories")
 	void test1_percentageOfVictoriesForAllRounds() {
-		Mockito.when(component.getWinningPercentageOfAllGames()).thenThrow(RankingServImplException.class);
+		when(component.getWinningPercentageOfAllGames()).thenThrow(RankingServImplException.class);
 		Response toTesting = service.percentageOfVictoriesForAllRounds();
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
@@ -79,7 +65,7 @@ class RankingServiceTest {
 	@Test
 	@DisplayName("Error Response - Players Ranking")
 	void test1_positionOfAllPlayersInRanking() {
-		Mockito.when(component.rankedListOfPlayersWithStatus()).thenThrow(RankingServImplException.class);
+		when(component.rankedListOfPlayersWithStatus()).thenThrow(RankingServImplException.class);
 		Response toTesting = service.positionOfAllPlayersInRanking();
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
@@ -92,7 +78,7 @@ class RankingServiceTest {
 	@Test
 	@DisplayName("Success Response - Players Ranking")
 	void test2_positionOfAllPlayersInRanking() {
-		Mockito.when(component.rankedListOfPlayersWithStatus()).thenReturn(LIST_JSON);
+		when(component.rankedListOfPlayersWithStatus()).thenReturn(LIST_JSON);
 		Response toTesting = service.positionOfAllPlayersInRanking();
 		assertAll(
 				() -> assertTrue(toTesting.isSuccess(), msgError("True 1")),
@@ -104,7 +90,7 @@ class RankingServiceTest {
 	@Test
 	@DisplayName("Error Response - Players Winners")
 	void test1_playerWinnerInRankingPosition() {
-		Mockito.when(component.firstPositionListOfPlayers()).thenThrow(RankingServImplException.class);
+		when(component.firstPositionListOfPlayers()).thenThrow(RankingServImplException.class);
 		Response toTesting = service.playerWinnerInRankingPosition();
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
@@ -117,7 +103,7 @@ class RankingServiceTest {
 	@Test
 	@DisplayName("Success Response - Players Winners")
 	void test2_playerWinnerInRankingPosition() {
-		Mockito.when(component.firstPositionListOfPlayers()).thenReturn(LIST_JSON);
+		when(component.firstPositionListOfPlayers()).thenReturn(LIST_JSON);
 		Response toTesting = service.playerWinnerInRankingPosition();
 		assertAll(
 				() -> assertTrue(toTesting.isSuccess(), msgError("True 1")),
@@ -129,7 +115,7 @@ class RankingServiceTest {
 	@Test
 	@DisplayName("Error Response - Players Losers")
 	void test1_playerLoserInRankingPosition() {
-		Mockito.when(component.lastPositionListOfPlayers()).thenThrow(RankingServImplException.class);
+		when(component.lastPositionListOfPlayers()).thenThrow(RankingServImplException.class);
 		Response toTesting = service.playerLoserInRankingPosition();
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
@@ -142,7 +128,7 @@ class RankingServiceTest {
 	@Test
 	@DisplayName("Success Response - Players Losers")
 	void test2_playerLoserInRankingPosition() {
-		Mockito.when(component.lastPositionListOfPlayers()).thenReturn(LIST_JSON);
+		when(component.lastPositionListOfPlayers()).thenReturn(LIST_JSON);
 		Response toTesting = service.playerLoserInRankingPosition();
 		assertAll(
 				() -> assertTrue(toTesting.isSuccess(), msgError("True 1")),
