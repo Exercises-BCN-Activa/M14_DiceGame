@@ -120,13 +120,13 @@ public final class PlayerService implements PlayerDetailService, UserDetailsServ
 	}
 
 	@Override
-	public Response deleteAll(PlayerJson AdminEmailAndPassword) {
+	public Response deleteAll(PlayerJson adminPlayerJson) {
 		
 		Response response = error(msgError("delete all users"));
 		
 		try {
 			
-			service.ifPasswordDoesNotMatchThrowException(AdminEmailAndPassword);
+			service.ifPasswordDoesNotMatchThrowException(adminPlayerJson);
 			
 			service.deleteAllPlayersWhoHaveRoleUser();
 
