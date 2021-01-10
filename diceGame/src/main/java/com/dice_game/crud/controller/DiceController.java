@@ -25,6 +25,7 @@ public class DiceController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
+	@PreAuthorize("hasRole('USER')")
 	public Response createNewRoundOfDices(@RequestBody PlayerJson playerJson) {
 		return service.createRound(playerJson);
 	}
@@ -37,6 +38,7 @@ public class DiceController {
 	
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasRole('USER')")
 	public Response deleteRoundsOfPlayer(@RequestBody PlayerJson playerJson) {
 		return service.deleteRoundsByPlayer(playerJson);
 	}
