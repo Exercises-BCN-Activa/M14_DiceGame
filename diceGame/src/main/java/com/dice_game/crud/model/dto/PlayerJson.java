@@ -1,14 +1,15 @@
 package com.dice_game.crud.model.dto;
 
+import static com.dice_game.crud.utilities.Util.TitleCase;
+import static com.dice_game.crud.utilities.Util.encryptPassword;
+import static com.dice_game.crud.utilities.Util.notNullOrEmpty;
+
 import java.util.Date;
 import java.util.Objects;
 
 import org.springframework.util.StringUtils;
 
 import com.dice_game.crud.security.Role;
-import static com.dice_game.crud.utilities.Util.encryptPassword;
-import static com.dice_game.crud.utilities.Util.TitleCase;
-import static com.dice_game.crud.utilities.Util.notNullOrEmpty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(value = { "password", "firstName", "lastName" }, allowSetters = true)

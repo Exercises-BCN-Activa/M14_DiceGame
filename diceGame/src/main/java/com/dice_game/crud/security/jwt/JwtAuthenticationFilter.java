@@ -1,6 +1,7 @@
 package com.dice_game.crud.security.jwt;
 
-import static com.dice_game.crud.security.Constants.*;
+import static com.dice_game.crud.security.Constants.TOKEN_HEADER;
+import static com.dice_game.crud.security.Constants.TOKEN_PREFIX;
 
 import java.io.IOException;
 import java.util.List;

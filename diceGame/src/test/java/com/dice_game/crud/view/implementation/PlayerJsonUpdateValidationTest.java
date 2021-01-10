@@ -1,6 +1,10 @@
 package com.dice_game.crud.view.implementation;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static com.dice_game.crud.view.implementation.PlayerJsonUpdateValidation.cloneStructureSetWhatIsUpgradeable;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,8 +17,6 @@ import com.dice_game.crud.model.dto.Player;
 import com.dice_game.crud.model.dto.PlayerJson;
 import com.dice_game.crud.security.Role;
 import com.dice_game.crud.utilities.Util;
-
-import static com.dice_game.crud.view.implementation.PlayerJsonUpdateValidation.cloneStructureSetWhatIsUpgradeable;
 
 class PlayerJsonUpdateValidationTest {
 	

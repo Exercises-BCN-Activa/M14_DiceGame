@@ -1,5 +1,12 @@
 package com.dice_game.crud.utilities;
 
+import static com.dice_game.crud.utilities.Util.encryptMatches;
+import static com.dice_game.crud.utilities.Util.encryptPassword;
+import static com.dice_game.crud.utilities.Util.isNullOrEmpty;
+import static com.dice_game.crud.utilities.Util.isNullOrLessThanOne;
+import static com.dice_game.crud.utilities.Util.msgError;
+import static com.dice_game.crud.utilities.Util.notNullOrEmpty;
+import static com.dice_game.crud.utilities.Util.notNullOrLessThanOne;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static com.dice_game.crud.utilities.Util.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

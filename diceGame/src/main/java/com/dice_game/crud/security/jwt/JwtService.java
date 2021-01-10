@@ -1,13 +1,17 @@
 package com.dice_game.crud.security.jwt;
 
-import static com.dice_game.crud.security.Constants.*;
+import static com.dice_game.crud.security.Constants.JWT_SECRET;
+import static com.dice_game.crud.security.Constants.TOKEN_AUDIENCE;
+import static com.dice_game.crud.security.Constants.TOKEN_EXPIRATION_TIME;
+import static com.dice_game.crud.security.Constants.TOKEN_ISSUER;
+import static com.dice_game.crud.security.Constants.TOKEN_PREFIX;
+
+import java.util.Date;
+import java.util.List;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
-import java.util.Date;
-import java.util.List;
 
 final class JwtService {
 

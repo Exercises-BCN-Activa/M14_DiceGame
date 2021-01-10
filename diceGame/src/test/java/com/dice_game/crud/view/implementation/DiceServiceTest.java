@@ -3,8 +3,8 @@ package com.dice_game.crud.view.implementation;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
 
 import java.util.ArrayList;
 import java.util.List;
