@@ -3,10 +3,14 @@ package com.dice_game.crud.model.dto;
 import java.util.Date;
 import java.util.Objects;
 
+import com.dice_game.crud.utilities.CustomDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 public final class DiceJson {
 
 	private Long id;
 
+	@JsonSerialize(using = CustomDateSerializer.class)
 	private Date registration;
 
 	private Integer value1;

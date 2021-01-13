@@ -10,7 +10,9 @@ import java.util.Objects;
 import org.springframework.util.StringUtils;
 
 import com.dice_game.crud.security.Role;
+import com.dice_game.crud.utilities.CustomDateSerializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonIgnoreProperties(value = { "password", "firstName", "lastName" }, allowSetters = true)
 public final class PlayerJson {
@@ -27,6 +29,7 @@ public final class PlayerJson {
 
 	private String password;
 
+	@JsonSerialize(using = CustomDateSerializer.class)
 	private Date registration;
 
 	private String status;
