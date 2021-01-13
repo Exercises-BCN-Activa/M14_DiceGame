@@ -25,7 +25,7 @@ public class PlayerControler {
 	private PlayerService service;
 	
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus(HttpStatus.OK)
 	public Response createPlayer(@RequestBody PlayerJson playerJson) {
 		return service.createOne(playerJson);
 	}
@@ -44,13 +44,13 @@ public class PlayerControler {
 	}
 	
 	@PutMapping
-	@ResponseStatus(HttpStatus.CREATED)
+	@ResponseStatus(HttpStatus.OK)
 	public Response updatePlayer(@RequestBody PlayerJson playerJson) {
 		return service.updateOne(playerJson);
 	}
 	
 	@DeleteMapping
-	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasRole('USER')")
 	public Response deletePlayer(@RequestBody PlayerJson playerJson) {
 		return service.deleteOne(playerJson);
@@ -58,7 +58,7 @@ public class PlayerControler {
 
 	@DeleteMapping("/all")
 	@PreAuthorize("hasRole('ADMIN')")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@ResponseStatus(HttpStatus.OK)
 	public Response deleteAllPlayers(@RequestBody PlayerJson adminPlayerJson) {
 		return service.deleteAll(adminPlayerJson);
 	}
