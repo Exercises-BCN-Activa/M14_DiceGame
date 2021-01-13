@@ -17,6 +17,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.dice_game.crud.security.jwt.JwtAuthenticationFilter;
+import com.dice_game.crud.security.jwt.JwtAuthorizationFilter;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -40,8 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers(HttpMethod.POST, LOGIN_URL).permitAll()
 				.anyRequest().authenticated().and()
-					.addFilter(new JWTAuthenticationFilter(authenticationManager()))
-					.addFilter(new JWTAuthorizationFilter(authenticationManager()));
+					.addFilter(new JwtAuthenticationFilter(authenticationManager()))
+					.addFilter(new JwtAuthorizationFilter(authenticationManager()));
 	}
 
 	@Override

@@ -1,17 +1,21 @@
 package com.dice_game.crud.security.jwt;
 
-import static com.dice_game.crud.security.Constants.*;
+import static com.dice_game.crud.security.Constants.JWT_SECRET;
+import static com.dice_game.crud.security.Constants.TOKEN_AUDIENCE;
+import static com.dice_game.crud.security.Constants.TOKEN_EXPIRATION_TIME;
+import static com.dice_game.crud.security.Constants.TOKEN_ISSUER;
+import static com.dice_game.crud.security.Constants.TOKEN_PREFIX;
+
+import java.util.Date;
+import java.util.List;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-import java.util.Date;
-import java.util.List;
+final class JwtService {
 
-public final class JwtService {
-
-	public static boolean isValid(String token) {
+	static boolean isValid(String token) {
 		if (token == null) {
 			throw new JwtException("This Token is null");
 		}
@@ -25,16 +29,16 @@ public final class JwtService {
 		}
 	}
 
-	public static String extractUsername(String token) {
+	static String extractUsername(String token) {
 		return decodeToken(token).getSubject();
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<String> extractRoles(String token) {
+	static List<String> extractRoles(String token) {
 		return (List<String>) decodeToken(token).get("roles");
 	}
 
-	public static String createToken(String user, List<String> roles) {
+	static String createToken(String user, List<String> roles) {
 		return Jwts.builder().setIssuedAt(new Date()).setIssuer(TOKEN_ISSUER)
 				.setExpiration(new Date(System.currentTimeMillis() + TOKEN_EXPIRATION_TIME))
 				.setSubject(user).claim("roles", roles).setAudience(TOKEN_AUDIENCE)
