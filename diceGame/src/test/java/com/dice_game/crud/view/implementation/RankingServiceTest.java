@@ -1,6 +1,7 @@
 package com.dice_game.crud.view.implementation;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
@@ -29,7 +30,8 @@ class RankingServiceTest {
 	RankingService service;
 	
 	private final List<PlayerJson> LIST_JSON = new ArrayList<PlayerJson>();
-	private final String CONTENT_ERROR = "Error Response have no content!";
+	private final String CONTENT_ERROR = "This Response have no content!";
+	private final String MESSAGE_ERROR = "Sorry, this Response has no message!";
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -43,9 +45,8 @@ class RankingServiceTest {
 		Response toTesting = service.percentageOfVictoriesForAllRounds();
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("Get Winning Percentage Of All Games"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 	
@@ -69,9 +70,8 @@ class RankingServiceTest {
 		Response toTesting = service.positionOfAllPlayersInRanking();
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("Get Ranked List of Players"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 	
@@ -94,9 +94,8 @@ class RankingServiceTest {
 		Response toTesting = service.playerWinnerInRankingPosition();
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("Get Winners List of Players"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 	
@@ -119,9 +118,8 @@ class RankingServiceTest {
 		Response toTesting = service.playerLoserInRankingPosition();
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("Get Losers List of Players"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 	

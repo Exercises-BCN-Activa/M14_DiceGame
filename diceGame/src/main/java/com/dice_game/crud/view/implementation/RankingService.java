@@ -31,7 +31,7 @@ public final class RankingService implements RankingDetailService {
 			response = success("Winning Percentage successfully getted", rateGame);
 			
 		} catch (Exception e) {
-			response.addExceptionToMessage(e);
+			response = error(e.getMessage());
 		}
 		
 		return response;
@@ -49,7 +49,7 @@ public final class RankingService implements RankingDetailService {
 			response = success("Ranked List successfully getted", ranking);
 			
 		} catch (Exception e) {
-			response.addExceptionToMessage(e);
+			response = error(e.getMessage());
 		}
 		
 		return response;
@@ -67,7 +67,7 @@ public final class RankingService implements RankingDetailService {
 			response = success("Winners List successfully getted", winners);
 			
 		} catch (Exception e) {
-			response.addExceptionToMessage(e);
+			response = error(e.getMessage());
 		}
 		
 		return response;
@@ -85,7 +85,7 @@ public final class RankingService implements RankingDetailService {
 			response = success("Losers List successfully getted", losers);
 			
 		} catch (Exception e) {
-			response.addExceptionToMessage(e);
+			response = error(e.getMessage());
 		}
 		
 		return response;

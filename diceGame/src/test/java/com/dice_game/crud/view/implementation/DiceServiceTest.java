@@ -1,6 +1,7 @@
 package com.dice_game.crud.view.implementation;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,7 +37,8 @@ class DiceServiceTest {
 	@InjectMocks
 	private DiceService service;
 	
-	private final String CONTENT_ERROR = "Error Response have no content!";
+	private final String CONTENT_ERROR = "This Response have no content!";
+	private final String MESSAGE_ERROR = "Sorry, this Response has no message!";
 	private final List<DiceJson> LIST_JSON = new ArrayList<DiceJson>();
 	private final DiceJson NEW_ROUND = DiceJson.from(new Dice());
 	private final PlayerJson PLAYER_JSON = PlayerJson.from(new Player());
@@ -54,9 +56,8 @@ class DiceServiceTest {
 		Response toTesting = service.createRound(PLAYER_JSON);
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("Create a Round"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 	
@@ -79,9 +80,8 @@ class DiceServiceTest {
 		Response toTesting = service.readRoundsByPlayer(PLAYER_JSON);
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("Read Rounds By Player"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 	
@@ -104,9 +104,8 @@ class DiceServiceTest {
 		Response toTesting = service.deleteRoundsByPlayer(PLAYER_JSON);
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("Delete Rounds By Player"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 	
@@ -129,9 +128,8 @@ class DiceServiceTest {
 		Response toTesting = service.deleteRoundsFromTheEntireGame(PLAYER_JSON);
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("DELETE ALL: Reset the entire game"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 	

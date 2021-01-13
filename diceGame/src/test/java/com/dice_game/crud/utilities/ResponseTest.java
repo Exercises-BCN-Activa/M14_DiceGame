@@ -15,12 +15,12 @@ class ResponseTest {
 	
 	private Response response;
 	private String message;
-	private String messagePlusException;
-	private final String CONTENT_ERROR = "Error Response have no content!";
+	private final String CONTENT_ERROR = "This Response have no content!";
+	private final String MESSAGE_ERROR = "Sorry, this Response has no message!";
 
 	@Test
 	@DisplayName("Error Response with Message")
-	void testResponseError() {
+	void test1_ResponseError() {
 		message = "Something went wrong trying to Creating Player";
 		response = Response.error(message);
 		
@@ -31,11 +31,20 @@ class ResponseTest {
 				() -> assertFalse(response.isSuccess(), msgError("False 1"))
 				);
 		
-		Exception exception = new Exception("Add exception test");
-		response.addExceptionToMessage(exception);
-		messagePlusException = message.concat(exception.getMessage());
+	}
+	
+	@Test
+	@DisplayName("Error Response with Message")
+	void test2_ResponseError() {
+		response = Response.error(null);
 		
-		assertEquals(messagePlusException, response.getMessage(), msgError("Equals Message Exceptions"));
+		assertAll(
+				() -> assertNotNull(response, msgError("Not Null 1")),
+				() -> assertEquals(MESSAGE_ERROR, response.getMessage(), msgError("Equals 1")),
+				() -> assertEquals(CONTENT_ERROR, response.getContent(), msgError("Equals 2")),
+				() -> assertFalse(response.isSuccess(), msgError("False 1"))
+				);
+		
 	}
 	
 	@Test

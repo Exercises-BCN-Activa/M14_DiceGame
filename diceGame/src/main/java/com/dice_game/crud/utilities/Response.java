@@ -1,37 +1,38 @@
 package com.dice_game.crud.utilities;
 
+import static com.dice_game.crud.utilities.Util.notNullOrEmpty;
+
 import java.util.HashMap;
 
+import org.springframework.lang.Nullable;
+
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder({"success", "message"})
 public class Response {
 	
 	public static Response error(String message) {
 		Response response = new Response();
 		response.put(SUCCESS, false);
-		response.put(MESSAGE, message);
+		response.put(MESSAGE, setMessage(message));
 		return response;
 	}
 	
-	public static Response success(String message, Object content) {
+	public static Response success(String message, @Nullable Object content) {
 		Response response = new Response();
 		response.put(SUCCESS, true);
-		response.put(MESSAGE, message);
-		response.put(CONTENT, content);
+		response.put(MESSAGE, setMessage(message));
+		if (content != null)
+			response.put(CONTENT, content);
 		return response;
 	}
 	
-	public void addExceptionToMessage(Exception exception) {
-		String oldMessage = getMessage();
-		String exceptMessage = catchMsg(exception.getMessage());
-		String newMessage = oldMessage.concat(exceptMessage);
-		put(MESSAGE, newMessage);
+	public static String setMessage(String message) {
+		return (notNullOrEmpty(message)) ? message : MESSAGE_ERROR;
 	}
 	
 	public String getMessage() {
-		return (String) get(MESSAGE);
-	}
-	
-	private String catchMsg(String exceptionMsg) {
-		return (Util.notNullOrEmpty(exceptionMsg)) ? exceptionMsg : EXCEPTION_MSG_ERROR;
+		return (get(MESSAGE) == null) ? MESSAGE_ERROR : (String) get(MESSAGE);
 	}
 	
 	public boolean isSuccess() {
@@ -64,8 +65,8 @@ public class Response {
 	}
 	
 	private final HashMap<String, Object> map;
-	private final String CONTENT_ERROR = "Error Response have no content!";
-	private final String EXCEPTION_MSG_ERROR = "No Exception Messages Available!";
+	private final String CONTENT_ERROR = "This Response have no content!";
+	private final static String MESSAGE_ERROR = "Sorry, this Response has no message!";
 	private final static String SUCCESS = "success";
 	private final static String MESSAGE = "message";
 	private final static String CONTENT = "content";

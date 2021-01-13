@@ -32,7 +32,7 @@ public final class DiceService implements DiceDetailService {
 			response = success("Round successfully created", newRound);
 			
 		} catch (Exception e) {
-			response.addExceptionToMessage(e);
+			response = error(e.getMessage());
 		}
 		
 		return response;
@@ -50,7 +50,7 @@ public final class DiceService implements DiceDetailService {
 			response = success("Round successfully collected", diceJsonRounds);
 			
 		} catch (Exception e) {
-			response.addExceptionToMessage(e);
+			response = error(e.getMessage());
 		}
 		
 		return response;
@@ -68,7 +68,7 @@ public final class DiceService implements DiceDetailService {
 			response = success("Rounds successfully deleted", isDeleted);
 			
 		} catch (Exception e) {
-			response.addExceptionToMessage(e);
+			response = error(e.getMessage());
 		}
 		
 		return response;
@@ -86,7 +86,7 @@ public final class DiceService implements DiceDetailService {
 			response = success("GENERAL RESET: all rounds was erased", isAllDeleted);
 			
 		} catch (Exception e) {
-			response.addExceptionToMessage(e);
+			response = error(e.getMessage());
 		}
 		
 		return response;

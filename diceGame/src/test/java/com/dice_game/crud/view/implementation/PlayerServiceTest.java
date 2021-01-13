@@ -1,6 +1,7 @@
 package com.dice_game.crud.view.implementation;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -42,7 +43,8 @@ class PlayerServiceTest {
 	@InjectMocks
 	private PlayerService service;
 
-	private final String CONTENT_ERROR = "Error Response have no content!";
+	private final String CONTENT_ERROR = "This Response have no content!";
+	private final String MESSAGE_ERROR = "Sorry, this Response has no message!";
 	private final Player PLAYER = createPlayer(1);
 	private final PlayerJson PLAYER_JSON = PlayerJson.from(PLAYER);
 	private final List<PlayerJson> LIST_JSON = new ArrayList<PlayerJson>();
@@ -67,9 +69,8 @@ class PlayerServiceTest {
 		toTesting = service.createOne(PLAYER_JSON);
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("create Player"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 	
@@ -81,9 +82,8 @@ class PlayerServiceTest {
 		toTesting = service.createOne(PLAYER_JSON);
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("create Player"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 	
@@ -103,27 +103,25 @@ class PlayerServiceTest {
 	@Test
 	@DisplayName("Error Response 1 - Read All Players")
 	void test1_readAll() {
-		doThrow(PlayerServImplException.class).when(component).ifPasswordDoesNotMatchThrowException(any(PlayerJson.class));
-		toTesting = service.readAll(any(PlayerJson.class));
+		doThrow(PlayerServImplException.class).when(component).ifPasswordDoesNotMatchThrowException(PLAYER_JSON);
+		toTesting = service.readAll(PLAYER_JSON);
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("list all Players"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 
 	@Test
 	@DisplayName("Error Response 2 - Read All Players")
 	void test2_readAll() {
-		doNothing().when(component).ifPasswordDoesNotMatchThrowException(any(PlayerJson.class));
+		doNothing().when(component).ifPasswordDoesNotMatchThrowException(PLAYER_JSON);
 		doThrow(PlayerServImplException.class).when(component).findAllPlayers();
-		toTesting = service.readAll(any(PlayerJson.class));
+		toTesting = service.readAll(PLAYER_JSON);
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("list all Players"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 	
@@ -147,9 +145,8 @@ class PlayerServiceTest {
 		toTesting = service.readOne(PLAYER_JSON);
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("find a Player"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 	
@@ -172,9 +169,8 @@ class PlayerServiceTest {
 		toTesting = service.updateOne(PLAYER_JSON);
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("update a Player"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 	
@@ -197,9 +193,8 @@ class PlayerServiceTest {
 		toTesting = service.deleteOne(PLAYER_JSON);
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("delete a Player"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 	
@@ -211,7 +206,7 @@ class PlayerServiceTest {
 		assertAll(
 				() -> assertTrue(toTesting.isSuccess(), msgError("True 1")),
 				() -> assertTrue(toTesting.getMessage().equals("The Player was correctly deleted"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(true), msgError("True 3"))
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
 				);
 	}
 
@@ -222,9 +217,8 @@ class PlayerServiceTest {
 		toTesting = service.deleteAll(PLAYER_JSON);
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("delete all users"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 
@@ -236,9 +230,8 @@ class PlayerServiceTest {
 		toTesting = service.deleteAll(PLAYER_JSON);
 		assertAll(
 				() -> assertFalse(toTesting.isSuccess(), msgError("False 1")),
-				() -> assertTrue(toTesting.getMessage().startsWith("Something went wrong trying to "), msgError("True 1")),
-				() -> assertTrue(toTesting.getMessage().contains("delete all users"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
+				() -> assertEquals(MESSAGE_ERROR, toTesting.getMessage(), msgError("Equals 1")),
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 1"))
 				);
 	}
 	
@@ -251,7 +244,7 @@ class PlayerServiceTest {
 		assertAll(
 				() -> assertTrue(toTesting.isSuccess(), msgError("True 1")),
 				() -> assertTrue(toTesting.getMessage().equals("All users have been deleted"), msgError("True 2")),
-				() -> assertTrue(toTesting.getContent().equals(true), msgError("True 3"))
+				() -> assertTrue(toTesting.getContent().equals(CONTENT_ERROR), msgError("True 3"))
 				);
 	}
 

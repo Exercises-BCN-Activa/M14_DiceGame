@@ -38,7 +38,7 @@ public final class PlayerService implements PlayerDetailService, UserDetailsServ
 			response = success("Player successfully created", saved);
 
 		} catch (Exception e) {
-			response.addExceptionToMessage(e);
+			response = error(e.getMessage());
 		}
 		
 		return response;
@@ -59,7 +59,7 @@ public final class PlayerService implements PlayerDetailService, UserDetailsServ
 			response = success("List of All Players in DataBase", listOfAllPlayers);
 			
 		} catch (Exception e) {
-			response.addExceptionToMessage(e);
+			response = error(e.getMessage());
 		}
 		
 		return response;
@@ -77,7 +77,7 @@ public final class PlayerService implements PlayerDetailService, UserDetailsServ
 			response = success("Player successfully finded", requested);
 			
 		} catch (Exception e) {
-			response.addExceptionToMessage(e);
+			response = error(e.getMessage());
 		}
 		
 		return response;
@@ -95,7 +95,7 @@ public final class PlayerService implements PlayerDetailService, UserDetailsServ
 			response = success("Player updated successfully", updated);
 
 		} catch (Exception e) {
-			response.addExceptionToMessage(e);
+			response = error(e.getMessage());
 		}
 		
 		return response;
@@ -110,10 +110,10 @@ public final class PlayerService implements PlayerDetailService, UserDetailsServ
 			
 			service.deleteEspecificPlayerIfWasUser(playerJson);
 
-			response = success("The Player was correctly deleted", true);
+			response = success("The Player was correctly deleted", null);
 
 		} catch (Exception e) {
-			response.addExceptionToMessage(e);
+			response = error(e.getMessage());
 		}
 		
 		return response;
@@ -130,10 +130,10 @@ public final class PlayerService implements PlayerDetailService, UserDetailsServ
 			
 			service.deleteAllPlayersWhoHaveRoleUser();
 
-			response = success("All users have been deleted", true);
+			response = success("All users have been deleted", null);
 
 		} catch (Exception e) {
-			response.addExceptionToMessage(e);
+			response = error(e.getMessage());
 		}
 		
 		return response;
