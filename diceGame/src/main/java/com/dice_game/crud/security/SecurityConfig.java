@@ -31,20 +31,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		this.userDetailsService = userDetailsService;
 	}
 
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    @Bean
+    BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
 	@Override
 	protected void configure(HttpSecurity httpS) throws Exception {
-		httpS.cors().and().csrf().disable()
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-			.authorizeRequests()
-				.antMatchers(HttpMethod.POST, LOGIN_URL).permitAll()
-				.anyRequest().authenticated().and()
-					.addFilter(new JwtAuthenticationFilter(authenticationManager()))
-					.addFilter(new JwtAuthorizationFilter(authenticationManager()));
+        httpS
+                .cors(cors -> cors.disable())
+                .csrf((csrf) -> csrf.ignoringAntMatchers("/api/*"))
+                .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeRequests(requests -> requests
+                        .antMatchers(HttpMethod.POST, LOGIN_URL).permitAll()
+                        .anyRequest().authenticated())
+                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager()));
 	}
 
 	@Override
